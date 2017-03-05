@@ -1,9 +1,8 @@
 ﻿namespace AnimeExporter {
     public class HtmlParser {
-
         // PROPERTIES
 
-        private string Html { get; set; }
+        public string Html { get; set; }
 
         // TODO: a lot
         public string[] AnimeTitles {
@@ -12,12 +11,12 @@
 
         // CONSTRUCTORS
 
-        public HtmlParser(string html) {
-            Html = html;
+        public HtmlParser(string url) {
+            Html = NetworkHandler.GetHtml(url);
         }
 
         public string GetAnimeInfo(string name) {
-
+            return null;
         }
     }
 }

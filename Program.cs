@@ -6,6 +6,9 @@ namespace AnimeExporter {
             Console.WriteLine("anime!");
 
             // get anime as HTML from URL
+            Console.WriteLine(MyAnimeListInfo.TopAnimeUrl);
+            var htmlParser = new HtmlParser(MyAnimeListInfo.TopAnimeUrl);
+            Console.WriteLine(htmlParser.Html);
 
             // parse HTML
 
