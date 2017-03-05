@@ -1,0 +1,13 @@
+###########
+# Project #
+###########
+.idea
+*.csproj
+*.sln
+
+#############
+# Generated #
+#############
+bin
+Properties
+obj
