@@ -4,6 +4,7 @@
 .idea
 *.csproj
 *.sln
+*.DotSettings
 
 #############
 # Generated #

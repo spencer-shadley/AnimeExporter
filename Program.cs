@@ -1,11 +1,8 @@
 ﻿using System;
 
-namespace AnimeExporter
-{
-    internal class Program
-    {
-        public static void Main(string[] args)
-        {
+namespace AnimeExporter {
+    internal class Program {
+        public static void Main(string[] args) {
             Console.WriteLine("anime!");
 
             // get anime as HTML from URL
