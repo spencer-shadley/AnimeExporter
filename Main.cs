@@ -10,7 +10,8 @@ namespace AnimeExporter {
             //Console.WriteLine(string.Join(Environment.NewLine, topAnimeUrls));
 
             List<Anime> topAnime = HtmlParser.GetTopAnime(1);
-
+            Console.WriteLine(string.Join(Environment.NewLine, topAnime));
+            
             // parse HTML
 
 

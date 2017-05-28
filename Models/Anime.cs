@@ -26,5 +26,11 @@
         // source
         // duration
         // link to image
+        
+        public override string ToString() {
+            return
+                $"title: {Title} " +
+                $"url: {Url} ";
+        }
     }
 }
