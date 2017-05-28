@@ -21,7 +21,7 @@ namespace AnimeExporter {
 
             var urls = new List<string>();
 
-            HtmlNodeCollection anchorNodes = FindElementsWithClass("hoverinfo_trigger fl-l ml12 mr8", doc.DocumentNode);
+            HtmlNodeCollection anchorNodes = FindElementsWithClass(MyAnimeListInfo.UrlClass, doc.DocumentNode);
             urls.AddRange(anchorNodes.Select(anchorNode => anchorNode.Attributes["href"].Value));
 
             return urls;
@@ -34,8 +34,12 @@ namespace AnimeExporter {
             foreach (string url in topAnimeUrls) {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
+
+                HtmlNode titleContainer = FindElementsWithClass(MyAnimeListInfo.AnimeTitleClass, doc.DocumentNode)[0];
+                HtmlNode title = titleContainer.ChildNodes[0];
                 
                 animes.Add(new Anime {
+                    Title = title.InnerText,
                     Url = url
                 });
             }
