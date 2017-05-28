@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Net;
 
 namespace AnimeExporter {
@@ -18,8 +19,9 @@ namespace AnimeExporter {
             var webRequest = WebRequest.Create(url);
             var webResponse = webRequest.GetResponse();
             var stream = webResponse.GetResponseStream();
-            StreamReader reader = new StreamReader(stream);
-            string content = reader.ReadToEnd();
+            Debug.Assert(stream != null);
+            var reader = new StreamReader(stream);
+            var content = reader.ReadToEnd();
 
             // clean up
             reader.Close();
