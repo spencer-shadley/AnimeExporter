@@ -1,4 +1,4 @@
-﻿namespace AnimeExporter {
+﻿namespace AnimeExporter.Models {
     public class Anime {
         public string Title { get; internal set; }
         public string Url { get; internal set; }
