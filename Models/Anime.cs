@@ -1,7 +1,7 @@
 ﻿namespace AnimeExporter {
     public class Anime {
-        // title
-        // MyAnimeList link
+        public string Title { get; internal set; }
+        public string Url { get; internal set; }
         // rating
         // categories
         // rank
