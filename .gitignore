@@ -5,6 +5,7 @@
 *.csproj
 *.sln
 *.DotSettings
+.vs
 
 #############
 # Generated #
