@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AnimeExporter {
     internal class Program {
         public static void Main(string[] args) {
 
             // get anime as HTML from URL
-            Console.WriteLine(MyAnimeListInfo.TopAnimeUrl);
-            var htmlParser = new HtmlParser(MyAnimeListInfo.TopAnimeUrl);
-            Console.WriteLine(htmlParser.Html);
+            List<string> topAnimeUrls = HtmlParser.GetTopAnimeUrls(1);
+            Console.WriteLine(string.Join(Environment.NewLine, topAnimeUrls));
 
             // parse HTML
             

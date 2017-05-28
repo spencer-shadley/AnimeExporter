@@ -1,11 +1,10 @@
 ﻿namespace AnimeExporter {
     public static class MyAnimeListInfo {
-        public const string Url = "https://myanimelist.net/topanime.php";
-        public const string SkipParam = "limit"; // the amount of anime to skip past; MyAnimeList always uses blocks of 50 anime
-        public const int LimitAmount = 10;
+        public const string TopAnimeBaseUrl = "https://myanimelist.net/topanime.php";
+        public const string UrlClass = "hoverinfo_trigger fl-l ml12 mr8";
 
-        public static string TopAnimeUrl {
-            get { return Url + "?" + SkipParam + "=" + LimitAmount; }
+        public static string GetTopAnimeUrl(int page) {
+            return TopAnimeBaseUrl + "?limit=" + page*50;
         }
     }
 }
