@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.NetworkInformation;
-using System.Security.Cryptography;
+using System.Linq;
 using System.Threading;
 using AnimeExporter.Models;
 using Google.Apis.Auth.OAuth2;
@@ -17,14 +16,23 @@ namespace AnimeExporter {
         private const string ApplicationName = "Google Sheets API";
 
         public static void Main(string[] args) {
-//            List<Anime> topAnime = HtmlParser.GetTopAnime(1);
-//            Console.WriteLine(string.Join(Environment.NewLine, topAnime));
+            List<Anime> topAnime = HtmlParser.GetTopAnime(1);
+            Console.WriteLine(string.Join(Environment.NewLine, topAnime));
 
-            GoogleSheetsRunner();
+            List<IList<object>> table = GenerateTable(topAnime);
+            GoogleSheetsRunner(table);
         }
 
-        public static void GoogleSheetsRunner() {
-            // Create Google Sheets API service.
+        public static List<IList<object>> GenerateTable(List<Anime> animes) {
+            return animes.Select(anime => new List<object> {
+                    anime.Title,
+                    anime.Url
+                })
+                .Cast<IList<object>>()
+                .ToList();
+        }
+
+        public static void GoogleSheetsRunner(List<IList<object>> table) {
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = SetupCredentials(),
@@ -34,10 +42,7 @@ namespace AnimeExporter {
             const string sheetId = "17KQKFy9o1pPG0Yko2dTYZcRhNSTdNWyI3NLWsJyfqbI";
             const string updateRange = "A1";
 
-            var updateValues = new List<IList<object>>();
-
-            var someRow = new List<object> {"pizza?"};
-            updateValues.Add(someRow);
+            List<IList<object>> updateValues = table;
             
             ValueRange valueRange = new ValueRange {
                 Range = updateRange,
@@ -48,7 +53,8 @@ namespace AnimeExporter {
             SpreadsheetsResource.ValuesResource.UpdateRequest updateRequest =
                 service.Spreadsheets.Values.Update(valueRange, sheetId, updateRange);
             updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
-            updateRequest.Execute();
+            UpdateValuesResponse response = updateRequest.Execute();
+            Console.WriteLine(response.UpdatedData);
         }
 
         private static UserCredential SetupCredentials() {
