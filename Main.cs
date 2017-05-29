@@ -24,12 +24,7 @@ namespace AnimeExporter {
         }
 
         public static List<IList<object>> GenerateTable(List<Anime> animes) {
-            return animes.Select(anime => new List<object> {
-                    anime.Title,
-                    anime.Url
-                })
-                .Cast<IList<object>>()
-                .ToList();
+            return animes.Select(anime => anime.Data).Cast<IList<object>>().ToList();
         }
 
         public static void GoogleSheetsRunner(List<IList<object>> table) {

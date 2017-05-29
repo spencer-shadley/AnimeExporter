@@ -1,7 +1,13 @@
-﻿namespace AnimeExporter.Models {
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace AnimeExporter.Models {
     public class Anime {
-        public string Title { get; internal set; }
-        public string Url { get; internal set; }
+        public List<object> Data;
+        
+        // title
+        // url
         // rating
         // categories
         // rank
@@ -28,9 +34,9 @@
         // link to image
         
         public override string ToString() {
-            return
-                $"title: {Title} " +
-                $"url: {Url} ";
+            return Data.Cast<string>().Aggregate(
+                string.Empty, (current, data) =>
+                    current + (data + Environment.NewLine));
         }
     }
 }

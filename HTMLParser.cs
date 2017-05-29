@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AnimeExporter.Models;
 using HtmlAgilityPack;
@@ -35,13 +36,22 @@ namespace AnimeExporter {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
 
-                HtmlNode titleContainer = FindElementsWithClass(MyAnimeListInfo.AnimeTitleClass, doc.DocumentNode)[0];
-                HtmlNode title = titleContainer.ChildNodes[0];
-                
-                animes.Add(new Anime {
-                    Title = title.InnerText,
-                    Url = url
-                });
+                try {
+                    HtmlNode titleContainer =
+                        FindElementsWithClass(MyAnimeListInfo.AnimeTitleClass, doc.DocumentNode)[0];
+                    HtmlNode title = titleContainer.ChildNodes[0];
+
+                    var data = new List<object> {
+                        title.InnerText,
+                        url
+                    };
+                    animes.Add(new Anime {
+                     Data = data
+                    });
+                }
+                catch {
+                    Console.WriteLine("failed to add an anime");
+                }
             }
             return animes;
         }
