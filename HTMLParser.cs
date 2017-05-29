@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AnimeExporter.Models;
 using HtmlAgilityPack;
@@ -29,19 +30,36 @@ namespace AnimeExporter {
 
         public static List<Anime> GetTopAnime(int page) {
             List<string> topAnimeUrls = GetTopAnimeUrls(page);
-            
-            var animes = new List<Anime>();
+
+            var schema = new List<object> {
+                "Title",
+                "URL"
+            };
+            var animes = new List<Anime> {
+                new Anime() {
+                    Data = schema
+                }
+            };
             foreach (string url in topAnimeUrls) {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
 
-                HtmlNode titleContainer = FindElementsWithClass(MyAnimeListInfo.AnimeTitleClass, doc.DocumentNode)[0];
-                HtmlNode title = titleContainer.ChildNodes[0];
-                
-                animes.Add(new Anime {
-                    Title = title.InnerText,
-                    Url = url
-                });
+                try {
+                    HtmlNode titleContainer =
+                        FindElementsWithClass(MyAnimeListInfo.AnimeTitleClass, doc.DocumentNode)[0];
+                    HtmlNode title = titleContainer.ChildNodes[0];
+
+                    var data = new List<object> {
+                        title.InnerText,
+                        url
+                    };
+                    animes.Add(new Anime {
+                     Data = data
+                    });
+                }
+                catch {
+                    Console.WriteLine("failed to add an anime");
+                }
             }
             return animes;
         }
