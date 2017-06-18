@@ -43,6 +43,17 @@ namespace AnimeExporter.Models {
             return rank.InnerText.Trim().Substring(1);
         }
 
+        public string GetPopularity() {
+            const string xPath = "//span[text() = 'Popularity:']";
+            HtmlNodeCollection selectedNodes = Doc.SelectNodes(xPath);
+            Debug.Assert(selectedNodes.Count == 1);
+
+            HtmlNode popularityNode = selectedNodes[0];
+            HtmlNode popularityValueNode = popularityNode.NextSibling;
+            
+            return popularityValueNode.InnerText.Trim().Substring(1);
+        }
+
         public static Anime ScrapeAnime(string url, int retryCount = 2) {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
@@ -54,14 +65,15 @@ namespace AnimeExporter.Models {
                     url,
                     animeDetailsPage.GetScore(),
                     animeDetailsPage.GetNumberOfRatings(),
-                    animeDetailsPage.GetRank()
+                    animeDetailsPage.GetRank(),
+                    animeDetailsPage.GetPopularity()
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);
                 return anime;
             }
             catch(Exception e) {
-                Console.Error.WriteLine("failed to export an anime..."); // typically network connectivity issues
+                Console.Error.WriteLine($"failed to export an anime (retry count is {retryCount})..."); // typically network connectivity issues
                 Console.Error.WriteLine(e.ToString());
                 Console.WriteLine();
 

@@ -8,7 +8,7 @@ namespace AnimeExporter.Models {
 
         public Animes() {
             // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
-            _animes.Add(new Anime("Title", "URL", "Score", "Number of ratings", "Rank"));
+            _animes.Add(new Anime("Title", "URL", "Score", "Number of ratings", "Rank", "Popularity"));
         }
 
         public void Add(Anime anime) {
