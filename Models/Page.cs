@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using HtmlAgilityPack;
 
 namespace AnimeExporter.Models {
@@ -35,10 +36,16 @@ namespace AnimeExporter.Models {
         /// <returns>The trimmed InnerText of the next child of the node at <see cref="xPath"/></returns>
         public string SelectValueAfter(string xPath) {
             HtmlNodeCollection selectedNodes = Doc.SelectNodes(xPath);
-            Debug.Assert(selectedNodes.Count == 1);
+
+            if (selectedNodes == null) {
+                Console.Error.WriteLine($"No nodes were selected for {xPath}");
+                return null;
+            }
+            if (selectedNodes.Count != 1) {
+                Console.Error.WriteLine($"There were {selectedNodes.Count} nodes selected");
+            }
 
             HtmlNode valueNode = selectedNodes[0].NextSibling;
-            
             return valueNode.InnerText.Trim();
         }
 

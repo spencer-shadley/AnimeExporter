@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using HtmlAgilityPack;
 
@@ -14,8 +15,33 @@ namespace AnimeExporter.Models {
     /// premature optimizations and focus on making this more robust, rather than faster.
     /// </remarks>
     public class AnimeDetailsPage : Page {
+        
+        private static readonly string[] DateDelimter = {" to "}; // array is required for string.split() 
 
-        public AnimeDetailsPage(HtmlNode document) : base(document) { }
+        private const string InvalidAiringMessage = "Unknown airing value: ";
+        
+        private Airing AiringStatus;
+
+        private enum Airing { Future, InProgress, Finished, Unknown }
+
+        public AnimeDetailsPage(HtmlNode document) : base(document) {
+            switch (Status) {
+                case "Not yet aired":
+                    AiringStatus = Airing.Future;
+                    break;
+                case "Currently Airing":
+                    AiringStatus = Airing.InProgress;
+                    break;
+                case "Finished Airing":
+                    AiringStatus = Airing.Finished;
+                    break;
+                case null:
+                    AiringStatus = Airing.Unknown;
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException(InvalidAiringMessage + Status);
+            }
+        }
 
         public string Title {
             get {
@@ -66,6 +92,42 @@ namespace AnimeExporter.Models {
 
         public string AirDates => this.SelectValueAfterText("Aired:");
 
+        public string AirStartDate {
+            get {
+                switch (AiringStatus) {
+                    case Airing.Future:
+                        return AirDates;
+                    case Airing.InProgress:
+                    case Airing.Finished:
+                        return AirDates.Contains(DateDelimter[0]) ?
+                            AirDates.Split(DateDelimter, StringSplitOptions.None)[0] :
+                            AirDates;
+                    case Airing.Unknown:
+                        return "Unknown";
+                    default:
+                        throw new InvalidEnumArgumentException(InvalidAiringMessage + AiringStatus);
+                }
+            }
+        }
+
+        public string AirFinishDate {
+            get {
+                switch (AiringStatus) {
+                    case Airing.Future:
+                    case Airing.InProgress:
+                        return "Unfinished";
+                    case Airing.Finished:
+                        return AirDates.Contains(DateDelimter[0]) ?
+                            AirDates.Split(DateDelimter, StringSplitOptions.None)[1] :
+                            AirDates;
+                    case Airing.Unknown:
+                        return "Unknown";
+                    default:
+                        throw new InvalidEnumArgumentException(InvalidAiringMessage + AiringStatus);
+                }
+            }
+        }
+
         /// <summary>
         /// Scrapes the anime at the given <see cref="url"/> to construct an anime object. By default this
         /// will retry scraping the page twice due to inconsistent network connections before giving up.
@@ -91,7 +153,8 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.MediaType,
                     animeDetailsPage.NumberOfEpisodes,
                     animeDetailsPage.Status,
-                    animeDetailsPage.AirDates
+                    animeDetailsPage.AirStartDate,
+                    animeDetailsPage.AirFinishDate
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);
@@ -103,7 +166,7 @@ namespace AnimeExporter.Models {
                 Console.WriteLine();
 
                 // typically network connectivity issues, see if we should try again
-                return retryCount == 0 ? null : ScrapeAnime(url, retryCount - 1);
+                return retryCount == 0 ? Anime.Fail() : ScrapeAnime(url, retryCount - 1);
             }
         }
     }

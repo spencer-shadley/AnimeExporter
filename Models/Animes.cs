@@ -5,34 +5,10 @@ namespace AnimeExporter.Models {
     public class Animes {
 
         private readonly List<Anime> _animes = new List<Anime>();
-
+        
         public Animes() {
             // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
-            _animes.Add(new Anime("Title", "URL", "Score", "Number of ratings", "Rank", "Popularity",
-                "Number of Members", "Number of Favorites", "Type of Media", "Number of Episodes",
-                "Status", "Dates Aired"));
-        
-            // TODO: the below fields
-            // categories
-            // synopsis
-            // background
-            // adaptation
-            // summary
-            // sequel
-            // related
-            // rating
-            // type
-            // number of episodes
-            // status
-            // aired
-            // permiered
-            // broadcast
-            // producers
-            // licensors
-            // studios
-            // source
-            // duration
-            // link to image
+            _animes.Add(Anime.Schema());
         }
 
         public void Add(Anime anime) {
