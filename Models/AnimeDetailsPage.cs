@@ -53,6 +53,11 @@ namespace AnimeExporter.Models {
             return this.GetValueAfter(xPath);
         }
 
+        public string GetNumberOfFavorites() {
+            const string xPath = "//span[text() = 'Favorites:']";
+            return this.GetValueAfter(xPath);
+        }
+
         /// <summary>
         /// Many of the statistics are stored as floating plaintext after an element. This method makes it
         /// easier to grab that floating text.
@@ -80,7 +85,8 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.GetNumberOfRatings(),
                     animeDetailsPage.GetRank(),
                     animeDetailsPage.GetPopularity(),
-                    animeDetailsPage.GetNumberOfMembers()
+                    animeDetailsPage.GetNumberOfMembers(),
+                    animeDetailsPage.GetNumberOfFavorites()
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);
