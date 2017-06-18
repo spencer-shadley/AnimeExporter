@@ -13,6 +13,18 @@ namespace AnimeExporter.Models {
             HtmlNode title = titleContainer.ChildNodes[0];
             return title.InnerText;
         }
+
+        public string GetRank() {
+            HtmlNodeCollection rankRows = FindElementsWithClass(Doc, "js-statistics-info");
+            Debug.Assert(rankRows.Count == 2);
+
+            HtmlNode rankRow = rankRows[1];
+            Debug.Assert(rankRow.ChildNodes.Count >= 2);
+            
+            HtmlNode rank = rankRow.ChildNodes[2];
+            
+            return rank.InnerText.Trim().Substring(1);
+        }
         
         /// <summary>
         /// Gets the score of the anime 
@@ -31,18 +43,14 @@ namespace AnimeExporter.Models {
             return GetValue(Doc, xPath);
         }
 
-        public string GetRank() {
-            HtmlNodeCollection rankRows = FindElementsWithClass(Doc, "js-statistics-info");
-            Debug.Assert(rankRows.Count == 2);
+        public string GetMediaType() {
+            const string xPath = "//span[text() = 'Type:']";
 
-            HtmlNode rankRow = rankRows[1];
-            Debug.Assert(rankRow.ChildNodes.Count >= 2);
-            
-            HtmlNode rank = rankRow.ChildNodes[2];
-            
-            return rank.InnerText.Trim().Substring(1);
+            HtmlNodeCollection typeNodes = Doc.SelectNodes(xPath);
+            HtmlNode typeNode = typeNodes[0].NextSibling.NextSibling;
+            return typeNode.InnerText;
         }
-
+        
         public string GetPopularity() {
             const string xPath = "//span[text() = 'Popularity:']";
             return this.GetValueAfter(xPath).Substring(1);
@@ -86,7 +94,8 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.GetRank(),
                     animeDetailsPage.GetPopularity(),
                     animeDetailsPage.GetNumberOfMembers(),
-                    animeDetailsPage.GetNumberOfFavorites()
+                    animeDetailsPage.GetNumberOfFavorites(),
+                    animeDetailsPage.GetMediaType()
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);

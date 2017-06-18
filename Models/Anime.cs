@@ -12,30 +12,6 @@ namespace AnimeExporter.Models {
             }
         }
         
-        // categories
-        // rank
-        // popularity
-        // members
-        // synopsis
-        // background
-        // adaptation
-        // summary
-        // sequel
-        // related
-        // rating
-        // type
-        // number of episodes
-        // status
-        // aired
-        // permiered
-        // broadcast
-        // producers
-        // licensors
-        // studios
-        // source
-        // duration
-        // link to image
-        
         public override string ToString() {
             return string.Join(Environment.NewLine, Attributes);
         }
