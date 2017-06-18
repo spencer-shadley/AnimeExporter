@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using System.Diagnostics;
+using HtmlAgilityPack;
 
 namespace AnimeExporter.Models {
     public class AnimeDetailsPage : Page {
@@ -30,11 +31,15 @@ namespace AnimeExporter.Models {
         }
 
         public string GetRank() {
-            FindElementsWithClass(Doc, ".spaceit.po-r.js-statistics-info.di-ib");
+            HtmlNodeCollection rankRows = FindElementsWithClass(Doc, "js-statistics-info");
+            Debug.Assert(rankRows.Count == 2);
+
+            HtmlNode rankRow = rankRows[1];
+            Debug.Assert(rankRow.ChildNodes.Count >= 2);
             
-            const string xPath = "";
+            HtmlNode rank = rankRow.ChildNodes[2];
             
-            return GetValue(Doc, xPath);
+            return rank.InnerText.Trim().Substring(1);
         }
     }
 }

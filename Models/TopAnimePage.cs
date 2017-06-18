@@ -50,7 +50,8 @@ namespace AnimeExporter.Models {
                         animeDetailsPage.GetTitle(),
                         url,
                         animeDetailsPage.GetScore(),
-                        animeDetailsPage.GetNumberOfRatings()
+                        animeDetailsPage.GetNumberOfRatings(),
+                        animeDetailsPage.GetRank()
                     );
                     animes.Add(anime);
                     
