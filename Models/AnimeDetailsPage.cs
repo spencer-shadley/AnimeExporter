@@ -62,6 +62,10 @@ namespace AnimeExporter.Models {
 
         public string NumberOfEpisodes => this.SelectValueAfterText("Episodes:");
 
+        public string Status => this.SelectValueAfterText("Status:");
+
+        public string AirDates => this.SelectValueAfterText("Aired:");
+
         /// <summary>
         /// Scrapes the anime at the given <see cref="url"/> to construct an anime object. By default this
         /// will retry scraping the page twice due to inconsistent network connections before giving up.
@@ -85,7 +89,9 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.NumberOfMembers,
                     animeDetailsPage.NumberOfFavorites,
                     animeDetailsPage.MediaType,
-                    animeDetailsPage.NumberOfEpisodes
+                    animeDetailsPage.NumberOfEpisodes,
+                    animeDetailsPage.Status,
+                    animeDetailsPage.AirDates
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);

@@ -4,6 +4,10 @@ using System.Linq;
 using HtmlAgilityPack;
 
 namespace AnimeExporter.Models {
+    
+    /// <remarks>
+    /// As of 6/18/17 There are 12,972 animes on MyAnimeList in the "top" section
+    /// </remarks> 
     public class TopAnimePage : Page {
         public TopAnimePage(HtmlNode document) : base(document) { }
         
