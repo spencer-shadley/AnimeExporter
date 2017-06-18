@@ -8,7 +8,7 @@ namespace AnimeExporter.Models {
         public List<object> Schema => new List<object> {"Title", "URL", "Score"};
 
         public Animes() {
-             _animes.Add(new Anime("Title", "URL", "Score"));
+            _animes.Add(new Anime("Title", "URL", "Score"));
         }
 
         public void Add(Anime anime) {
