@@ -7,23 +7,37 @@ namespace AnimeExporter.Models {
 
         public AnimeDetailsPage(HtmlNode document) : base(document) { }
 
-        public string GetTitle() {
-            const string animeTitleClass = "h1";
-            HtmlNode titleContainer = FindElementsWithClass(Doc, animeTitleClass)[0];
-            HtmlNode title = titleContainer.ChildNodes[0];
-            return title.InnerText;
+        public string Title {
+            get {
+                const string animeTitleClass = "h1";
+                HtmlNode titleContainer = FindElementsWithClass(Doc, animeTitleClass)[0];
+                HtmlNode title = titleContainer.ChildNodes[0];
+                return title.InnerText;
+            }
+        }
+        
+        public string Rank {
+            get {
+                HtmlNodeCollection rankRows = FindElementsWithClass(Doc, "js-statistics-info");
+                Debug.Assert(rankRows.Count == 2);
+
+                HtmlNode rankRow = rankRows[1];
+                Debug.Assert(rankRow.ChildNodes.Count >= 2);
+
+                HtmlNode rank = rankRow.ChildNodes[2];
+
+                return rank.InnerText.Trim().Substring(1);
+            }
         }
 
-        public string GetRank() {
-            HtmlNodeCollection rankRows = FindElementsWithClass(Doc, "js-statistics-info");
-            Debug.Assert(rankRows.Count == 2);
+        public string MediaType {
+            get {
+                const string xPath = "//span[text() = 'Type:']";
 
-            HtmlNode rankRow = rankRows[1];
-            Debug.Assert(rankRow.ChildNodes.Count >= 2);
-            
-            HtmlNode rank = rankRow.ChildNodes[2];
-            
-            return rank.InnerText.Trim().Substring(1);
+                HtmlNodeCollection typeNodes = Doc.SelectNodes(xPath);
+                HtmlNode typeNode = typeNodes[0].NextSibling.NextSibling;
+                return typeNode.InnerText;
+            }
         }
         
         /// <summary>
@@ -33,38 +47,40 @@ namespace AnimeExporter.Models {
         /// Could be much faster by walking a smaller DOM, however, the perf is currently bottlenecked
         /// on retrieving the webpage itself (this method takes 0.12% of the overall program time.)
         /// </remarks>
-        public string GetScore() {
-            const string xPath = "//span[@itemprop=\"ratingValue\"]";
-            return GetValue(Doc, xPath);
+        public string Score {
+            get {
+                const string xPath = "//span[@itemprop=\"ratingValue\"]";
+                return GetValue(Doc, xPath);
+            }
         }
 
-        public string GetNumberOfRatings() {
-            const string xPath = "//span[@itemprop=\"ratingCount\"]";
-            return GetValue(Doc, xPath);
-        }
-
-        public string GetMediaType() {
-            const string xPath = "//span[text() = 'Type:']";
-
-            HtmlNodeCollection typeNodes = Doc.SelectNodes(xPath);
-            HtmlNode typeNode = typeNodes[0].NextSibling.NextSibling;
-            return typeNode.InnerText;
+        public string NumberOfRatings {
+            get {
+                const string xPath = "//span[@itemprop=\"ratingCount\"]";
+                return GetValue(Doc, xPath);
+            }
         }
         
-        public string GetPopularity() {
-            const string xPath = "//span[text() = 'Popularity:']";
-            return this.GetValueAfter(xPath).Substring(1);
+        public string Popularity {
+            get {
+                const string xPath = "//span[text() = 'Popularity:']";
+                return this.GetValueAfter(xPath).Substring(1);
+            }
         }
 
-        public string GetNumberOfMembers() {
-            const string xPath = "//span[text() = 'Members:']";
-            return this.GetValueAfter(xPath);
+        public string NumberOfMembers {
+            get {
+                const string xPath = "//span[text() = 'Members:']";
+                return this.GetValueAfter(xPath);
+            }
         }
 
-        public string GetNumberOfFavorites() {
-            const string xPath = "//span[text() = 'Favorites:']";
-            return this.GetValueAfter(xPath);
-        }
+        public string NumberOfFavorites {
+            get {
+                const string xPath = "//span[text() = 'Favorites:']";
+                return this.GetValueAfter(xPath);
+            }
+    }
 
         /// <summary>
         /// Many of the statistics are stored as floating plaintext after an element. This method makes it
@@ -87,15 +103,15 @@ namespace AnimeExporter.Models {
                 
             try {
                 Anime anime = new Anime (
-                    animeDetailsPage.GetTitle(),
+                    animeDetailsPage.Title,
                     url,
-                    animeDetailsPage.GetScore(),
-                    animeDetailsPage.GetNumberOfRatings(),
-                    animeDetailsPage.GetRank(),
-                    animeDetailsPage.GetPopularity(),
-                    animeDetailsPage.GetNumberOfMembers(),
-                    animeDetailsPage.GetNumberOfFavorites(),
-                    animeDetailsPage.GetMediaType()
+                    animeDetailsPage.Score,
+                    animeDetailsPage.NumberOfRatings,
+                    animeDetailsPage.Rank,
+                    animeDetailsPage.Popularity,
+                    animeDetailsPage.NumberOfMembers,
+                    animeDetailsPage.NumberOfFavorites,
+                    animeDetailsPage.MediaType
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);
