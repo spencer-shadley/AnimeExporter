@@ -3,6 +3,16 @@ using System.Diagnostics;
 using HtmlAgilityPack;
 
 namespace AnimeExporter.Models {
+    
+    /// <summary>
+    /// Represents the details page of an anime
+    /// </summary>
+    /// <remarks>
+    /// This could be much faster walking the DOM and collecting attributes, however,
+    /// the perf is currently bottlenecked on retrieving the webpage itself
+    /// (each method takes ~0.12% of the overall program time) so I am going to avoid doing
+    /// premature optimizations and focus on making this more robust, rather than faster.
+    /// </remarks>
     public class AnimeDetailsPage : Page {
 
         public AnimeDetailsPage(HtmlNode document) : base(document) { }
@@ -40,62 +50,25 @@ namespace AnimeExporter.Models {
             }
         }
         
-        /// <summary>
-        /// Gets the score of the anime 
-        /// </summary>
-        /// <remarks>
-        /// Could be much faster by walking a smaller DOM, however, the perf is currently bottlenecked
-        /// on retrieving the webpage itself (this method takes 0.12% of the overall program time.)
-        /// </remarks>
-        public string Score {
-            get {
-                const string xPath = "//span[@itemprop=\"ratingValue\"]";
-                return GetValue(Doc, xPath);
-            }
-        }
+        public string Score => this.SelectValueOfItemProp("ratingValue");
 
-        public string NumberOfRatings {
-            get {
-                const string xPath = "//span[@itemprop=\"ratingCount\"]";
-                return GetValue(Doc, xPath);
-            }
-        }
-        
-        public string Popularity {
-            get {
-                const string xPath = "//span[text() = 'Popularity:']";
-                return this.GetValueAfter(xPath).Substring(1);
-            }
-        }
+        public string NumberOfRatings => this.SelectValueOfItemProp("ratingCount");
 
-        public string NumberOfMembers {
-            get {
-                const string xPath = "//span[text() = 'Members:']";
-                return this.GetValueAfter(xPath);
-            }
-        }
+        public string Popularity => this.SelectValueAfterText("Popularity:").Substring(1);
 
-        public string NumberOfFavorites {
-            get {
-                const string xPath = "//span[text() = 'Favorites:']";
-                return this.GetValueAfter(xPath);
-            }
-    }
+        public string NumberOfMembers => this.SelectValueAfterText("Members:");
+
+        public string NumberOfFavorites => this.SelectValueAfterText("Favorites:");
+
+        public string NumberOfEpisodes => this.SelectValueAfterText("Episodes:");
 
         /// <summary>
-        /// Many of the statistics are stored as floating plaintext after an element. This method makes it
-        /// easier to grab that floating text.
+        /// Scrapes the anime at the given <see cref="url"/> to construct an anime object. By default this
+        /// will retry scraping the page twice due to inconsistent network connections before giving up.
         /// </summary>
-        /// <returns>The trimmed InnerText of the next child of the node at <see cref="xPath"/></returns>
-        public string GetValueAfter(string xPath) {
-            HtmlNodeCollection selectedNodes = Doc.SelectNodes(xPath);
-            Debug.Assert(selectedNodes.Count == 1);
-
-            HtmlNode valueNode = selectedNodes[0].NextSibling;
-            
-            return valueNode.InnerText.Trim();
-        }
-
+        /// <param name="url">The url to scrape</param>
+        /// <param name="retryCount">Number of times to retry</param>
+        /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
         public static Anime ScrapeAnime(string url, int retryCount = 2) {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
@@ -118,10 +91,11 @@ namespace AnimeExporter.Models {
                 return anime;
             }
             catch(Exception e) {
-                Console.Error.WriteLine($"failed to export an anime (retry count is {retryCount})..."); // typically network connectivity issues
+                Console.Error.WriteLine($"failed to export an anime (retry count is {retryCount})...");
                 Console.Error.WriteLine(e.ToString());
                 Console.WriteLine();
 
+                // typically network connectivity issues, see if we should try again
                 return retryCount == 0 ? null : ScrapeAnime(url, retryCount - 1);
             }
         }
