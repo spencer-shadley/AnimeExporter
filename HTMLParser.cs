@@ -16,56 +16,46 @@ namespace AnimeExporter {
         public static List<string> GetTopAnimeUrls(int page)
         {
             HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(MyAnimeListInfo.GetTopAnimeUrl(page));
+            HtmlDocument doc = web.Load(MyAnimeList.GetTopAnimeUrl(page));
 
             var urls = new List<string>();
 
-            HtmlNodeCollection anchorNodes = FindElementsWithClass(MyAnimeListInfo.UrlClass, doc.DocumentNode);
+            HtmlNodeCollection anchorNodes = MyAnimeList.GetAnchorNodes(doc.DocumentNode);
             urls.AddRange(anchorNodes.Select(anchorNode => anchorNode.Attributes["href"].Value));
 
             return urls;
         }
 
-        public static List<Anime> GetTopAnime(int page) {
+        public static Animes GetTopAnime(int page) {
             List<string> topAnimeUrls = GetTopAnimeUrls(page);
 
-            var schema = new List<object> {
-                "Title",
-                "URL"
-            };
-            var animes = new List<Anime> {
-                new Anime() {
-                    Data = schema
-                }
-            };
+            var animes = new Animes();
             foreach (string url in topAnimeUrls) {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
-
+                HtmlNode docNode = doc.DocumentNode;
+                
                 try {
                     HtmlNode titleContainer =
-                        FindElementsWithClass(MyAnimeListInfo.AnimeTitleClass, doc.DocumentNode)[0];
+                        MyAnimeList.FindElementsWithClass(MyAnimeList.AnimeTitleClass, docNode)[0];
                     HtmlNode title = titleContainer.ChildNodes[0];
 
-                    var data = new List<object> {
+                    Anime anime = new Anime (
                         title.InnerText,
-                        url
-                    };
-                    animes.Add(new Anime {
-                     Data = data
-                    });
-                    Console.WriteLine("Exported: " + string.Join(" | ", data));
+                        url,
+                        MyAnimeList.GetRating(docNode)
+                    );
+                    animes.Add(anime);
+                    
+                    Console.WriteLine("Exported: " + anime + Environment.NewLine);
                 }
-                catch {
-                    Console.WriteLine("failed to export an anime"); // typically network connection issues
+                catch(Exception e) {
+                    Console.Error.WriteLine("failed to export an anime..."); // typically network connectivity issues
+                    Console.Error.WriteLine(e.ToString());
+                    Console.WriteLine();
                 }
             }
             return animes;
-        }
-
-        public static HtmlNodeCollection FindElementsWithClass(string className, HtmlNode node) {
-            string xPath = $"//*[contains(@class,'{className}')]";
-            return node.SelectNodes(xPath);
         }
     }
 }

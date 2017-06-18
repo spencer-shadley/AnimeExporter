@@ -17,15 +17,8 @@ namespace AnimeExporter {
         private const string ApplicationName = "Google Sheets API";
 
         public static void Main(string[] args) {
-            List<Anime> topAnime = HtmlParser.GetTopAnime(1);
-            Console.WriteLine(string.Join(Environment.NewLine, topAnime));
-
-            List<IList<object>> table = GenerateTable(topAnime);
-            GoogleSheetsRunner(table);
-        }
-
-        public static List<IList<object>> GenerateTable(List<Anime> animes) {
-            return animes.Select(anime => anime.Data).Cast<IList<object>>().ToList();
+            Animes topAnime = HtmlParser.GetTopAnime(1);
+            GoogleSheetsRunner(topAnime.ToTable());
         }
 
         // TODO: this should be moved out to another file
@@ -39,11 +32,9 @@ namespace AnimeExporter {
             const string sheetId = "17KQKFy9o1pPG0Yko2dTYZcRhNSTdNWyI3NLWsJyfqbI";
             const string updateRange = "A1";
 
-            List<IList<object>> updateValues = table;
-            
             ValueRange valueRange = new ValueRange {
                 Range = updateRange,
-                Values = updateValues
+                Values = table
             };
 
             service.Spreadsheets.Values.Update(valueRange, sheetId, updateRange);
@@ -53,7 +44,7 @@ namespace AnimeExporter {
             UpdateValuesResponse response = updateRequest.Execute();
 
             const string baseSheetUri = "https://docs.google.com/spreadsheets/d/"; 
-            Console.WriteLine($"All done, check Google Sheet {baseSheetUri}{response.SpreadsheetId}");
+            Console.WriteLine($"All done, check out Google Sheet {baseSheetUri}{response.SpreadsheetId}");
         }
 
         // TODO: this should be moved out to another file

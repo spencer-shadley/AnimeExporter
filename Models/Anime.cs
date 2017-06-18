@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace AnimeExporter.Models {
     public class Anime {
-        public List<object> Data;
+
+        public readonly List<object> Attributes = new List<object>();
+
+        public Anime(params object[] attributes) {
+            foreach (object attribute in attributes) {
+                Attributes.Add(attribute);
+            }
+        }
         
-        // title
-        // url
-        // rating
         // categories
         // rank
         // popularity
@@ -34,9 +38,7 @@ namespace AnimeExporter.Models {
         // link to image
         
         public override string ToString() {
-            return Data.Cast<string>().Aggregate(
-                string.Empty, (current, data) =>
-                    current + (data + Environment.NewLine));
+            return string.Join(Environment.NewLine, Attributes);
         }
     }
 }
