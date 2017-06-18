@@ -49,7 +49,9 @@ namespace AnimeExporter {
                 service.Spreadsheets.Values.Update(valueRange, sheetId, updateRange);
             updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
             UpdateValuesResponse response = updateRequest.Execute();
-            Console.WriteLine(response.UpdatedData);
+
+            const string baseSheetUri = "https://docs.google.com/spreadsheets/d/"; 
+            Console.WriteLine($"All done, check Google Sheet {baseSheetUri}{response.SpreadsheetId}");
         }
 
         private static UserCredential SetupCredentials() {
@@ -66,7 +68,6 @@ namespace AnimeExporter {
                     "user",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
             }
             return credential;
         }

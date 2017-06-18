@@ -8,8 +8,6 @@ using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 namespace AnimeExporter {
     public class HtmlParser {
 
-        // METHODS
-        
         /// <summary>
         /// Gets one page of urls of the top anime
         /// </summary>
@@ -56,9 +54,10 @@ namespace AnimeExporter {
                     animes.Add(new Anime {
                      Data = data
                     });
+                    Console.WriteLine("Exported: " + string.Join(" | ", data));
                 }
                 catch {
-                    Console.WriteLine("failed to add an anime");
+                    Console.WriteLine("failed to export an anime"); // typically network connection issues
                 }
             }
             return animes;
