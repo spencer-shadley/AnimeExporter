@@ -45,13 +45,26 @@ namespace AnimeExporter.Models {
 
         public string GetPopularity() {
             const string xPath = "//span[text() = 'Popularity:']";
+            return this.GetValueAfter(xPath).Substring(1);
+        }
+
+        public string GetNumberOfMembers() {
+            const string xPath = "//span[text() = 'Members:']";
+            return this.GetValueAfter(xPath);
+        }
+
+        /// <summary>
+        /// Many of the statistics are stored as floating plaintext after an element. This method makes it
+        /// easier to grab that floating text.
+        /// </summary>
+        /// <returns>The trimmed InnerText of the next child of the node at <see cref="xPath"/></returns>
+        public string GetValueAfter(string xPath) {
             HtmlNodeCollection selectedNodes = Doc.SelectNodes(xPath);
             Debug.Assert(selectedNodes.Count == 1);
 
-            HtmlNode popularityNode = selectedNodes[0];
-            HtmlNode popularityValueNode = popularityNode.NextSibling;
+            HtmlNode valueNode = selectedNodes[0].NextSibling;
             
-            return popularityValueNode.InnerText.Trim().Substring(1);
+            return valueNode.InnerText.Trim();
         }
 
         public static Anime ScrapeAnime(string url, int retryCount = 2) {
@@ -66,7 +79,8 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.GetScore(),
                     animeDetailsPage.GetNumberOfRatings(),
                     animeDetailsPage.GetRank(),
-                    animeDetailsPage.GetPopularity()
+                    animeDetailsPage.GetPopularity(),
+                    animeDetailsPage.GetNumberOfMembers()
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);
