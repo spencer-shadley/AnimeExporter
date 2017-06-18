@@ -84,7 +84,8 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.Popularity,
                     animeDetailsPage.NumberOfMembers,
                     animeDetailsPage.NumberOfFavorites,
-                    animeDetailsPage.MediaType
+                    animeDetailsPage.MediaType,
+                    animeDetailsPage.NumberOfEpisodes
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);
