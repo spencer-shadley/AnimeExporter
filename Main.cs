@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -27,6 +28,7 @@ namespace AnimeExporter {
             return animes.Select(anime => anime.Data).Cast<IList<object>>().ToList();
         }
 
+        // TODO: this should be moved out to another file
         public static void GoogleSheetsRunner(List<IList<object>> table) {
             var service = new SheetsService(new BaseClientService.Initializer()
             {
@@ -54,22 +56,28 @@ namespace AnimeExporter {
             Console.WriteLine($"All done, check Google Sheet {baseSheetUri}{response.SpreadsheetId}");
         }
 
+        // TODO: this should be moved out to another file
         private static UserCredential SetupCredentials() {
-            UserCredential credential;
-            using (var stream =
-                new FileStream("client_secret.json", FileMode.Open, FileAccess.Read)) {
-                string credPath = Environment.GetFolderPath(
-                    Environment.SpecialFolder.Personal);
-                credPath = Path.Combine(credPath, ".credentials/sheets.googleapis.com-anime-exporter.json");
 
+            UserCredential credential;
+            
+            using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read)) {
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
+                    new FileDataStore(GetCredentialsPath(), true)).Result;
             }
+            Debug.Assert(credential != null);
             return credential;
+        }
+
+        // TODO: This should moved out to another file
+        private static string GetCredentialsPath() {
+            string baseFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            const string exporterPath = ".credentials/sheets.googleapis.com-anime-exporter.json";
+            return Path.Combine(baseFolderPath, exporterPath);
         }
     }
 }
