@@ -16,7 +16,7 @@ namespace AnimeExporter {
         private const string ApplicationName = "Google Sheets API";
 
         public static void Main(string[] args) {
-            Animes topAnime = TopAnimePage.GetTopAnime(1);
+            Animes topAnime = TopAnimePage.GetTopAnimes(1);
             GoogleSheetsRunner(topAnime.ToTable());
         }
 

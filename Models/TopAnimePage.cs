@@ -36,32 +36,11 @@ namespace AnimeExporter.Models {
             return urls;
         }
 
-        public static Animes GetTopAnime(int page) {
+        public static Animes GetTopAnimes(int page) {
             List<string> topAnimeUrls = GetTopAnimeUrls(page);
-
             var animes = new Animes();
             foreach (string url in topAnimeUrls) {
-                HtmlWeb web = new HtmlWeb();
-                HtmlDocument doc = web.Load(url);
-                AnimeDetailsPage animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
-                
-                try {
-                    Anime anime = new Anime (
-                        animeDetailsPage.GetTitle(),
-                        url,
-                        animeDetailsPage.GetScore(),
-                        animeDetailsPage.GetNumberOfRatings(),
-                        animeDetailsPage.GetRank()
-                    );
-                    animes.Add(anime);
-                    
-                    Console.WriteLine("Exported: " + anime + Environment.NewLine);
-                }
-                catch(Exception e) {
-                    Console.Error.WriteLine("failed to export an anime..."); // typically network connectivity issues
-                    Console.Error.WriteLine(e.ToString());
-                    Console.WriteLine();
-                }
+                animes.Add(AnimeDetailsPage.ScrapeAnime(url));
             }
             return animes;
         }

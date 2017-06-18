@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using HtmlAgilityPack;
 
 namespace AnimeExporter.Models {
@@ -40,6 +41,32 @@ namespace AnimeExporter.Models {
             HtmlNode rank = rankRow.ChildNodes[2];
             
             return rank.InnerText.Trim().Substring(1);
+        }
+
+        public static Anime ScrapeAnime(string url, int retryCount = 2) {
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument doc = web.Load(url);
+            AnimeDetailsPage animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
+                
+            try {
+                Anime anime = new Anime (
+                    animeDetailsPage.GetTitle(),
+                    url,
+                    animeDetailsPage.GetScore(),
+                    animeDetailsPage.GetNumberOfRatings(),
+                    animeDetailsPage.GetRank()
+                );
+                    
+                Console.WriteLine("Exported: " + anime + Environment.NewLine);
+                return anime;
+            }
+            catch(Exception e) {
+                Console.Error.WriteLine("failed to export an anime..."); // typically network connectivity issues
+                Console.Error.WriteLine(e.ToString());
+                Console.WriteLine();
+
+                return retryCount == 0 ? null : ScrapeAnime(url, retryCount - 1);
+            }
         }
     }
 }
