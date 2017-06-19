@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AnimeExporter.Models {
     public class Anime {
@@ -10,28 +11,12 @@ namespace AnimeExporter.Models {
             "Title", "URL", "Score", "Number of ratings", "Rank", "Popularity",
             "Number of Members", "Number of Favorites", "Type of Media", "Number of Episodes",
             "Status", "Date Started Airing", "Date Finished Airing", "Producers", "Licensors",
-            "Studios", "Genres", "Duration", "Rating"
+            "Studios", "Genres", "Duration", "Rating", "Source", "Synopsis", "Background"
         
             // TODO: the below fields
-            // categories
-            // synopsis
-            // background
             // adaptation
-            // summary
             // sequel
             // related
-            // rating
-            // type
-            // number of episodes
-            // status
-            // aired
-            // permiered
-            // broadcast
-            // producers
-            // licensors
-            // studios
-            // source
-            // duration
             // link to image
         };
 
@@ -50,7 +35,8 @@ namespace AnimeExporter.Models {
         }
         
         public override string ToString() {
-            return string.Join(Environment.NewLine, Attributes);
+            return string.Join(Environment.NewLine,
+                Attributes.Where(attribute => attribute.ToString().Length < 100)); // avoid things like synposis
         }
     }
 }

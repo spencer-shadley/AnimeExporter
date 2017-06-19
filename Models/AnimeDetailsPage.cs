@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net;
 using HtmlAgilityPack;
 
 namespace AnimeExporter.Models {
@@ -21,7 +21,7 @@ namespace AnimeExporter.Models {
 
         private const string InvalidAiringMessage = "Unknown airing value: ";
         
-        private Airing AiringStatus;
+        private readonly Airing AiringStatus;
 
         private enum Airing { Future, InProgress, Finished, Unknown }
 
@@ -47,7 +47,7 @@ namespace AnimeExporter.Models {
         public string Title {
             get {
                 const string animeTitleClass = "h1";
-                HtmlNode titleContainer = FindElementsWithClass(Doc, animeTitleClass)[0];
+                HtmlNode titleContainer = FindElementsWithClass(animeTitleClass)[0];
                 HtmlNode title = titleContainer.ChildNodes[0];
                 return title.InnerText;
             }
@@ -55,7 +55,7 @@ namespace AnimeExporter.Models {
         
         public string Rank {
             get {
-                HtmlNodeCollection rankRows = FindElementsWithClass(Doc, "js-statistics-info");
+                HtmlNodeCollection rankRows = FindElementsWithClass("js-statistics-info");
                 Debug.Assert(rankRows.Count == 2);
 
                 HtmlNode rankRow = rankRows[1];
@@ -76,10 +76,27 @@ namespace AnimeExporter.Models {
                 return typeNode.InnerText;
             }
         }
+
+        public string Image {
+            get {
+                const string xPath = "//*[@id='content']/table/tbody/tr/td[1]/div/div[1]/a/img";
+                var link = Doc.SelectSingleNode(xPath).GetAttributeValue("href");
+                return link;
+            }
+        }
         
         public string Score => this.SelectValueOfItemProp("ratingValue");
 
         public string NumberOfRatings => this.SelectValueOfItemProp("ratingCount");
+
+        public string Synopsis => this.SelectValueOfItemProp("description");
+
+        public string Background {
+            get {
+                HtmlNode synopsis = this.SelectElementByItemProp("description");
+                return WebUtility.HtmlDecode(synopsis.NextSibling.NextSibling.InnerText);
+            }
+        }
 
         public string Popularity => this.SelectValueAfterText("Popularity:").Substring(1);
 
@@ -96,6 +113,8 @@ namespace AnimeExporter.Models {
         public string Duration => this.SelectValueAfterText("Duration:");
 
         public string Rating => this.SelectValueAfterText("Rating:");
+
+        public string Source => this.SelectValueAfterText("Source:");
 
         public string Producers => this.SelectAllSiblingAnchorElements("Producers:");
 
@@ -173,7 +192,11 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.Studios,
                     animeDetailsPage.Genres,
                     animeDetailsPage.Duration,
-                    animeDetailsPage.Rating
+                    animeDetailsPage.Rating,
+                    animeDetailsPage.Source,
+                    animeDetailsPage.Synopsis,
+                    animeDetailsPage.Background,
+                    animeDetailsPage.Image
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);

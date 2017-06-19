@@ -85,6 +85,11 @@ namespace AnimeExporter.Models {
             return WebUtility.HtmlDecode(valueNode.InnerText.Trim());
         }
 
+        public HtmlNode SelectElementByItemProp(string itemProp) {
+            string xPath = $"//span[@itemprop=\"{itemProp}\"]";
+            return Doc.SelectSingleNode(xPath);
+        }
+
         /// <summary>
         /// Gets the InnerText of the element which has an itemprop of <see cref="itemProp"/>
         /// </summary>
@@ -96,9 +101,9 @@ namespace AnimeExporter.Models {
             return SelectValue(Doc, xPath);
         }
         
-        public static HtmlNodeCollection FindElementsWithClass(HtmlNode node, string className) {
+        public static HtmlNodeCollection FindElementsWithClass(string className) {
             string xPath = $"//*[contains(@class,'{className}')]";
-            return node.SelectNodes(xPath);
+            return Doc.SelectNodes(xPath);
         }
     }
 }
