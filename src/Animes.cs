@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace AnimeExporter {
+    
     public class Animes : IEnumerable<Anime> {
 
         private readonly List<Anime> _animes = new List<Anime>();

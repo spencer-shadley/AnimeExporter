@@ -5,7 +5,9 @@ using System.Net;
 using HtmlAgilityPack;
 
 namespace AnimeExporter {
+    
     public class Page {
+        
         protected HtmlNode Doc;
         
         public Page(HtmlNode document) {

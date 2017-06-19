@@ -9,6 +9,7 @@ using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 
 namespace AnimeExporter {
+    
     public class GoogleSheet {
         
         private static readonly string[] Scopes = {SheetsService.Scope.Spreadsheets};

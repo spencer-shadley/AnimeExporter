@@ -7,7 +7,7 @@ using HtmlAgilityPack;
 namespace AnimeExporter {
     
     /// <summary>
-    /// Represents the details page of an anime
+    /// Represents the details page of an anime on MyAnimeList.net
     /// </summary>
     /// <remarks>
     /// This could be much faster walking the DOM and collecting attributes, however,

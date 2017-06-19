@@ -6,8 +6,12 @@ using HtmlAgilityPack;
 
 namespace AnimeExporter {
     
+    /// <summary>
+    /// Represents the top anime page(s) on MyAnimeList.net
+    /// </summary>
     /// <remarks>
-    /// As of 6/18/17 There are 12,972 animes on MyAnimeList in the "top" section
+    /// As of 6/18/17 There are 12,972 animes on MyAnimeList in the "top" section.
+    /// In one test it took 29.3 minutes to scrape all top anime between pages 0 and 100 (2,850 animes.)
     /// </remarks> 
     public class TopAnimePage : Page {
         public TopAnimePage(HtmlNode document) : base(document) { }
