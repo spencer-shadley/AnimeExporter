@@ -75,6 +75,11 @@ namespace AnimeExporter {
             return animes;
         }
 
+        /// <summary>
+        /// Scrapes the anime from the top anime page at <see cref="page"/>
+        /// </summary>
+        /// <param name="page">Represents the page number to scrape</param>
+        /// <returns>An <see cref="Animes"/> representation of the top anime at <see cref="page"/></returns>
         public static Animes ScrapeTopAnimesPage(int page) {
             Animes animes = new Animes();
             List<string> topAnimeUrls = ScrapeTopAnimeUrls(page);
