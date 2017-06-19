@@ -21,7 +21,7 @@ namespace AnimeExporter {
                 Console.WriteLine();
                 topAnimes.Add(TopAnimePage.GetTopAnimes(i));
             }
-            GoogleSheet.GoogleSheetsRunner(topAnimes.ToTable());
+            GoogleSheet.PublishGoogleSheet(topAnimes);
         }
     }
 }

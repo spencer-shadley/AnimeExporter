@@ -14,39 +14,47 @@ namespace AnimeExporter {
         
         private static readonly string[] Scopes = {SheetsService.Scope.Spreadsheets};
         private const string ApplicationName = "Google Sheets API";
+        private const string BaseSheetUri = "https://docs.google.com/spreadsheets/d/";
+        private const string SheetId = "17KQKFy9o1pPG0Yko2dTYZcRhNSTdNWyI3NLWsJyfqbI";
 
-        public static void GoogleSheetsRunner(List<IList<object>> table) {
+        private static string CredentialsPath {
+            get {
+                string baseFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                const string exporterPath = ".credentials/sheets.googleapis.com-anime-exporter.json";
+                return Path.Combine(baseFolderPath, exporterPath);
+            }
+        }
+        
+        public static void PublishGoogleSheet(Animes animes) {
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = SetupCredentials(),
                 ApplicationName = ApplicationName,
             });
             
-            const string sheetId = "17KQKFy9o1pPG0Yko2dTYZcRhNSTdNWyI3NLWsJyfqbI";
             const string updateRange = "A1";
 
             ValueRange valueRange = new ValueRange {
                 Range = updateRange,
-                Values = table
+                Values = animes.ToTable()
             };
 
-            service.Spreadsheets.Values.Update(valueRange, sheetId, updateRange);
+            service.Spreadsheets.Values.Update(valueRange, SheetId, updateRange);
             SpreadsheetsResource.ValuesResource.UpdateRequest updateRequest =
-                service.Spreadsheets.Values.Update(valueRange, sheetId, updateRange);
+                service.Spreadsheets.Values.Update(valueRange, SheetId, updateRange);
             updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
             UpdateValuesResponse response = updateRequest.Execute();
 
-            const string baseSheetUri = "https://docs.google.com/spreadsheets/d/"; 
-            Console.WriteLine($"All done, check out Google Sheet {baseSheetUri}{response.SpreadsheetId}");
+            Console.WriteLine($"All done, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}");
         }
 
         /// <summary>The Google Sheet which is published to requires credentials to access.</summary>
         /// <remarks>
-        /// To publish to your own Google Sheet, update the sheetId in <see cref="GoogleSheetsRunner"/>
+        /// To publish to your own Google Sheet, update the <see cref="SheetId"/> in <see cref="PublishGoogleSheet"/>
         /// and add your own client_secret.json. See https://developers.google.com/sheets/api/guides/authorizing
         /// for more details
         /// </remarks>
-        /// <returns>The UserCredentials based on client_secret.json for accessing the sheet at sheetId</returns>
+        /// <returns>The UserCredentials based on client_secret.json for accessing the sheet at <see cref="SheetId"/></returns>
         private static UserCredential SetupCredentials() {
 
             UserCredential credential;
@@ -56,16 +64,10 @@ namespace AnimeExporter {
                     Scopes,
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(GetCredentialsPath(), true)).Result;
+                    new FileDataStore(CredentialsPath, true)).Result;
             }
             Debug.Assert(credential != null);
             return credential;
-        }
-
-        private static string GetCredentialsPath() {
-            string baseFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            const string exporterPath = ".credentials/sheets.googleapis.com-anime-exporter.json";
-            return Path.Combine(baseFolderPath, exporterPath);
         }
     }
 }

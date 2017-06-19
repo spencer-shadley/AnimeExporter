@@ -47,7 +47,7 @@ namespace AnimeExporter {
         public string Title {
             get {
                 const string animeTitleClass = "h1";
-                HtmlNode titleContainer = FindElementsWithClass(animeTitleClass)[0];
+                HtmlNode titleContainer = this.FindElementsWithClass(animeTitleClass)[0];
                 HtmlNode title = titleContainer.ChildNodes[0];
                 return title.InnerText;
             }
@@ -55,7 +55,7 @@ namespace AnimeExporter {
         
         public string Rank {
             get {
-                HtmlNodeCollection rankRows = FindElementsWithClass("js-statistics-info");
+                HtmlNodeCollection rankRows = this.FindElementsWithClass("js-statistics-info");
                 Debug.Assert(rankRows.Count == 2);
 
                 HtmlNode rankRow = rankRows[1];
