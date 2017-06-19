@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
 
@@ -19,13 +20,16 @@ namespace AnimeExporter.Models {
             const string urlClass = "hoverinfo_trigger fl-l ml12 mr8";
             return this.FindElementsWithClass(urlClass);
         }
-        
+
         /// <summary>
         /// Gets one page of urls of the top anime
         /// </summary>
         /// <param name="page">Page of anime to retrieve</param>
+        /// <param name="retryCount">
+        /// Number of times to retry if there are unexpected failures (usually network connectivity issues)
+        /// </param>
         /// <returns>AnimeDetailsPage urls to the top anime on page <para>page</para></returns>
-        public static List<string> GetTopAnimeUrls(int page)
+        public static List<string> GetTopAnimeUrls(int page, int retryCount = 10)
         {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(GetTopAnimeUrl(page));
@@ -34,8 +38,13 @@ namespace AnimeExporter.Models {
             var urls = new List<string>();
 
             HtmlNodeCollection anchorNodes = topAnimePage.GetAnchorNodes();
-            urls.AddRange(anchorNodes.Select(anchorNode => anchorNode.Attributes["href"].Value));
 
+            if (anchorNodes == null) {
+                Console.Error.WriteLine($"Page {page} is unable to parse the URLs. Retry count is {retryCount}");
+                return retryCount == 0 ? new List<string>() : GetTopAnimeUrls(page, retryCount - 1);
+            }
+            
+            urls.AddRange(anchorNodes.Select(anchorNode => anchorNode.Attributes["href"].Value));
             return urls;
         }
 

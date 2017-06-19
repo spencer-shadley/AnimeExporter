@@ -168,7 +168,7 @@ namespace AnimeExporter.Models {
         /// <param name="url">The url to scrape</param>
         /// <param name="retryCount">Number of times to retry</param>
         /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
-        public static Anime ScrapeAnime(string url, int retryCount = 5) {
+        public static Anime ScrapeAnime(string url, int retryCount = 10) {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
             AnimeDetailsPage animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);

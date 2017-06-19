@@ -17,6 +17,9 @@ namespace AnimeExporter.Models {
             // adaptation
             // sequel
             // related
+            // English title
+            // synonyms
+            // Japanese title
         };
 
         public Anime(params object[] attributes) {
