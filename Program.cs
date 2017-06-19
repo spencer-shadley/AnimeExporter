@@ -63,6 +63,13 @@ namespace AnimeExporter {
         }
 
         // TODO: this should be moved out to another file
+        /// <summary>The Google Sheet which is published to requires credentials to access.</summary>
+        /// <remarks>
+        /// To publish to your own Google Sheet, update the sheetId in <see cref="GoogleSheetsRunner"/>
+        /// and add your own client_secret.json. See https://developers.google.com/sheets/api/guides/authorizing
+        /// for more details
+        /// </remarks>
+        /// <returns>The UserCredentials based on client_secret.json for accessing the sheet at sheetId</returns>
         private static UserCredential SetupCredentials() {
 
             UserCredential credential;
