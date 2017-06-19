@@ -25,7 +25,7 @@ namespace AnimeExporter {
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
-                Console.WriteLine($"==========   PAGE {i} ==========");
+                Console.WriteLine($"==========   PAGE {i}  ==========");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
