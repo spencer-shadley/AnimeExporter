@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using HtmlAgilityPack;
@@ -92,6 +93,18 @@ namespace AnimeExporter.Models {
 
         public string AirDates => this.SelectValueAfterText("Aired:");
 
+        public string Duration => this.SelectValueAfterText("Duration:");
+
+        public string Rating => this.SelectValueAfterText("Rating:");
+
+        public string Producers => this.SelectAllSiblingAnchorElements("Producers:");
+
+        public string Licensors => this.SelectAllSiblingAnchorElements("Licensors:");
+
+        public string Studios => this.SelectAllSiblingAnchorElements("Studios:");
+
+        public string Genres => this.SelectAllSiblingAnchorElements("Genres:");
+        
         public string AirStartDate {
             get {
                 switch (AiringStatus) {
@@ -115,7 +128,7 @@ namespace AnimeExporter.Models {
                 switch (AiringStatus) {
                     case Airing.Future:
                     case Airing.InProgress:
-                        return "Unfinished";
+                        return "Still in progress";
                     case Airing.Finished:
                         return AirDates.Contains(DateDelimter[0]) ?
                             AirDates.Split(DateDelimter, StringSplitOptions.None)[1] :
@@ -135,7 +148,7 @@ namespace AnimeExporter.Models {
         /// <param name="url">The url to scrape</param>
         /// <param name="retryCount">Number of times to retry</param>
         /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
-        public static Anime ScrapeAnime(string url, int retryCount = 2) {
+        public static Anime ScrapeAnime(string url, int retryCount = 5) {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
             AnimeDetailsPage animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
@@ -154,7 +167,13 @@ namespace AnimeExporter.Models {
                     animeDetailsPage.NumberOfEpisodes,
                     animeDetailsPage.Status,
                     animeDetailsPage.AirStartDate,
-                    animeDetailsPage.AirFinishDate
+                    animeDetailsPage.AirFinishDate,
+                    animeDetailsPage.Producers,
+                    animeDetailsPage.Licensors,
+                    animeDetailsPage.Studios,
+                    animeDetailsPage.Genres,
+                    animeDetailsPage.Duration,
+                    animeDetailsPage.Rating
                 );
                     
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);

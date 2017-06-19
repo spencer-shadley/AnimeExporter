@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using HtmlAgilityPack;
 
 namespace AnimeExporter.Models {
@@ -13,7 +15,37 @@ namespace AnimeExporter.Models {
         public static string SelectValue(HtmlNode node, string xPath) {
             HtmlNodeCollection nodes = node.SelectNodes(xPath);
             Debug.Assert(nodes.Count == 1);
-            return nodes[0].InnerText;
+            return WebUtility.HtmlDecode(nodes[0].InnerText);
+        }
+
+        public HtmlNode SelectElementByText(string text) {
+            string xPath = $"//span[text() = '{text}']";
+            HtmlNode selected = Doc.SelectSingleNode(xPath);
+
+            if (selected != null) return selected;
+            
+            Console.Error.WriteLine($"No nodes were selected for {text}");
+            return null;
+        }
+
+        public string SelectAllSiblingAnchorElements(string text, string defaultText = "None found") {
+            return this.SelectAllSiblingAnchorElements(this.SelectElementByText(text), defaultText);
+        }
+
+        public string SelectAllSiblingAnchorElements(HtmlNode node, string defaultText = "None found") {
+            var anchorTexts = new List<string>();
+
+            // When there are no known anchors, MyAnimeList inserts "None found"
+            if (node.NextSibling.InnerText.Contains("None found")) {
+                return defaultText;
+            }
+            while (node.NextSibling != null) {
+                if (node.Name == "a") {
+                    anchorTexts.Add(WebUtility.HtmlDecode(node.InnerText));
+                }
+                node = node.NextSibling;
+            }
+            return string.Join(", ", anchorTexts);
         }
 
         /// <summary>
@@ -27,6 +59,10 @@ namespace AnimeExporter.Models {
         public string SelectValueAfterText(string text) {
             string xPath = $"//span[text() = '{text}']";
             return this.SelectValueAfter(xPath);
+        }
+
+        public string SelectValuesAfterText(string text) {
+            return null;
         }
         
         /// <summary>
@@ -46,7 +82,7 @@ namespace AnimeExporter.Models {
             }
 
             HtmlNode valueNode = selectedNodes[0].NextSibling;
-            return valueNode.InnerText.Trim();
+            return WebUtility.HtmlDecode(valueNode.InnerText.Trim());
         }
 
         /// <summary>

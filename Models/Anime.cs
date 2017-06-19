@@ -9,7 +9,8 @@ namespace AnimeExporter.Models {
         private static readonly object[] SchemaAttributes = {
             "Title", "URL", "Score", "Number of ratings", "Rank", "Popularity",
             "Number of Members", "Number of Favorites", "Type of Media", "Number of Episodes",
-            "Status", "Date Started Airing", "Date Finished Airing"
+            "Status", "Date Started Airing", "Date Finished Airing", "Producers", "Licensors",
+            "Studios", "Genres", "Duration", "Rating"
         
             // TODO: the below fields
             // categories
