@@ -11,13 +11,12 @@ namespace AnimeExporter.Models {
             "Title", "URL", "Score", "Number of ratings", "Rank", "Popularity",
             "Number of Members", "Number of Favorites", "Type of Media", "Number of Episodes",
             "Status", "Date Started Airing", "Date Finished Airing", "Producers", "Licensors",
-            "Studios", "Genres", "Duration", "Rating", "Source", "Synopsis", "Background"
+            "Studios", "Genres", "Duration", "Rating", "Source", "Synopsis", "Background", "Image"
         
             // TODO: the below fields
             // adaptation
             // sequel
             // related
-            // link to image
         };
 
         public Anime(params object[] attributes) {

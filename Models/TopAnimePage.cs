@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
 
@@ -18,7 +17,7 @@ namespace AnimeExporter.Models {
 
         public HtmlNodeCollection GetAnchorNodes() {
             const string urlClass = "hoverinfo_trigger fl-l ml12 mr8";
-            return FindElementsWithClass(Doc, urlClass);
+            return this.FindElementsWithClass(urlClass);
         }
         
         /// <summary>
@@ -29,7 +28,7 @@ namespace AnimeExporter.Models {
         public static List<string> GetTopAnimeUrls(int page)
         {
             HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(TopAnimePage.GetTopAnimeUrl(page));
+            HtmlDocument doc = web.Load(GetTopAnimeUrl(page));
             TopAnimePage topAnimePage = new TopAnimePage(doc.DocumentNode);
             
             var urls = new List<string>();

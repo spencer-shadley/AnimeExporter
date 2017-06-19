@@ -21,23 +21,23 @@ namespace AnimeExporter.Models {
 
         private const string InvalidAiringMessage = "Unknown airing value: ";
         
-        private readonly Airing AiringStatus;
+        private readonly Airing _airingStatus;
 
         private enum Airing { Future, InProgress, Finished, Unknown }
 
         public AnimeDetailsPage(HtmlNode document) : base(document) {
             switch (Status) {
                 case "Not yet aired":
-                    AiringStatus = Airing.Future;
+                    _airingStatus = Airing.Future;
                     break;
                 case "Currently Airing":
-                    AiringStatus = Airing.InProgress;
+                    _airingStatus = Airing.InProgress;
                     break;
                 case "Finished Airing":
-                    AiringStatus = Airing.Finished;
+                    _airingStatus = Airing.Finished;
                     break;
                 case null:
-                    AiringStatus = Airing.Unknown;
+                    _airingStatus = Airing.Unknown;
                     break;
                 default:
                     throw new InvalidEnumArgumentException(InvalidAiringMessage + Status);
@@ -79,9 +79,10 @@ namespace AnimeExporter.Models {
 
         public string Image {
             get {
-                const string xPath = "//*[@id='content']/table/tbody/tr/td[1]/div/div[1]/a/img";
-                var link = Doc.SelectSingleNode(xPath).GetAttributeValue("href");
-                return link;
+                const string xPath = "//div[@id='content']";
+                HtmlNode table = Doc.SelectSingleNode(xPath);
+                HtmlNodeCollection images = table.SelectNodes("//img");
+                return images[1].Attributes["src"].Value;
             }
         }
         
@@ -126,7 +127,7 @@ namespace AnimeExporter.Models {
         
         public string AirStartDate {
             get {
-                switch (AiringStatus) {
+                switch (_airingStatus) {
                     case Airing.Future:
                         return AirDates;
                     case Airing.InProgress:
@@ -137,14 +138,14 @@ namespace AnimeExporter.Models {
                     case Airing.Unknown:
                         return "Unknown";
                     default:
-                        throw new InvalidEnumArgumentException(InvalidAiringMessage + AiringStatus);
+                        throw new InvalidEnumArgumentException(InvalidAiringMessage + _airingStatus);
                 }
             }
         }
 
         public string AirFinishDate {
             get {
-                switch (AiringStatus) {
+                switch (_airingStatus) {
                     case Airing.Future:
                     case Airing.InProgress:
                         return "Still in progress";
@@ -155,7 +156,7 @@ namespace AnimeExporter.Models {
                     case Airing.Unknown:
                         return "Unknown";
                     default:
-                        throw new InvalidEnumArgumentException(InvalidAiringMessage + AiringStatus);
+                        throw new InvalidEnumArgumentException(InvalidAiringMessage + _airingStatus);
                 }
             }
         }

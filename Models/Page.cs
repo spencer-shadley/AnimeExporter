@@ -101,7 +101,7 @@ namespace AnimeExporter.Models {
             return SelectValue(Doc, xPath);
         }
         
-        public static HtmlNodeCollection FindElementsWithClass(string className) {
+        public HtmlNodeCollection FindElementsWithClass(string className) {
             string xPath = $"//*[contains(@class,'{className}')]";
             return Doc.SelectNodes(xPath);
         }
