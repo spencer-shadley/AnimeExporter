@@ -13,3 +13,8 @@
 bin
 Properties
 obj
+
+#############
+# Temporary #
+#############
+*.twbr
