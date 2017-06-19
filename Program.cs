@@ -18,13 +18,14 @@ namespace AnimeExporter {
         public static void Main(string[] args) {
             const int numPages = 100;
 
-            Animes topAnimes = new Animes();
+            // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
+            Animes topAnimes = new Animes {Anime.Schema()}; 
             for (var i = 0; i < numPages; ++i) {
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
-                Console.WriteLine("==========   PAGE {i} ==========");
+                Console.WriteLine($"==========   PAGE {i} ==========");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
