@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Net;
 using HtmlAgilityPack;
 
-namespace AnimeExporter.Models {
+namespace AnimeExporter {
     
     /// <summary>
     /// Represents the details page of an anime

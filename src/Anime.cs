@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AnimeExporter.Models {
+namespace AnimeExporter {
     public class Anime {
 
         public readonly List<object> Attributes = new List<object>();

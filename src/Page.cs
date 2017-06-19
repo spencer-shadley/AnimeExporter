@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Net;
 using HtmlAgilityPack;
 
-namespace AnimeExporter.Models {
+namespace AnimeExporter {
     public class Page {
         protected HtmlNode Doc;
         
