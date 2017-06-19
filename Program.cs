@@ -16,7 +16,7 @@ namespace AnimeExporter {
         private const string ApplicationName = "Google Sheets API";
 
         public static void Main(string[] args) {
-            const int numPages = 100;
+            const int numPages = 1;
 
             // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
             Animes topAnimes = new Animes {Anime.Schema()}; 
@@ -30,10 +30,9 @@ namespace AnimeExporter {
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
                 Console.WriteLine("===============================");
+                Console.WriteLine();
                 topAnimes.Add(TopAnimePage.GetTopAnimes(i));
             }
-            
-//            Animes topAnime = TopAnimePage.GetTopAnimes(0);
             GoogleSheetsRunner(topAnimes.ToTable());
         }
 
@@ -67,7 +66,6 @@ namespace AnimeExporter {
         private static UserCredential SetupCredentials() {
 
             UserCredential credential;
-            
             using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read)) {
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
