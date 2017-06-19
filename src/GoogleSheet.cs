@@ -25,6 +25,10 @@ namespace AnimeExporter {
             }
         }
         
+        /// <summary>
+        /// Publishes the <see cref="animes"/> to a the Google Sheet at <see cref="SheetId"/>
+        /// </summary>
+        /// <param name="animes">The <see cref="Animes"/> to publish</param>
         public static void PublishGoogleSheet(Animes animes) {
             var service = new SheetsService(new BaseClientService.Initializer()
             {
