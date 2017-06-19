@@ -16,10 +16,19 @@ namespace AnimeExporter {
         private const string ApplicationName = "Google Sheets API";
 
         public static void Main(string[] args) {
-            const int numPages = 10;
+            const int numPages = 100;
 
             Animes topAnimes = new Animes();
             for (var i = 0; i < numPages; ++i) {
+                Console.WriteLine("===============================");
+                Console.WriteLine("===============================");
+                Console.WriteLine("===============================");
+                Console.WriteLine("===============================");
+                Console.WriteLine("==========   PAGE {i} ==========");
+                Console.WriteLine("===============================");
+                Console.WriteLine("===============================");
+                Console.WriteLine("===============================");
+                Console.WriteLine("===============================");
                 topAnimes.Add(TopAnimePage.GetTopAnimes(i));
             }
             
