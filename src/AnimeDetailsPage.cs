@@ -9,11 +9,14 @@ namespace AnimeExporter {
     /// <summary>
     /// Represents the details page of an anime on MyAnimeList.net
     /// </summary>
+    /// <example>https://myanimelist.net/anime/23273/Shigatsu_wa_Kimi_no_Uso?q=shigatsu</example>
     /// <remarks>
-    /// This could be much faster walking the DOM and collecting attributes, however,
-    /// the perf is currently bottlenecked on retrieving the webpage itself
-    /// (each method takes ~0.12% of the overall program time) so I am going to avoid doing
-    /// premature optimizations and focus on making this more robust, rather than faster.
+    /// Currently most things are selected via xPath and walking the entire DOM.
+    /// This could be much faster by walking the DOM and collecting attributes in a single pass (or just
+    /// walking a smaller more relevant DOM), however, the perf is currently bottlenecked on retrieving
+    /// the webpage itself (each method takes ~0.12% of the overall program time) so I am going to avoid
+    /// doing premature optimizations and focus on making this more robust, rather than faster.
+    /// There are more perf details in the tracing output at data/performance snapshot.dtp
     /// </remarks>
     public class AnimeDetailsPage : Page {
         

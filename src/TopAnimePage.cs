@@ -9,6 +9,7 @@ namespace AnimeExporter {
     /// <summary>
     /// Represents the top anime page(s) on MyAnimeList.net
     /// </summary>
+    /// <example>https://myanimelist.net/topanime.php?limit=5000</example>
     /// <remarks>
     /// As of 6/18/17 There are 12,972 animes on MyAnimeList in the "top" section.
     /// In one test it took 29.3 minutes to scrape all top anime between pages 0 and 100 (2,850 animes.)
