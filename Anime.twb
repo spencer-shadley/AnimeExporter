@@ -398,6 +398,14 @@
       <column aggregation='Sum' caption='Score (Dimension)' datatype='real' name='[Score (copy)]' role='dimension' type='ordinal'>
         <calculation class='tableau' formula='[Score]' />
       </column>
+      <column datatype='string' name='[Title]' role='dimension' type='nominal' />
+      <column datatype='string' name='[URL]' role='dimension' type='nominal' />
+      <group caption='Action (Title,URL)' hidden='true' name='[Action (Title,URL)]' name-style='unqualified' user:auto-column='sheet_link'>
+        <groupfilter function='crossjoin'>
+          <groupfilter function='level-members' level='[Title]' />
+          <groupfilter function='level-members' level='[URL]' />
+        </groupfilter>
+      </group>
       <layout dim-ordering='alphabetic' dim-percentage='0.695017' measure-ordering='alphabetic' measure-percentage='0.304983' rowDisplayCount='10000' show-structure='true' user-set-layout='true' />
       <semantic-values>
         <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
@@ -504,6 +512,12 @@
             <column-instance column='[Score]' derivation='Sum' name='[sum:Score:qk]' pivot='key' type='quantitative' />
             <column-instance column='[Date Finished Airing]' derivation='Day-Trunc' name='[tdy:Date Finished Airing:qk]' pivot='key' type='quantitative' />
           </datasource-dependencies>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]'>
+            <groupfilter function='crossjoin' user:ui-enumeration='all' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[Title]' />
+              <groupfilter function='level-members' level='[URL]' />
+            </groupfilter>
+          </filter>
           <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[none:Type of Media:nk]'>
             <groupfilter function='member' level='[none:Type of Media:nk]' member='&quot;Movie&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
           </filter>
@@ -515,6 +529,7 @@
             <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Type of Media:nk]</column>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[tdy:Date Finished Airing:qk]</column>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -575,12 +590,19 @@
             <column-instance column='[Number of Favorites]' derivation='Sum' name='[sum:Number of Favorites:qk]' pivot='key' type='quantitative' />
             <column-instance column='[Score]' derivation='Sum' name='[sum:Score:qk]' pivot='key' type='quantitative' />
           </datasource-dependencies>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]'>
+            <groupfilter function='crossjoin' user:ui-enumeration='all' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[Title]' />
+              <groupfilter function='level-members' level='[URL]' />
+            </groupfilter>
+          </filter>
           <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[none:Type of Media:nk]'>
             <groupfilter function='member' level='[none:Type of Media:nk]' member='&quot;Movie&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
           </filter>
           <slices>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Type of Media:nk]</column>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -648,6 +670,12 @@
             <column-instance column='[Score]' derivation='Sum' name='[sum:Score:qk]' pivot='key' type='quantitative' />
             <column-instance column='[Date Started Airing]' derivation='Day-Trunc' name='[tdy:Date Started Airing:qk]' pivot='key' type='quantitative' />
           </datasource-dependencies>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]'>
+            <groupfilter function='crossjoin' user:ui-enumeration='all' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[Title]' />
+              <groupfilter function='level-members' level='[URL]' />
+            </groupfilter>
+          </filter>
           <sort class='computed' column='[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]' direction='DESC' using='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Favorites:qk]' />
           <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]' included-values='in-range-or-null'>
             <min>8.5</min>
@@ -661,6 +689,7 @@
             <column>[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]</column>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[tdy:Date Started Airing:qk]</column>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -725,6 +754,12 @@
             <column-instance column='[Number of ratings]' derivation='Sum' name='[sum:Number of ratings:qk]' pivot='key' type='quantitative' />
             <column-instance column='[Score]' derivation='Sum' name='[sum:Score:qk]' pivot='key' type='quantitative' />
           </datasource-dependencies>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]'>
+            <groupfilter function='crossjoin' user:ui-enumeration='all' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[Title]' />
+              <groupfilter function='level-members' level='[URL]' />
+            </groupfilter>
+          </filter>
           <sort class='computed' column='[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]' direction='DESC' using='[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]' />
           <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]' included-values='in-range'>
             <min>8.5</min>
@@ -732,6 +767,7 @@
           <slices>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]</column>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -784,10 +820,17 @@
             <column-instance column='[URL]' derivation='None' name='[none:URL:nk]' pivot='key' type='nominal' />
             <column-instance column='[Number of Favorites]' derivation='Sum' name='[sum:Number of Favorites:qk]' pivot='key' type='quantitative' />
           </datasource-dependencies>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]'>
+            <groupfilter function='crossjoin' user:ui-enumeration='all' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[Title]' />
+              <groupfilter function='level-members' level='[URL]' />
+            </groupfilter>
+          </filter>
           <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Favorites:qk]' included-values='non-null' />
           <slices>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Favorites:qk]</column>
             <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[Action (Title,URL)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -1312,7 +1355,7 @@
           <zoom type='entire-view' />
         </viewpoint>
       </viewpoints>
-      <active id='-1' />
+      <active id='15' />
     </window>
   </windows>
   <thumbnails>
