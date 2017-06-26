@@ -7,6 +7,8 @@ using HtmlAgilityPack;
 namespace AnimeExporter {
     
     public class Page {
+
+        public static string Delimiter => "; ";
         
         protected HtmlNode Doc;
         
@@ -47,7 +49,7 @@ namespace AnimeExporter {
                 }
                 node = node.NextSibling;
             }
-            return string.Join(", ", anchorTexts);
+            return string.Join(Delimiter, anchorTexts);
         }
 
         /// <summary>

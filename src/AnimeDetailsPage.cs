@@ -177,6 +177,17 @@ namespace AnimeExporter {
             AnimeDetailsPage animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
                 
             try {
+                
+                // TODO: Use a dictionary instead
+                // Key is the type of data (score, rank, etc.)
+                
+                string[] genres = animeDetailsPage.Genres.Split(
+                    new string[] { Page.Delimiter }, StringSplitOptions.None);
+                
+                foreach (string genre in genres) {
+                    Animes.Genres.Add(genre);
+                }
+                
                 Anime anime = new Anime (
                     animeDetailsPage.Title,
                     url,
@@ -202,7 +213,7 @@ namespace AnimeExporter {
                     animeDetailsPage.Background,
                     animeDetailsPage.Image
                 );
-                    
+                
                 Console.WriteLine("Exported: " + anime + Environment.NewLine);
                 return anime;
             }

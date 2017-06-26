@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -24,23 +25,30 @@ namespace AnimeExporter {
                 return Path.Combine(baseFolderPath, exporterPath);
             }
         }
-        
+
+        public static void PublishDataToGoogleSheet(Animes animes) {
+            PublishGoogleSheet(animes.ToDataTable(), "A1");
+        }
+
+        public static void PublishGenresToGoogleSheet(Animes animes) {
+            PublishGoogleSheet(animes.ToCollectionsTable(), "Genres!A1");
+        }
+
         /// <summary>
-        /// Publishes the <see cref="animes"/> to a the Google Sheet at <see cref="SheetId"/>
+        /// Publishes the <see cref="values"/> to a the Google Sheet at <see cref="SheetId"/>
         /// </summary>
-        /// <param name="animes">The <see cref="Animes"/> to publish</param>
-        public static void PublishGoogleSheet(Animes animes) {
+        /// <param name="values">The data to publish</param>
+        /// <param name="updateRange">Which values to update in the Google Sheet</param>
+        private static void PublishGoogleSheet(IList<IList<object>> values, string updateRange) {
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = SetupCredentials(),
                 ApplicationName = ApplicationName,
             });
-            
-            const string updateRange = "A1";
 
             ValueRange valueRange = new ValueRange {
                 Range = updateRange,
-                Values = animes.ToTable()
+                Values = values
             };
 
             service.Spreadsheets.Values.Update(valueRange, SheetId, updateRange);
@@ -49,7 +57,7 @@ namespace AnimeExporter {
             updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
             UpdateValuesResponse response = updateRequest.Execute();
 
-            Console.WriteLine($"All done, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}");
+            Console.WriteLine($"Updated {updateRange}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}");
         }
 
         /// <summary>The Google Sheet which is published to requires credentials to access.</summary>

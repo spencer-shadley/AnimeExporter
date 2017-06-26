@@ -3,7 +3,8 @@
 
         public static void Main(string[] args) {
             Animes topAnimes = TopAnimePage.ScrapeTopAnimes(0, 100);
-            GoogleSheet.PublishGoogleSheet(topAnimes);
+            GoogleSheet.PublishDataToGoogleSheet(topAnimes);
+            GoogleSheet.PublishGenresToGoogleSheet(topAnimes);
         }
     }
 }
