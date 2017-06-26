@@ -13,7 +13,7 @@ namespace AnimeExporter {
         /// <summary>
         /// Schema for buckets of data (genres, prodcuers, etc.)
         /// </summary>
-        private IList<object> CollectionSchema => new List<object> {
+        private static IList<object> CollectionSchema => new List<object> {
             "Genres"
         };
 
@@ -38,7 +38,7 @@ namespace AnimeExporter {
         }
 
         /// <summary>
-        /// A table of data about each anime
+        /// A table of data representing all <see cref="_animes"/>
         /// </summary>
         public List<IList<object>> ToDataTable() {
             return _animes.Select(anime => anime.Attributes).Cast<IList<object>>().ToList();
