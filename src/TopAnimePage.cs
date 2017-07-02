@@ -31,11 +31,11 @@ namespace AnimeExporter {
         /// Gets one page of urls of the top anime
         /// </summary>
         /// <param name="page">Page of anime to retrieve</param>
-        /// <param name="retryCount">
+        /// <param name="retriesLeft">
         /// Number of times to retry if there are unexpected failures (usually network connectivity issues)
         /// </param>
         /// <returns>AnimeDetailsPage urls to the top anime on page <para>page</para></returns>
-        public static List<string> ScrapeTopAnimeUrls(int page, int retryCount = 10)
+        public static List<string> ScrapeTopAnimeUrls(int page, int retriesLeft)
         {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(GetTopAnimeUrl(page));
@@ -46,8 +46,9 @@ namespace AnimeExporter {
             HtmlNodeCollection anchorNodes = topAnimePage.GetAnchorNodes();
 
             if (anchorNodes == null) {
-                Console.Error.WriteLine($"Page {page} is unable to parse the URLs. Retry count is {retryCount}");
-                return retryCount == 0 ? new List<string>() : ScrapeTopAnimeUrls(page, retryCount - 1);
+                Console.Error.WriteLine($"Page {page} is unable to parse the URLs. Retry count is {retriesLeft}");
+                BackOff(retriesLeft);
+                return retriesLeft == 0 ? new List<string>() : ScrapeTopAnimeUrls(page, retriesLeft - 1);
             }
             
             urls.AddRange(anchorNodes.Select(anchorNode => anchorNode.Attributes["href"].Value));
@@ -87,9 +88,9 @@ namespace AnimeExporter {
         /// <returns>An <see cref="Animes"/> representation of the top anime at <see cref="page"/></returns>
         public static Animes ScrapeTopAnimesPage(int page) {
             Animes animes = new Animes();
-            List<string> topAnimeUrls = ScrapeTopAnimeUrls(page);
+            List<string> topAnimeUrls = ScrapeTopAnimeUrls(page, Page.MaxRetryCount);
             foreach (string url in topAnimeUrls) {
-                animes.Add(AnimeDetailsPage.ScrapeAnime(url));
+                animes.Add(AnimeDetailsPage.ScrapeAnime(url, Page.MaxRetryCount));
             }
             return animes;
         }

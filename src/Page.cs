@@ -2,18 +2,38 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace AnimeExporter {
     
     public class Page {
-
+        
+        public const int MaxRetryCount = 10;
+        
         public static string Delimiter => "; ";
         
         protected HtmlNode Doc;
         
         public Page(HtmlNode document) {
             Doc = document;
+        }
+
+        /// <summary>
+        // Exponentially wait
+        /// </summary>
+        /// <remarks>Combats rate throttling</remarks>
+        /// <remarks>Rate: 2^x * 100ms</remarks>
+        public static void BackOff(int retriesLeft) {
+            const int backOffRate = 100;
+            int waitTime = 2^(Page.MaxRetryCount - retriesLeft) * backOffRate;
+            
+            Console.Error.WriteLine($"Waiting {waitTime/1000} seconds to retry...");
+            
+            Task.Delay(waitTime).Wait();
+            
+            Console.Error.WriteLine("Retrying...");
+            Console.WriteLine();
         }
 
         public static string SelectValue(HtmlNode node, string xPath) {

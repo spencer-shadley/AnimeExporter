@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace AnimeExporter {
@@ -169,9 +170,9 @@ namespace AnimeExporter {
         /// will retry scraping the page twice due to inconsistent network connections before giving up.
         /// </summary>
         /// <param name="url">The url to scrape</param>
-        /// <param name="retryCount">Number of times to retry</param>
+        /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
-        public static Anime ScrapeAnime(string url, int retryCount = 10) {
+        public static Anime ScrapeAnime(string url, int retriesLeft) {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
             AnimeDetailsPage animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
@@ -218,12 +219,13 @@ namespace AnimeExporter {
                 return anime;
             }
             catch(Exception e) {
-                Console.Error.WriteLine($"failed to export an anime (retry count is {retryCount})...");
+                Console.Error.WriteLine($"failed to export an anime (retry count is {retriesLeft})...");
                 Console.Error.WriteLine(e.ToString());
-                Console.WriteLine();
+
+                BackOff(retriesLeft);
 
                 // typically network connectivity issues, see if we should try again
-                return retryCount == 0 ? Anime.Fail() : ScrapeAnime(url, retryCount - 1);
+                return retriesLeft == 0 ? Anime.Fail() : ScrapeAnime(url, retriesLeft - 1);
             }
         }
     }
