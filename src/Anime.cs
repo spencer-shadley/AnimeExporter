@@ -10,6 +10,7 @@ namespace AnimeExporter {
         public Attribute Title            = new Attribute("Title");
         public Attribute EnglishTitle     = new Attribute("English Title");
         public Attribute JapaneseTitle    = new Attribute("Japanese Title");
+        public Attribute Synonyms         = new Attribute("Synonyms");
         public Attribute Url              = new Attribute("URL");
         public Attribute Score            = new Attribute("Score");
         public Attribute NumRatings       = new Attribute("Number of ratings");
@@ -37,9 +38,7 @@ namespace AnimeExporter {
         // adaptation
         // sequel
         // related
-        // English title
         // synonyms
-        // Japanese title
 
         /// <summary>
         /// Gets all <see cref="Attribute"/>
@@ -97,11 +96,22 @@ namespace AnimeExporter {
         }
 
         public override string ToString() {
+            return this.NameToString() + this.ValueToString() + Environment.NewLine;
+        }
+
+        public string NameToString() {
+            return $"{Name}: ";
+        }
+
+        public string ValueToString() {
+            if (Value == null) {
+                return "none";
+            }
+            
             string cleanedValue = Value.Trim().Replace(Environment.NewLine, string.Empty); 
             string truncatedValue = cleanedValue.Length < 100 ?
                 cleanedValue : cleanedValue.Substring(0, Math.Min(100, Value.Length)) + "...[truncated text]";
-            return $"{Name}: {truncatedValue}" +
-                Environment.NewLine;
+            return truncatedValue;
         }
     }
 }

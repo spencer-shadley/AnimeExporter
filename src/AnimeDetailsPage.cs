@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
-using System.Runtime.CompilerServices;
 using HtmlAgilityPack;
 
 namespace AnimeExporter {
@@ -108,6 +107,8 @@ namespace AnimeExporter {
 
         public string JapaneseTitle => this.SelectValueAfterText("Japanese:");
 
+        public string Synonyms => this.SelectValueAfterText("Synonyms:");
+
         public string Popularity => this.SelectValueAfterText("Popularity:").Substring(1); // substring to remove "#"
 
         public string NumberOfMembers => this.SelectValueAfterText("Members:");
@@ -194,6 +195,7 @@ namespace AnimeExporter {
                     Title          = { Value = animeDetailsPage.Title },
                     EnglishTitle   = { Value = animeDetailsPage.EnglishTitle },
                     JapaneseTitle  = { Value = animeDetailsPage.JapaneseTitle },
+                    Synonyms       = { Value = animeDetailsPage.Synonyms },
                     Url            = { Value = url },
                     Score          = { Value = animeDetailsPage.Score },
                     NumRatings     = { Value = animeDetailsPage.NumberOfRatings },
