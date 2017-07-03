@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Threading;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
@@ -19,6 +18,8 @@ namespace AnimeExporter {
         private const string ApplicationName = "Google Sheets API";
         private const string BaseSheetUri = "https://docs.google.com/spreadsheets/d/";
         private const string SheetId = "17KQKFy9o1pPG0Yko2dTYZcRhNSTdNWyI3NLWsJyfqbI";
+        private const string TopAnimeSheetName = "Top Anime";
+        private const string GenresSheetName = "Genres";
         
         private static string CredentialsPath {
             get {
@@ -39,11 +40,23 @@ namespace AnimeExporter {
         }
 
         public static void PublishDataToGoogleSheet(Animes animes) {
-            PublishGoogleSheet(animes.ToDataTable(), "Top Anime");
+            PublishGoogleSheet(animes.ToDataTable(), TopAnimeSheetName);
         }
 
         public static void PublishGenresToGoogleSheet(Animes animes) {
-            PublishGoogleSheet(animes.ToCollectionsTable(), "Genres");
+            PublishGoogleSheet(animes.ToCollectionsTable(), GenresSheetName);
+        }
+
+        public static void BackupData() {
+            BackupSheet(TopAnimeSheetName);
+            BackupSheet(GenresSheetName);
+        }
+
+        private static void BackupSheet(string sheetName) {
+            SpreadsheetsResource.ValuesResource.GetRequest getRequest = Service.Spreadsheets.Values.Get(SheetId, GetEntireRangeOfSheet(sheetName));
+            ValueRange response = getRequest.Execute();
+            
+            PublishGoogleSheet(response.Values, sheetName + " (Backup)");
         }
 
         private static void ClearGoogleSheet(string sheetName) {
@@ -73,7 +86,7 @@ namespace AnimeExporter {
             SpreadsheetsResource.ValuesResource.BatchUpdateRequest updateRequest = Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
             BatchUpdateValuesResponse response = updateRequest.Execute();
 
-            Console.WriteLine($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}");
+            Console.WriteLine($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}" + Environment.NewLine);
         }
 
         /// <summary>The Google Sheet which is published to requires credentials to access.</summary>
