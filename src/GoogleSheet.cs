@@ -13,7 +13,7 @@ namespace AnimeExporter {
     
     public class GoogleSheet {
         
-        private static SheetsService _service = null;
+        private static SheetsService _service;
         private static readonly string[] Scopes = {SheetsService.Scope.Spreadsheets};
         private const string ApplicationName = "Google Sheets API";
         private const string BaseSheetUri = "https://docs.google.com/spreadsheets/d/";
@@ -109,10 +109,6 @@ namespace AnimeExporter {
             }
             Debug.Assert(credential != null);
             return credential;
-        }
-
-        private static string GetRangeToUpdate(string sheetName) {
-            return $"'{sheetName}'!A1";
         }
 
         /// <summary>
