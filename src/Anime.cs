@@ -8,6 +8,7 @@ namespace AnimeExporter {
     public class Anime {
 
         public Attribute Title        = new Attribute("Title");
+        public Attribute EnglishTitle = new Attribute("English Title");
         public Attribute Url          = new Attribute("URL");
         public Attribute Score        = new Attribute("Score");
         public Attribute NumRatings   = new Attribute("Number of ratings");

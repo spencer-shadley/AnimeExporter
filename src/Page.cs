@@ -26,7 +26,7 @@ namespace AnimeExporter {
         /// <remarks>Rate: 2^x * 100ms</remarks>
         public static void BackOff(int retriesLeft) {
             const int backOffRate = 100;
-            int waitTime = 2^(Page.MaxRetryCount - retriesLeft) * backOffRate;
+            int waitTime = 2^(MaxRetryCount - retriesLeft) * backOffRate;
             
             Console.Error.WriteLine($"Waiting {waitTime/1000} seconds to retry...");
             

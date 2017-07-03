@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using HtmlAgilityPack;
 
 namespace AnimeExporter {
@@ -18,6 +18,7 @@ namespace AnimeExporter {
     /// the webpage itself (each method takes ~0.12% of the overall program time) so I am going to avoid
     /// doing premature optimizations and focus on making this more robust, rather than faster.
     /// There are more perf details in the tracing output at data/performance snapshot.dtp
+    /// Note: This taking longer actaully helps to combat the rate throttling on MyAnimeList
     /// </remarks>
     public class AnimeDetailsPage : Page {
         
@@ -103,6 +104,8 @@ namespace AnimeExporter {
             }
         }
 
+        public string EnglishTitle => this.SelectValueAfterText("English:");
+
         public string Popularity => this.SelectValueAfterText("Popularity:").Substring(1);
 
         public string NumberOfMembers => this.SelectValueAfterText("Members:");
@@ -173,17 +176,13 @@ namespace AnimeExporter {
         /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
         public static Anime ScrapeAnime(string url, int retriesLeft) {
-            HtmlWeb web = new HtmlWeb();
+            var web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
-            AnimeDetailsPage animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
+            var animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
                 
             try {
-                
-                // TODO: Use a dictionary instead
-                // Key is the type of data (score, rank, etc.)
-                
                 string[] genres = animeDetailsPage.Genres.Split(
-                    new string[] { Page.Delimiter }, StringSplitOptions.None);
+                    new string[] { Delimiter }, StringSplitOptions.None);
                 
                 foreach (string genre in genres) {
                     Animes.Genres.Add(genre);
@@ -191,6 +190,7 @@ namespace AnimeExporter {
 
                 var anime = new Anime {
                     Title          = { Value = animeDetailsPage.Title },
+                    EnglishTitle   = { Value = animeDetailsPage.EnglishTitle },
                     Url            = { Value = url },
                     Score          = { Value = animeDetailsPage.Score },
                     NumRatings     = { Value = animeDetailsPage.NumberOfRatings },
