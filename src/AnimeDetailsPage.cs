@@ -188,34 +188,34 @@ namespace AnimeExporter {
                 foreach (string genre in genres) {
                     Animes.Genres.Add(genre);
                 }
-                
-                Anime anime = new Anime (
-                    animeDetailsPage.Title,
-                    url,
-                    animeDetailsPage.Score,
-                    animeDetailsPage.NumberOfRatings,
-                    animeDetailsPage.Rank,
-                    animeDetailsPage.Popularity,
-                    animeDetailsPage.NumberOfMembers,
-                    animeDetailsPage.NumberOfFavorites,
-                    animeDetailsPage.MediaType,
-                    animeDetailsPage.NumberOfEpisodes,
-                    animeDetailsPage.Status,
-                    animeDetailsPage.AirStartDate,
-                    animeDetailsPage.AirFinishDate,
-                    animeDetailsPage.Producers,
-                    animeDetailsPage.Licensors,
-                    animeDetailsPage.Studios,
-                    animeDetailsPage.Genres,
-                    animeDetailsPage.Duration,
-                    animeDetailsPage.Rating,
-                    animeDetailsPage.Source,
-                    animeDetailsPage.Synopsis,
-                    animeDetailsPage.Background,
-                    animeDetailsPage.Image
-                );
-                
-                Console.WriteLine("Exported: " + anime + Environment.NewLine);
+
+                var anime = new Anime {
+                    Title          = { Value = animeDetailsPage.Title },
+                    Url            = { Value = url },
+                    Score          = { Value = animeDetailsPage.Score },
+                    NumRatings     = { Value = animeDetailsPage.NumberOfRatings },
+                    Rank           = { Value = animeDetailsPage.Rank },
+                    Popularity     = { Value = animeDetailsPage.Popularity },
+                    NumMembers     = { Value = animeDetailsPage.NumberOfMembers },
+                    NumFavorites   = { Value = animeDetailsPage.NumberOfFavorites },
+                    MediaType      = { Value = animeDetailsPage.MediaType },
+                    NumEpisodes    = { Value = animeDetailsPage.NumberOfEpisodes },
+                    Status         = { Value = animeDetailsPage.Status },
+                    DateStarted    = { Value = animeDetailsPage.AirStartDate },
+                    DateFinished   = { Value = animeDetailsPage.AirFinishDate },
+                    Producers      = { Value = animeDetailsPage.Producers },
+                    Licensors      = { Value = animeDetailsPage.Licensors },
+                    Studios        = { Value = animeDetailsPage.Studios },
+                    Genres         = { Value = animeDetailsPage.Genres },
+                    Duration       = { Value = animeDetailsPage.Duration },
+                    Rating         = { Value = animeDetailsPage.Rating },
+                    Source         = { Value = animeDetailsPage.Source },
+                    Synopsis       = { Value = animeDetailsPage.Synopsis },
+                    Background     = { Value = animeDetailsPage.Background },
+                    Image          = { Value = animeDetailsPage.Image }
+                };
+
+                Console.WriteLine(anime + Environment.NewLine);
                 return anime;
             }
             catch(Exception e) {

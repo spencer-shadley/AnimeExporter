@@ -6,7 +6,8 @@ namespace AnimeExporter {
     
     public class Animes : IEnumerable<Anime> {
 
-        private readonly List<Anime> _animes = new List<Anime>();
+        private readonly Dictionary<string, Anime> _animes = new Dictionary<string, Anime>();
+//        private readonly List<Anime> _animes = new List<Anime>();
         
         public static HashSet<string> Genres = new HashSet<string>();
         
@@ -18,7 +19,7 @@ namespace AnimeExporter {
         };
 
         public void Add(Anime anime) {
-            _animes.Add(anime);
+//            _animes.Add(anime);
         }
 
         public void Add(Animes animes) {
@@ -27,6 +28,8 @@ namespace AnimeExporter {
             }
         }
 
+        // TODO: public static implicit operator Attribute(string value)
+        
         /// <summary>
         /// A table of metadata about each bucket (genres, producers, etc.) of data
         /// </summary>
@@ -41,11 +44,13 @@ namespace AnimeExporter {
         /// A table of data representing all <see cref="_animes"/>
         /// </summary>
         public List<IList<object>> ToDataTable() {
-            return _animes.Select(anime => anime.Attributes).Cast<IList<object>>().ToList();
+            return null;
+//            return _animes.Select(anime => anime.Attributes).Cast<IList<object>>().ToList();
         }
 
         public IEnumerator<Anime> GetEnumerator() {
-            return _animes.GetEnumerator();
+            return null;
+//            return _animes.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
