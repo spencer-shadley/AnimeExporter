@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
@@ -13,11 +14,12 @@ namespace AnimeExporter {
     
     public class GoogleSheet {
         
+        private static SheetsService _service = null;
         private static readonly string[] Scopes = {SheetsService.Scope.Spreadsheets};
         private const string ApplicationName = "Google Sheets API";
         private const string BaseSheetUri = "https://docs.google.com/spreadsheets/d/";
         private const string SheetId = "17KQKFy9o1pPG0Yko2dTYZcRhNSTdNWyI3NLWsJyfqbI";
-
+        
         private static string CredentialsPath {
             get {
                 string baseFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -26,38 +28,52 @@ namespace AnimeExporter {
             }
         }
 
+        private static SheetsService Service {
+            get {
+                _service = _service ?? new SheetsService(new BaseClientService.Initializer() {
+                    HttpClientInitializer = SetupCredentials(),
+                    ApplicationName = ApplicationName,
+                });
+                return _service;
+            }
+        }
+
         public static void PublishDataToGoogleSheet(Animes animes) {
-            PublishGoogleSheet(animes.ToDataTable(), "A1");
+            PublishGoogleSheet(animes.ToDataTable(), "Top Anime");
         }
 
         public static void PublishGenresToGoogleSheet(Animes animes) {
-            PublishGoogleSheet(animes.ToCollectionsTable(), "Genres!A1");
+            PublishGoogleSheet(animes.ToCollectionsTable(), "Genres");
+        }
+
+        private static void ClearGoogleSheet(string sheetName) {
+            ClearValuesRequest request = new ClearValuesRequest();
+            SpreadsheetsResource.ValuesResource.ClearRequest clearRequest = Service.Spreadsheets.Values.Clear(request, SheetId, GetEntireRangeOfSheet(sheetName));
+            ClearValuesResponse response = clearRequest.Execute();
+            Console.WriteLine($"Cleared {response.ClearedRange}");
         }
 
         /// <summary>
         /// Publishes the <see cref="values"/> to a the Google Sheet at <see cref="SheetId"/>
         /// </summary>
         /// <param name="values">The data to publish</param>
-        /// <param name="updateRange">Which values to update in the Google Sheet</param>
-        private static void PublishGoogleSheet(IList<IList<object>> values, string updateRange) {
-            var service = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = SetupCredentials(),
-                ApplicationName = ApplicationName,
-            });
+        /// <param name="sheetName">The sheet to update</param>
+        private static void PublishGoogleSheet(IList<IList<object>> values, string sheetName) {
+            ClearGoogleSheet(sheetName);
 
-            ValueRange valueRange = new ValueRange {
-                Range = updateRange,
-                Values = values
+            ValueRange updateValues = new ValueRange {
+                Values = values,
+                Range = GetEntireRangeOfSheet(sheetName)
             };
+            
+            BatchUpdateValuesRequest request = new BatchUpdateValuesRequest {
+                Data = new[] {updateValues},
+                ValueInputOption = "USER_ENTERED"
+            };
+            SpreadsheetsResource.ValuesResource.BatchUpdateRequest updateRequest = Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
+            BatchUpdateValuesResponse response = updateRequest.Execute();
 
-            service.Spreadsheets.Values.Update(valueRange, SheetId, updateRange);
-            SpreadsheetsResource.ValuesResource.UpdateRequest updateRequest =
-                service.Spreadsheets.Values.Update(valueRange, SheetId, updateRange);
-            updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
-            UpdateValuesResponse response = updateRequest.Execute();
-
-            Console.WriteLine($"Updated {updateRange}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}");
+            Console.WriteLine($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}");
         }
 
         /// <summary>The Google Sheet which is published to requires credentials to access.</summary>
@@ -80,6 +96,19 @@ namespace AnimeExporter {
             }
             Debug.Assert(credential != null);
             return credential;
+        }
+
+        private static string GetRangeToUpdate(string sheetName) {
+            return $"'{sheetName}'!A1";
+        }
+
+        /// <summary>
+        /// Tries to return A1 notation for the range of an entire sheet
+        /// </summary>
+        /// <param name="sheetName">The title of the sheet to select notation for</param>
+        /// <remarks>Will fail if the sheet exceeds 26^3 columns or 1,000,000 rows</remarks>
+        private static string GetEntireRangeOfSheet(string sheetName) {
+            return $"'{sheetName}'!A1:ZZZ1000000";
         }
     }
 }
