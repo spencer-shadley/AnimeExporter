@@ -47,6 +47,10 @@ namespace AnimeExporter {
             PublishGoogleSheet(animes.ToCollectionsTable(), GenresSheetName);
         }
 
+        /// <summary>
+        /// Backs up the data found at "Sheet" to "Sheet (Backup)"
+        /// </summary>
+        /// <remarks>Useful for when a scraping goes wrong...</remarks>
         public static void BackupData() {
             BackupSheet(TopAnimeSheetName);
             BackupSheet(GenresSheetName);
