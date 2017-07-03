@@ -106,7 +106,9 @@ namespace AnimeExporter {
 
         public string EnglishTitle => this.SelectValueAfterText("English:");
 
-        public string Popularity => this.SelectValueAfterText("Popularity:").Substring(1);
+        public string JapaneseTitle => this.SelectValueAfterText("Japanese:");
+
+        public string Popularity => this.SelectValueAfterText("Popularity:").Substring(1); // substring to remove "#"
 
         public string NumberOfMembers => this.SelectValueAfterText("Members:");
 
@@ -191,6 +193,7 @@ namespace AnimeExporter {
                 var anime = new Anime {
                     Title          = { Value = animeDetailsPage.Title },
                     EnglishTitle   = { Value = animeDetailsPage.EnglishTitle },
+                    JapaneseTitle  = { Value = animeDetailsPage.JapaneseTitle },
                     Url            = { Value = url },
                     Score          = { Value = animeDetailsPage.Score },
                     NumRatings     = { Value = animeDetailsPage.NumberOfRatings },
