@@ -225,7 +225,7 @@ namespace AnimeExporter {
                 BackOff(retriesLeft);
 
                 // typically network connectivity issues, see if we should try again
-                return retriesLeft == 0 ? Anime.Fail() : ScrapeAnime(url, retriesLeft - 1);
+                return retriesLeft == 0 ? null : ScrapeAnime(url, retriesLeft - 1);
             }
         }
     }

@@ -31,26 +31,21 @@ namespace AnimeExporter {
         public Attribute Background   = new Attribute("Background");
         public Attribute Image        = new Attribute("Image");
         
+        // TODO: the below fields
+        // adaptation
+        // sequel
+        // related
+        // English title
+        // synonyms
+        // Japanese title
+        
         /*private static readonly object[] SchemaAttributes = {
             "Title", "URL", "Score", "Number of ratings", "Rank", "Popularity",
             "Number of Members", "Number of Favorites", "Type of Media", "Number of Episodes",
             "Status", "Date Started Airing", "Date Finished Airing", "Producers", "Licensors",
             "Studios", "Genres", "Duration", "Rating", "Source", "Synopsis", "Background", "Image"
             
-            // TODO: the below fields
-            // adaptation
-            // sequel
-            // related
-            // English title
-            // synonyms
-            // Japanese title
         };*/
-
-        /*public Anime(params object[] attributes) {
-            foreach (object attribute in attributes) {
-                Attributes.Add(attribute);
-            }
-        }*/
 
         /// <summary>
         /// Gets all <see cref="Attribute"/>
@@ -67,30 +62,27 @@ namespace AnimeExporter {
         }
         
         public static Anime Schema() {
-            return new Anime(/*SchemaAttributes*/);
-        }
-
-        public static Anime Fail() {
-            return new Anime(/*"Failed to export this anime"*/);
+            return new Anime();
         }
 
         public override string ToString() {
             return AllAttributes.Aggregate(string.Empty, (current, attribute) => current + attribute);
         }
-        
-//        public override string ToString() {
-//            return string.Join(Environment.NewLine,
-//                Attributes.Where(attribute => attribute.ToString().Length < 100)); // avoid things like synposis
-//        }
     }
 
     public struct Attribute {
         public string Name { get; }
         public string Value { get; set; }
 
+        /// <summary>
+        /// If the value hasn't updated from it's default value it is assumed to be a failure
+        /// </summary>
+        /// <remarks>This will not work if <see cref="Value"/> is expected to be <see cref="Name"/></remarks>
+        public bool IsFailure => Name.Equals(Value);
+
         public Attribute(string name) {
             this.Name = name;
-            this.Value = null;
+            this.Value = name;
         }
 
         public override string ToString() {

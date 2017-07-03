@@ -90,7 +90,13 @@ namespace AnimeExporter {
             Animes animes = new Animes();
             List<string> topAnimeUrls = ScrapeTopAnimeUrls(page, Page.MaxRetryCount);
             foreach (string url in topAnimeUrls) {
-                animes.Add(AnimeDetailsPage.ScrapeAnime(url, Page.MaxRetryCount));
+                Anime scrapedAnime = AnimeDetailsPage.ScrapeAnime(url, Page.MaxRetryCount);
+                
+                if (scrapedAnime == null) {
+                    continue;
+                }
+                
+                animes.Add(scrapedAnime);
             }
             return animes;
         }
