@@ -31,21 +31,13 @@ namespace AnimeExporter {
         public Attribute Background   = new Attribute("Background");
         public Attribute Image        = new Attribute("Image");
         
-        // TODO: the below fields
+        // TODO: the below Attributes
         // adaptation
         // sequel
         // related
         // English title
         // synonyms
         // Japanese title
-        
-        /*private static readonly object[] SchemaAttributes = {
-            "Title", "URL", "Score", "Number of ratings", "Rank", "Popularity",
-            "Number of Members", "Number of Favorites", "Type of Media", "Number of Episodes",
-            "Status", "Date Started Airing", "Date Finished Airing", "Producers", "Licensors",
-            "Studios", "Genres", "Duration", "Rating", "Source", "Synopsis", "Background", "Image"
-            
-        };*/
 
         /// <summary>
         /// Gets all <see cref="Attribute"/>
@@ -61,8 +53,22 @@ namespace AnimeExporter {
             }
         }
         
+        /// <summary>
+        /// Gets the schema based on each attribute in the anime
+        /// </summary>
+        /// <remarks>
+        /// Currently <see cref="Attribute"/> defaults value to the schema value
+        /// so only a default anime needs to be constructed.
+        /// </remarks>
         public static Anime Schema() {
             return new Anime();
+        }
+
+        /// <summary>
+        /// Converts to a row of data which is expected to be used in a table for publishing later
+        /// </summary>
+        public List<object> ToRow() {
+            return AllAttributes.Select(attribute => attribute.Value).Cast<object>().ToList();
         }
 
         public override string ToString() {
@@ -70,6 +76,9 @@ namespace AnimeExporter {
         }
     }
 
+    /// <summary>
+    /// Represents a piece of info about an anime using a Name/Value pair
+    /// </summary>
     public struct Attribute {
         public string Name { get; }
         public string Value { get; set; }
@@ -81,8 +90,8 @@ namespace AnimeExporter {
         public bool IsFailure => Name.Equals(Value);
 
         public Attribute(string name) {
-            this.Name = name;
-            this.Value = name;
+            Name = name;
+            Value = name;
         }
 
         public override string ToString() {

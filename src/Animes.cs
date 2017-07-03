@@ -7,7 +7,6 @@ namespace AnimeExporter {
     public class Animes : IEnumerable<Anime> {
 
         private readonly Dictionary<string, Anime> _animes = new Dictionary<string, Anime>();
-//        private readonly List<Anime> _animes = new List<Anime>();
         
         public static HashSet<string> Genres = new HashSet<string>();
         
@@ -18,11 +17,20 @@ namespace AnimeExporter {
             "Genres"
         };
 
+        /// <summary>
+        /// Adds an anime to the existing collection assuming it does not already exist
+        /// </summary>
+        /// <param name="anime">The anime to add</param>
         public void Add(Anime anime) {
-//            _animes.Add(anime);
+            _animes[anime.Url.Value] = anime;
         }
 
-        public void Add(Animes animes) {
+        /// <summary>
+        /// Combines <see cref="animes"/> to the existing <see cref="Animes"/>
+        /// </summary>
+        /// <param name="animes">The animes to add</param>
+        /// <remarks>In the case of an already existing anime the original ('this') wins</remarks>
+        public void Merge(Animes animes) {
             foreach (Anime anime in animes) {
                 this.Add(anime);
             }
@@ -44,16 +52,16 @@ namespace AnimeExporter {
         /// A table of data representing all <see cref="_animes"/>
         /// </summary>
         public List<IList<object>> ToDataTable() {
-            return null;
-//            return _animes.Select(anime => anime.Attributes).Cast<IList<object>>().ToList();
+            return this.Select(anime => anime.ToRow()).Cast<IList<object>>().ToList();
+        }
+        
+        public IEnumerator<Anime> GetEnumerator()
+        {
+            return _animes.Values.GetEnumerator();
         }
 
-        public IEnumerator<Anime> GetEnumerator() {
-            return null;
-//            return _animes.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
+        IEnumerator IEnumerable.GetEnumerator()
+        {
             return this.GetEnumerator();
         }
     }
