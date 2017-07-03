@@ -489,7 +489,7 @@
           </named-connection>
         </named-connections>
         <relation connection='google-sheets.0o2ab0f0w5exig11tlfe00jwzoqs' name='Top Anime' table='[&apos;Top Anime$&apos;]' type='table'>
-          <columns gridOrigin='A1:W2851:no:A1:W2851:0' header='yes' outcome='2'>
+          <columns gridOrigin='A1:W5051:no:A1:W5051:0' header='yes' outcome='2'>
             <column datatype='string' name='Title' ordinal='0' />
             <column datatype='string' name='URL' ordinal='1' />
             <column datatype='real' name='Score' ordinal='2' />
@@ -525,8 +525,8 @@
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
             <attributes>
-              <attribute datatype='integer' name='context'>2</attribute>
-              <attribute datatype='string' name='gridOrigin'>&quot;A1:W2851:no:A1:W2851:0&quot;</attribute>
+              <attribute datatype='integer' name='context'>6</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:W5051:no:A1:W5051:0&quot;</attribute>
               <attribute datatype='boolean' name='header'>true</attribute>
               <attribute datatype='integer' name='outcome'>2</attribute>
             </attributes>
@@ -1431,177 +1431,6 @@
         <cols>[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Favorites:qk]</cols>
       </table>
     </worksheet>
-    <worksheet name='Has Anime Been Getting Longer?'>
-      <table>
-        <view>
-          <datasources>
-            <datasource caption='Top Anime (Anime Exports)' name='federated.16528900by6s131f9qlq90dm3noc' />
-            <datasource name='Parameters' />
-          </datasources>
-          <datasource-dependencies datasource='Parameters'>
-            <column caption='Avoid Genre3' datatype='string' name='[Avoid Genre1 (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;None&quot;'>
-              <calculation class='tableau' formula='&quot;None&quot;' />
-            </column>
-            <column caption='Avoid Genre2' datatype='string' name='[Avoid Genre1 (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;None&quot;'>
-              <calculation class='tableau' formula='&quot;None&quot;' />
-            </column>
-            <column caption='Required Genre1' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
-              <calculation class='tableau' formula='&quot;Any&quot;' />
-            </column>
-            <column caption='Required Genre2' datatype='string' name='[Required Genre1 (copy) (copy) (copy) (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
-              <calculation class='tableau' formula='&quot;Any&quot;' />
-            </column>
-            <column caption='Required Genre3' datatype='string' name='[Required Genre1 (copy) (copy) (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
-              <calculation class='tableau' formula='&quot;Any&quot;' />
-            </column>
-            <column caption='Required Genre4' datatype='string' name='[Required Genre1 (copy) (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
-              <calculation class='tableau' formula='&quot;Any&quot;' />
-            </column>
-            <column caption='Required Genre5' datatype='string' name='[Required Genre1 (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
-              <calculation class='tableau' formula='&quot;Any&quot;' />
-            </column>
-            <column caption='Required Genre6' datatype='string' name='[Required Genre1 (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
-              <calculation class='tableau' formula='&quot;Any&quot;' />
-            </column>
-            <column caption='Avoid Genre1' datatype='string' name='[Required Genre6 (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;None&quot;'>
-              <calculation class='tableau' formula='&quot;None&quot;' />
-            </column>
-          </datasource-dependencies>
-          <datasource-dependencies datasource='federated.16528900by6s131f9qlq90dm3noc'>
-            <column caption='HasGenres' datatype='boolean' name='[Calculation_379991242418241536]' role='dimension' type='nominal'>
-              <calculation class='tableau' formula='(CONTAINS([Genres], [Parameters].[Parameter 1]) OR [Parameters].[Parameter 1] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy) (copy) (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy) (copy) (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy) (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy) (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy)]) OR [Parameters].[Required Genre1 (copy)] = &quot;Any&quot;) AND&#13;&#10;((NOT CONTAINS([Genres], [Parameters].[Required Genre6 (copy)])) OR [Parameters].[Required Genre6 (copy)] = &quot;None&quot;) AND&#13;&#10;((NOT CONTAINS([Genres], [Parameters].[Avoid Genre1 (copy)])) OR [Parameters].[Avoid Genre1 (copy)] = &quot;None&quot;) AND&#13;&#10;((NOT CONTAINS([Genres], [Parameters].[Avoid Genre1 (copy) (copy)])) OR [Parameters].[Avoid Genre1 (copy) (copy)] = &quot;None&quot;)' />
-            </column>
-            <column datatype='date' name='[Date Started Airing]' role='dimension' type='ordinal' />
-            <column datatype='string' name='[Genres]' role='dimension' type='nominal' />
-            <column datatype='integer' name='[Number of Episodes]' role='measure' type='quantitative' />
-            <column datatype='string' name='[Title]' role='dimension' type='nominal' />
-            <column-instance column='[Calculation_379991242418241536]' derivation='None' name='[none:Calculation_379991242418241536:nk]' pivot='key' type='nominal' />
-            <column-instance column='[Title]' derivation='None' name='[none:Title:nk]' pivot='key' type='nominal' />
-            <column-instance column='[Number of Episodes]' derivation='Sum' name='[sum:Number of Episodes:qk]' pivot='key' type='quantitative' />
-            <column-instance column='[Date Started Airing]' derivation='Day-Trunc' name='[tdy:Date Started Airing:qk]' pivot='key' type='quantitative' />
-            <column-instance column='[Date Started Airing]' derivation='Year-Trunc' name='[tyr:Date Started Airing:qk]' pivot='key' type='quantitative' />
-            <column-instance column='[Date Started Airing]' derivation='Year' name='[yr:Date Started Airing:ok]' pivot='key' type='ordinal' />
-          </datasource-dependencies>
-          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (DAY(Date Started Airing),Title)]'>
-            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
-              <groupfilter function='crossjoin'>
-                <groupfilter function='level-members' level='[tdy:Date Started Airing:qk]' />
-                <groupfilter function='level-members' level='[none:Title:nk]' />
-              </groupfilter>
-              <groupfilter function='reorder-dimensionality'>
-                <groupfilter function='crossjoin'>
-                  <groupfilter function='member' level='[none:Title:nk]' member='&quot;Failed to export this anime&quot;' />
-                  <groupfilter function='union'>
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#1984-10-04 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#1997-02-01 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2000-08-25 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2002-08-25 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2004-10-05 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2007-10-03 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2008-07-19 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2008-10-17 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2009-01-03 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2009-04-05 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2009-07-24 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2010-04-14 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2010-07-09 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-04-03 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-06-16 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-06-23 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-10-04 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-12-20 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2013-04-24 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2013-10-06 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2013-10-10 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2014-01-29 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2015-01-28 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2015-07-04 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2015-07-07 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2016-07-09 00:00:00#' />
-                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2016-12-20 00:00:00#' />
-                  </groupfilter>
-                </groupfilter>
-                <order>
-                  <hierarchy name='[tdy:Date Started Airing:qk]' />
-                  <hierarchy name='[none:Title:nk]' />
-                </order>
-              </groupfilter>
-            </groupfilter>
-          </filter>
-          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (Title,YEAR(Date Started Airing))]'>
-            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
-              <groupfilter function='crossjoin'>
-                <groupfilter function='level-members' level='[none:Title:nk]' />
-                <groupfilter function='level-members' level='[tyr:Date Started Airing:qk]' />
-              </groupfilter>
-              <groupfilter function='crossjoin'>
-                <groupfilter function='member' level='[none:Title:nk]' member='&quot;Failed to export this anime&quot;' />
-                <groupfilter function='member' level='[tyr:Date Started Airing:qk]' member='#1998-01-01 00:00:00#' />
-              </groupfilter>
-            </groupfilter>
-          </filter>
-          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[none:Calculation_379991242418241536:nk]'>
-            <groupfilter function='member' level='[none:Calculation_379991242418241536:nk]' member='true' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
-          </filter>
-          <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' included-values='non-null' />
-          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[yr:Date Started Airing:ok]'>
-            <groupfilter function='except' user:ui-domain='relevant' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
-              <groupfilter function='level-members' level='[yr:Date Started Airing:ok]' />
-              <groupfilter function='member' level='[yr:Date Started Airing:ok]' member='%null%' />
-            </groupfilter>
-          </filter>
-          <slices>
-            <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]</column>
-            <column>[federated.16528900by6s131f9qlq90dm3noc].[yr:Date Started Airing:ok]</column>
-            <column>[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (DAY(Date Started Airing),Title)]</column>
-            <column>[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]</column>
-            <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Calculation_379991242418241536:nk]</column>
-            <column>[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (Title,YEAR(Date Started Airing))]</column>
-          </slices>
-          <aggregation value='true' />
-        </view>
-        <style>
-          <style-rule element='axis'>
-            <format attr='subtitle' class='0' field='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' scope='rows' value='' />
-            <format attr='auto-subtitle' class='0' field='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' scope='rows' value='true' />
-          </style-rule>
-          <style-rule element='cell'>
-            <format attr='height' value='1127' />
-          </style-rule>
-          <style-rule element='refline'>
-            <format attr='fill-above' id='refline0' value='#00000000' />
-            <format attr='fill-below' id='refline0' value='#00000000' />
-            <format attr='fill-above' id='refline2' value='#00000000' />
-            <format attr='fill-below' id='refline2' value='#00000000' />
-          </style-rule>
-        </style>
-        <panes>
-          <pane selection-relaxation-option='selection-relaxation-allow'>
-            <view>
-              <breakdown value='auto' />
-            </view>
-            <mark class='Shape' />
-            <encodings>
-              <lod column='[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]' />
-            </encodings>
-            <reference-line axis-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' enable-instant-analytics='true' fill-above='false' fill-below='false' formula='confidence' id='refline0' label='' label-type='custom' paired-distribution-id='refline2' probability='95' scope='per-table' show-lines='both' symmetric='false' value-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' z-order='3' />
-            <reference-line axis-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' enable-instant-analytics='true' formula='average' id='refline1' label-type='automatic' probability='95' scope='per-table' value-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' z-order='1' />
-            <reference-line axis-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' enable-instant-analytics='true' formula='average' id='refline2' label='&lt;Computation&gt;: &lt;Value&gt;' label-type='custom' paired-distribution-id='refline0' probability='95' scope='per-table' value-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' z-order='2' />
-            <style>
-              <style-rule element='mark'>
-                <format attr='shape' value='circle' />
-              </style-rule>
-              <style-rule element='pane'>
-                <format attr='minheight' value='-1' />
-                <format attr='maxheight' value='-1' />
-              </style-rule>
-            </style>
-          </pane>
-        </panes>
-        <rows>[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]</rows>
-        <cols>[federated.16528900by6s131f9qlq90dm3noc].[tyr:Date Started Airing:qk]</cols>
-      </table>
-    </worksheet>
     <worksheet name='Highest Rated'>
       <layout-options>
         <title>
@@ -1732,6 +1561,184 @@
         </panes>
         <rows>[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Favorites:qk]</rows>
         <cols />
+      </table>
+    </worksheet>
+    <worksheet name='Number of Episodes over Time'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Top Anime (Anime Exports)' name='federated.16528900by6s131f9qlq90dm3noc' />
+            <datasource name='Parameters' />
+          </datasources>
+          <datasource-dependencies datasource='Parameters'>
+            <column caption='Avoid Genre3' datatype='string' name='[Avoid Genre1 (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;None&quot;'>
+              <calculation class='tableau' formula='&quot;None&quot;' />
+            </column>
+            <column caption='Avoid Genre2' datatype='string' name='[Avoid Genre1 (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;None&quot;'>
+              <calculation class='tableau' formula='&quot;None&quot;' />
+            </column>
+            <column caption='Required Genre1' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
+              <calculation class='tableau' formula='&quot;Any&quot;' />
+            </column>
+            <column caption='Required Genre2' datatype='string' name='[Required Genre1 (copy) (copy) (copy) (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
+              <calculation class='tableau' formula='&quot;Any&quot;' />
+            </column>
+            <column caption='Required Genre3' datatype='string' name='[Required Genre1 (copy) (copy) (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
+              <calculation class='tableau' formula='&quot;Any&quot;' />
+            </column>
+            <column caption='Required Genre4' datatype='string' name='[Required Genre1 (copy) (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
+              <calculation class='tableau' formula='&quot;Any&quot;' />
+            </column>
+            <column caption='Required Genre5' datatype='string' name='[Required Genre1 (copy) (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
+              <calculation class='tableau' formula='&quot;Any&quot;' />
+            </column>
+            <column caption='Required Genre6' datatype='string' name='[Required Genre1 (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;Any&quot;'>
+              <calculation class='tableau' formula='&quot;Any&quot;' />
+            </column>
+            <column caption='Avoid Genre1' datatype='string' name='[Required Genre6 (copy)]' param-domain-type='list' role='measure' type='nominal' value='&quot;None&quot;'>
+              <calculation class='tableau' formula='&quot;None&quot;' />
+            </column>
+          </datasource-dependencies>
+          <datasource-dependencies datasource='federated.16528900by6s131f9qlq90dm3noc'>
+            <column caption='HasGenres' datatype='boolean' name='[Calculation_379991242418241536]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='(CONTAINS([Genres], [Parameters].[Parameter 1]) OR [Parameters].[Parameter 1] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy) (copy) (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy) (copy) (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy) (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy) (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy) (copy)]) OR [Parameters].[Required Genre1 (copy) (copy)] = &quot;Any&quot;) AND&#13;&#10;(CONTAINS([Genres], [Parameters].[Required Genre1 (copy)]) OR [Parameters].[Required Genre1 (copy)] = &quot;Any&quot;) AND&#13;&#10;((NOT CONTAINS([Genres], [Parameters].[Required Genre6 (copy)])) OR [Parameters].[Required Genre6 (copy)] = &quot;None&quot;) AND&#13;&#10;((NOT CONTAINS([Genres], [Parameters].[Avoid Genre1 (copy)])) OR [Parameters].[Avoid Genre1 (copy)] = &quot;None&quot;) AND&#13;&#10;((NOT CONTAINS([Genres], [Parameters].[Avoid Genre1 (copy) (copy)])) OR [Parameters].[Avoid Genre1 (copy) (copy)] = &quot;None&quot;)' />
+            </column>
+            <column datatype='date' name='[Date Started Airing]' role='dimension' type='ordinal' />
+            <column datatype='string' name='[Genres]' role='dimension' type='nominal' />
+            <column datatype='integer' name='[Number of Episodes]' role='measure' type='quantitative' />
+            <column datatype='real' name='[Score]' role='measure' type='quantitative' />
+            <column datatype='string' name='[Title]' role='dimension' type='nominal' />
+            <column-instance column='[Calculation_379991242418241536]' derivation='None' name='[none:Calculation_379991242418241536:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Title]' derivation='None' name='[none:Title:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Number of Episodes]' derivation='Sum' name='[sum:Number of Episodes:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Score]' derivation='Sum' name='[sum:Score:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Date Started Airing]' derivation='Day-Trunc' name='[tdy:Date Started Airing:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Date Started Airing]' derivation='Year-Trunc' name='[tyr:Date Started Airing:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Date Started Airing]' derivation='Year' name='[yr:Date Started Airing:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (DAY(Date Started Airing),Title)]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
+              <groupfilter function='crossjoin'>
+                <groupfilter function='level-members' level='[tdy:Date Started Airing:qk]' />
+                <groupfilter function='level-members' level='[none:Title:nk]' />
+              </groupfilter>
+              <groupfilter function='reorder-dimensionality'>
+                <groupfilter function='crossjoin'>
+                  <groupfilter function='member' level='[none:Title:nk]' member='&quot;Failed to export this anime&quot;' />
+                  <groupfilter function='union'>
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#1984-10-04 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#1997-02-01 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2000-08-25 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2002-08-25 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2004-10-05 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2007-10-03 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2008-07-19 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2008-10-17 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2009-01-03 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2009-04-05 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2009-07-24 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2010-04-14 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2010-07-09 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-04-03 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-06-16 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-06-23 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-10-04 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2012-12-20 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2013-04-24 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2013-10-06 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2013-10-10 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2014-01-29 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2015-01-28 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2015-07-04 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2015-07-07 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2016-07-09 00:00:00#' />
+                    <groupfilter function='member' level='[tdy:Date Started Airing:qk]' member='#2016-12-20 00:00:00#' />
+                  </groupfilter>
+                </groupfilter>
+                <order>
+                  <hierarchy name='[tdy:Date Started Airing:qk]' />
+                  <hierarchy name='[none:Title:nk]' />
+                </order>
+              </groupfilter>
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (Title,YEAR(Date Started Airing))]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
+              <groupfilter function='crossjoin'>
+                <groupfilter function='level-members' level='[none:Title:nk]' />
+                <groupfilter function='level-members' level='[tyr:Date Started Airing:qk]' />
+              </groupfilter>
+              <groupfilter function='crossjoin'>
+                <groupfilter function='member' level='[none:Title:nk]' member='&quot;Failed to export this anime&quot;' />
+                <groupfilter function='member' level='[tyr:Date Started Airing:qk]' member='#1998-01-01 00:00:00#' />
+              </groupfilter>
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[none:Calculation_379991242418241536:nk]'>
+            <groupfilter function='member' level='[none:Calculation_379991242418241536:nk]' member='true' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' included-values='non-null' />
+          <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]' included-values='in-range-or-null'>
+            <min>14.529999999999999</min>
+            <max>16.100000000000001</max>
+          </filter>
+          <filter class='categorical' column='[federated.16528900by6s131f9qlq90dm3noc].[yr:Date Started Airing:ok]'>
+            <groupfilter function='except' user:ui-domain='relevant' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[yr:Date Started Airing:ok]' />
+              <groupfilter function='member' level='[yr:Date Started Airing:ok]' member='%null%' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[yr:Date Started Airing:ok]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (DAY(Date Started Airing),Title)]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[none:Calculation_379991242418241536:nk]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[Exclusions (Title,YEAR(Date Started Airing))]</column>
+            <column>[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='subtitle' class='0' field='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' scope='rows' value='' />
+            <format attr='auto-subtitle' class='0' field='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' scope='rows' value='true' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='height' value='1127' />
+          </style-rule>
+          <style-rule element='refline'>
+            <format attr='fill-above' id='refline0' value='#00000000' />
+            <format attr='fill-below' id='refline0' value='#00000000' />
+            <format attr='fill-above' id='refline2' value='#00000000' />
+            <format attr='fill-below' id='refline2' value='#00000000' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Shape' />
+            <encodings>
+              <lod column='[federated.16528900by6s131f9qlq90dm3noc].[none:Title:nk]' />
+            </encodings>
+            <reference-line axis-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' enable-instant-analytics='true' fill-above='false' fill-below='false' formula='confidence' id='refline0' label='' label-type='custom' paired-distribution-id='refline2' probability='95' scope='per-table' show-lines='both' symmetric='false' value-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' z-order='3' />
+            <reference-line axis-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' enable-instant-analytics='true' formula='average' id='refline1' label-type='automatic' probability='95' scope='per-table' value-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' z-order='1' />
+            <reference-line axis-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' enable-instant-analytics='true' formula='average' id='refline2' label='&lt;Computation&gt;: &lt;Value&gt;' label-type='custom' paired-distribution-id='refline0' probability='95' scope='per-table' value-column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' z-order='2' />
+            <style>
+              <style-rule element='mark'>
+                <format attr='shape' value='circle' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minheight' value='-1' />
+                <format attr='maxheight' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]</rows>
+        <cols>[federated.16528900by6s131f9qlq90dm3noc].[tyr:Date Started Airing:qk]</cols>
       </table>
     </worksheet>
     <worksheet name='Score over Time (Continuous)'>
@@ -2179,7 +2186,7 @@
         <zoom type='fit-width' />
       </viewpoint>
     </window>
-    <window class='worksheet' maximized='true' name='Has Anime Been Getting Longer?'>
+    <window class='worksheet' maximized='true' name='Number of Episodes over Time'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -2200,7 +2207,8 @@
           </strip>
         </edge>
         <edge name='right'>
-          <strip size='160'>
+          <strip size='300'>
+            <card param='[federated.16528900by6s131f9qlq90dm3noc].[sum:Score:qk]' show-domain='false' show-morefewerbutton='true' show-null-ctrls='false' type='filter' values='relevant' />
             <card mode='compact' param='[Parameters].[Parameter 1]' type='parameter' />
           </strip>
         </edge>
@@ -2226,9 +2234,9 @@
                 </columns>
               </tuple-descriptor>
               <tuple>
-                <value>&quot;Doraemon (1979)&quot;</value>
-                <value>1787</value>
-                <value>#1979-01-01 00:00:00#</value>
+                <value>&quot;Mahouka Koukou no Rettousei Movie: Hoshi wo Yobu Shoujo&quot;</value>
+                <value>2</value>
+                <value>#2017-01-01 00:00:00#</value>
               </tuple>
             </tuple-reference>
           </tuple-selection>
@@ -3576,54 +3584,6 @@
       Z/CmaTLpdYlVi1rOmPsAc0428xFgzolmLoA5J5q5AOacaOYCmHOimQtgzolmLoA5J5q5AOac
       aOYCmHOi+b8aw0aTuDhzrwAAAABJRU5ErkJggg==
     </thumbnail>
-    <thumbnail height='192' name='Has Anime Been Getting Longer?' width='192'>
-      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
-      YII=
-    </thumbnail>
     <thumbnail height='192' name='Highest Rated' width='192'>
       iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
       AAAgAElEQVR4nOy9+Y9k6Z7e9Tn7Eif2JSNyqcysrau7+t6LZ+4sSBgGDAgk8x8ghIQQAlmW
@@ -3948,6 +3908,36 @@
       u+26OX2cvD55RNAOE3rVEEKrNhcdj+DXAzN4ddItrUYAkNPHwSsTR3D95ekA7NnvYfWW4qDt
       i0IIEWMM81duByAzLYnf33ct0VFtPx0x0ZE8fd9QMtOSAJi/8nuC9QtdIYSIq8RNjf8YAE/c
       M6TdCJrEREfyxD1DAKiuPYarpP0TzI74H1gT0wu8W/aUAAAAAElFTkSuQmCC
+    </thumbnail>
+    <thumbnail height='192' name='Number of Episodes over Time' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
+      AAAFhElEQVR4nO3dyW8TZwCG8XdsJ7bjbIaEtAQQIUEgdTlU6v+O1Et76rGl0JIuISELNIuz
+      OXiJPd/0UqSKmUpOIAPM+/xOOXjkz9I8mW/2KEmSRICpykU+TCsomtECSBK9WfVDCAohKIqi
+      qxsVkJORtwCb63+oG6p6uHJXklQul69qTEBuRgogkTQ2VtMwlK54OEC+Rl6joyjSjfkbVzkW
+      IHfRZY4CxXHMFAiFwJwG1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA
+      1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA
+      1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA
+      1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA
+      1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1ggA1iqXWShJEoUQLrzMf5XL
+      5ct8NfBeXSoASfr9yU8qT87p5sKcQtzXwdGZ5poNnZ311B0kmp+p6qgTq6pzVSdnNT5e1fHe
+      jrb2TvTtN1+/z98AXNolAwjaa7UU2n29bm3p6KSjeKyurd2abl9r6NfVNc3fXlQl6utgp6U7
+      97/Qw3t3FJVKWllZfr+/AHgHUfL23CRDiPta+2tDC7fvanqiquHgXL3eQCEJigd91Rt1bbzY
+      0eeLNzWWDLW9e6hee1f73bIeLs6pXJ/W1NSkjvZ21BlWtHz3FlMgfBRGCiBJEh3s/a1qY1aN
+      +riePXum7e3tC3/Zm6+KoujiIwWuwEgBDHunevzbuu4/eKDpRk1xHPMfHIUwUgBvIwAUBecB
+      YI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0A
+      YI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYI0AYC0zgMNWS7/8/FgXewkS8OnJDODViz/1fP2l
+      BnmPBshZZgDd3rGO91/rws9NBz4xqQBeHx/o6HQo1d/hDXrAJyK1jjdm57QwN6/B8Fhx1geA
+      AsmcAk3PTKlSq7Hyo/AyAxgOhooScRQIhZe9E9wfaHdrU3HeowFylgogCQPVxse1/OVXTIFQ
+      eOl1PCppeN7T3v6JeJsvii61BYiiss46HYX2oZ7v7H+IMQG5Sb0neHdtXZ1//15YXtJExkK8
+      JxhFkZoCRaWhnj5ZVVSq6bPlpQ8xJiA3qS1A97StnqTm9NT/LsQWAEWR2gcIcUffPXqk73/4
+      kYvhUHipABrNBT1YWVItSjgPgMLLPNR/796SDs/OVct7NEDOMs8Er60+1ebWKw3zHg2Qs8wA
+      mtebKocS9wOg8DIDiOOB1jc2OROMwktfC5QkOj7pqTlTYycYhZcKoHt6qHa3r9J4VRzpR9Gl
+      ApiYua6JSqRKmX0AFF/2PkBINDFRZx8AhZcZwMLCvPb3W2wBUHiZATQmp1Utl7glEoWXCuDs
+      aE+raxs6abc/xHiAXKUCiM972th4ofnFW9wSicJLXQ49PO/rpH0mRSU1rzUz50hcDo2iSAUw
+      CgJAUfB4dFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgj
+      AFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgjAFgbKYAkDLS5uXPVYwFyN9orAKKK
+      xsZKSpJEIQSFEHSJh0oDH52RAkjic716+VL1yRnNTk1IEo9HRyHwfgBYYycY1ggA1ggA1ggA
+      1ggA1ggA1ggA1v4BuGlwEVyjRRMAAAAASUVORK5CYII=
     </thumbnail>
     <thumbnail height='192' name='Score over Time (Continuous)' width='192'>
       iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
