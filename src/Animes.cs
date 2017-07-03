@@ -30,7 +30,7 @@ namespace AnimeExporter {
         /// </summary>
         /// <param name="animes">The animes to add</param>
         /// <remarks>In the case of an already existing anime the original ('this') wins</remarks>
-        public void Merge(Animes animes) {
+        public void Add(Animes animes) {
             foreach (Anime anime in animes) {
                 this.Add(anime);
             }
