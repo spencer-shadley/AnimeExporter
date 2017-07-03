@@ -94,8 +94,10 @@ namespace AnimeExporter {
         }
 
         public override string ToString() {
-            return $"{this.Name}: " +
-                   (Value.Length < 100 ? Value : $"Value too long to display ({Value.Length} characters)") +
+            string cleanedValue = Value.Trim().Replace(Environment.NewLine, string.Empty); 
+            string truncatedValue = cleanedValue.Length < 100 ?
+                cleanedValue : cleanedValue.Substring(0, Math.Min(100, Value.Length)) + "...[truncated text]";
+            return $"{Name}: {truncatedValue}" +
                 Environment.NewLine;
         }
     }
