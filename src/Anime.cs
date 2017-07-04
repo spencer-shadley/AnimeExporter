@@ -39,12 +39,6 @@ namespace AnimeExporter {
         public Attribute Other                = new Attribute("Other");
         public Attribute AlternativeVersion   = new Attribute("Alternative Version");
         
-        // TODO: the below Attributes
-        // adaptation
-        // sequel
-        // related
-        // synonyms
-
         /// <summary>
         /// Gets all <see cref="Attribute"/>
         /// </summary>

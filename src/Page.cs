@@ -37,7 +37,15 @@ namespace AnimeExporter {
             
             Console.Error.WriteLine("Retrying...");
         }
-
+        
+        /// <summary>
+        /// Builds a url schema
+        /// </summary>
+        /// <param name="baseString">The string to continue building on</param>
+        /// <param name="anchorNode">The node to parse and append to <see cref="baseString"/></param>
+        /// <example>
+        /// Kimi no Na wa. (https://myanimelist.net/manga/99314/Kimi_no_Na_wa); Kimi no Na Wa. (https://myanimelist.net/manga/108011/Kimi_no_Na_Wa)
+        /// </example>
         protected static void BuildUrls(ref string baseString, HtmlNode anchorNode) {
             if (!anchorNode.Name.Equals("a")) {
                 return;

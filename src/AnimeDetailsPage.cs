@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 using HtmlAgilityPack;
 
 namespace AnimeExporter {
@@ -77,13 +78,22 @@ namespace AnimeExporter {
             }
         }
 
+        /// <summary>
+        /// Grabs the type of media (movie, music, etc.)
+        /// </summary>
+        /// <remarks>
+        /// MediaTypes on MyAnimeList follow two different structures. Sometimes they are hyperlinked and sometimes
+        /// they are not. On the return this is checked to use the correct parsing.
+        /// </remarks>
         public string MediaType {
             get {
-                const string xPath = "//span[text() = 'Type:']";
+                const string selector = "Type:";
+                string xPath = $"//span[text() = '{selector}']";
 
                 HtmlNodeCollection typeNodes = Doc.SelectNodes(xPath);
                 HtmlNode typeNode = typeNodes[0].NextSibling.NextSibling;
-                return typeNode.InnerText;
+
+                return typeNode == null ? this.SelectValueAfterText(selector) : typeNode.InnerText;
             }
         }
 
@@ -190,6 +200,12 @@ namespace AnimeExporter {
         /// </summary>
         public void FindRelatedAnime() {
             HtmlNode table = this.FindElementWithClass("anime_detail_related_anime");
+
+            // When an anime has no related animes the table is not generated
+            if (table == null) {
+                return;
+            }
+            
             HtmlNodeCollection rows = this.SelectElementsByType(table, "tr");
             foreach (HtmlNode row in rows) {
                 HtmlNodeCollection values = row.ChildNodes[1].ChildNodes;
@@ -233,6 +249,14 @@ namespace AnimeExporter {
             try {
                 var web = new HtmlWeb();
                 HtmlDocument doc = web.Load(url);
+
+                HttpStatusCode status = web.StatusCode;
+                if (status != HttpStatusCode.OK) {
+                    // NOTE: This is often 429 Too Many Requests
+                    throw new HttpRequestException($"Received status of {status}");
+                }
+                
+                
                 var animeDetailsPage = new AnimeDetailsPage(url, doc.DocumentNode);
                 
                 string[] genres = animeDetailsPage.Genres.Split(

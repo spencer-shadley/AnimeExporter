@@ -2,7 +2,7 @@
     internal class Program {
 
         public static void Main(string[] args) {
-            Animes topAnimes = TopAnimePage.ScrapeTopAnimes(0);
+            Animes topAnimes = TopAnimePage.ScrapeTopAnimes(0, 100);
             GoogleSheet.BackupData();
             GoogleSheet.PublishDataToGoogleSheet(topAnimes);
             GoogleSheet.PublishGenresToGoogleSheet(topAnimes);

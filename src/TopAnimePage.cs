@@ -37,9 +37,9 @@ namespace AnimeExporter {
         /// <returns>AnimeDetailsPage urls to the top anime on page <para>page</para></returns>
         public static List<string> ScrapeTopAnimeUrls(int page, int retriesLeft)
         {
-            HtmlWeb web = new HtmlWeb();
+            var web = new HtmlWeb();
             HtmlDocument doc = web.Load(GetTopAnimeUrl(page));
-            TopAnimePage topAnimePage = new TopAnimePage(doc.DocumentNode);
+            var topAnimePage = new TopAnimePage(doc.DocumentNode);
             
             var urls = new List<string>();
 
@@ -68,7 +68,7 @@ namespace AnimeExporter {
             Debug.Assert(lastPage == -1 || startPage <= lastPage,
                 "Either only the startPage should be specified or the startPage should be less than the lastPage");
 
-            Animes animes = new Animes {
+            var animes = new Animes {
                 Anime.Schema(), // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
             };
             
@@ -87,7 +87,7 @@ namespace AnimeExporter {
         /// <param name="page">Represents the page number to scrape</param>
         /// <returns>An <see cref="Animes"/> representation of the top anime at <see cref="page"/></returns>
         public static Animes ScrapeTopAnimesPage(int page) {
-            Animes animes = new Animes();
+            var animes = new Animes();
             List<string> topAnimeUrls = ScrapeTopAnimeUrls(page, Page.MaxRetryCount);
             foreach (string url in topAnimeUrls) {
                 Anime scrapedAnime = AnimeDetailsPage.ScrapeAnime(url, Page.MaxRetryCount);
