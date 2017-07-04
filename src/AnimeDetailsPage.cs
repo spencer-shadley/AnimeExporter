@@ -177,7 +177,7 @@ namespace AnimeExporter {
             }
         }
 
-        public string Adapation => this.SelectAllSiblingAnchorElements("Adaptation:");
+        public string Adapation { get; set; }
         public string AlternativeSetting { get; set; }
         public string Sequel { get; set; }
         public string Other { get; set; }
@@ -192,6 +192,10 @@ namespace AnimeExporter {
                 string currRelatedAnime = string.Empty;
                 foreach (HtmlNode node in values) {
                     BuildUrls(ref currRelatedAnime, node);
+                }
+
+                if (row.InnerText.Contains("Adaptation:")) {
+                    Adapation = currRelatedAnime;
                 }
             }
         }

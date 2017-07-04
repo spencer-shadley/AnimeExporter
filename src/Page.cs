@@ -153,7 +153,14 @@ namespace AnimeExporter {
         
         protected HtmlNode FindElementWithClass(string className) {
             HtmlNodeCollection elements = this.FindElementsWithClass(className);
-            Debug.Assert(elements.Count == 1);
+            if (elements == null) {
+                Console.Error.WriteLine($"No nodes were selected for {className}");
+                return null;
+            }
+            if (elements.Count != 1) {
+                Console.Error.WriteLine($"No nodes were selected for {className}");
+            }
+            
             return elements[0];
         }
     }
