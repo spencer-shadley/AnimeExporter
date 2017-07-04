@@ -115,7 +115,7 @@ namespace AnimeExporter {
         public string Background {
             get {
                 HtmlNode synopsis = this.SelectElementByItemProp("description");
-                return WebUtility.HtmlDecode(synopsis.NextSibling.NextSibling.InnerText);
+                return synopsis == null ? null : WebUtility.HtmlDecode(synopsis.NextSibling.NextSibling.InnerText);
             }
         }
 
