@@ -61,7 +61,16 @@ namespace AnimeExporter {
 
         protected static string SelectValue(HtmlNode node, string xPath) {
             HtmlNodeCollection nodes = node.SelectNodes(xPath);
-            Debug.Assert(nodes.Count == 1);
+
+            if (nodes == null) {
+                Console.WriteLine($"No nodes were selected for {xPath}");
+                return null;
+            }
+
+            if (nodes.Count != 1) {
+                Console.Error.WriteLine($"There were {nodes.Count} nodes selected");
+            }
+            
             return WebUtility.HtmlDecode(nodes[0].InnerText);
         }
 
@@ -71,7 +80,7 @@ namespace AnimeExporter {
 
             if (selected != null) return selected;
             
-            Console.Error.WriteLine($"No nodes were selected for {text}");
+            Console.WriteLine($"No nodes were selected for {text}");
             return null;
         }
 
@@ -81,7 +90,7 @@ namespace AnimeExporter {
 
             if (selected != null && selected.Count > 0) return selected;
             
-            Console.Error.WriteLine($"No nodes were selected for {type}");
+            Console.WriteLine($"No nodes were selected for {type}");
             return null;
         }
 
@@ -127,7 +136,7 @@ namespace AnimeExporter {
             HtmlNodeCollection selectedNodes = Doc.SelectNodes(xPath);
 
             if (selectedNodes == null) {
-                Console.Error.WriteLine($"No nodes were selected for {xPath}");
+                Console.WriteLine($"No nodes were selected for {xPath}");
                 return null;
             }
             if (selectedNodes.Count != 1) {
@@ -162,11 +171,11 @@ namespace AnimeExporter {
         protected HtmlNode FindElementWithClass(string className) {
             HtmlNodeCollection elements = this.FindElementsWithClass(className);
             if (elements == null) {
-                Console.Error.WriteLine($"No nodes were selected for {className}");
+                Console.WriteLine($"No nodes were selected for {className}");
                 return null;
             }
             if (elements.Count != 1) {
-                Console.Error.WriteLine($"No nodes were selected for {className}");
+                Console.Error.WriteLine($"There were {elements.Count} nodes selected");
             }
             
             return elements[0];
