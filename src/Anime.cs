@@ -33,6 +33,7 @@ namespace AnimeExporter {
         public Attribute Synopsis         = new Attribute("Synopsis");
         public Attribute Background       = new Attribute("Background");
         public Attribute Image            = new Attribute("Image");
+        public Attribute Adaptation       = new Attribute("Adaptation");
         
         // TODO: the below Attributes
         // adaptation

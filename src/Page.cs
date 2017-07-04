@@ -9,6 +9,8 @@ namespace AnimeExporter {
     
     public class Page {
         
+        public const string MyAnimeListBaseUrl = "https://myanimelist.net";
+        
         public const int MaxRetryCount = 10;
         
         public static string Delimiter => "; ";
@@ -26,23 +28,36 @@ namespace AnimeExporter {
         /// <remarks>Rate: 2^x * 100ms</remarks>
         public static void BackOff(int retriesLeft) {
             const int backOffRate = 100;
-            int waitTime = 2^(MaxRetryCount - retriesLeft) * backOffRate;
             
-            Console.Error.WriteLine($"Waiting {waitTime/1000} seconds to retry...");
+            double waitTime = Math.Pow(2, (MaxRetryCount - retriesLeft)) * backOffRate;
             
-            Task.Delay(waitTime).Wait();
+            Console.Error.WriteLine($"Waiting {waitTime/1000} seconds to retry..." + Environment.NewLine);
+            
+            Task.Delay((int) waitTime).Wait();
             
             Console.Error.WriteLine("Retrying...");
-            Console.WriteLine();
         }
 
-        public static string SelectValue(HtmlNode node, string xPath) {
+        protected static void BuildUrls(ref string baseString, HtmlNode anchorNode) {
+            if (!anchorNode.Name.Equals("a")) {
+                return;
+            }
+            
+            if (baseString != string.Empty) {
+                baseString += Delimiter;
+            }
+            string text = anchorNode.InnerText;
+            string url = MyAnimeListBaseUrl + anchorNode.Attributes["href"].Value;
+            baseString += $"{text} ({url})";
+        }
+
+        protected static string SelectValue(HtmlNode node, string xPath) {
             HtmlNodeCollection nodes = node.SelectNodes(xPath);
             Debug.Assert(nodes.Count == 1);
             return WebUtility.HtmlDecode(nodes[0].InnerText);
         }
 
-        public HtmlNode SelectElementByText(string text) {
+        protected HtmlNode SelectElementByText(string text) {
             string xPath = $"//span[text() = '{text}']";
             HtmlNode selected = Doc.SelectSingleNode(xPath);
 
@@ -52,11 +67,21 @@ namespace AnimeExporter {
             return null;
         }
 
-        public string SelectAllSiblingAnchorElements(string text, string defaultText = "None found") {
+        protected HtmlNodeCollection SelectElementsByType(HtmlNode node, string type) {
+            string xPath = $"{type}";
+            HtmlNodeCollection selected = node.SelectNodes(xPath);
+
+            if (selected != null && selected.Count > 0) return selected;
+            
+            Console.Error.WriteLine($"No nodes were selected for {type}");
+            return null;
+        }
+
+        protected string SelectAllSiblingAnchorElements(string text, string defaultText = "None found") {
             return this.SelectAllSiblingAnchorElements(this.SelectElementByText(text), defaultText);
         }
 
-        public string SelectAllSiblingAnchorElements(HtmlNode node, string defaultText = "None found") {
+        protected string SelectAllSiblingAnchorElements(HtmlNode node, string defaultText = "None found") {
             var anchorTexts = new List<string>();
 
             // When there are no known anchors, MyAnimeList inserts "None found"
@@ -80,13 +105,9 @@ namespace AnimeExporter {
         /// <remarks>Assumes that the text is within a span element</remarks>
         /// <param name="text">The text to select</param>
         /// <returns>The trimmed InnerText of the element after the element selected by <see cref="text"/></returns>
-        public string SelectValueAfterText(string text) {
+        protected string SelectValueAfterText(string text) {
             string xPath = $"//span[text() = '{text}']";
             return this.SelectValueAfter(xPath);
-        }
-
-        public string SelectValuesAfterText(string text) {
-            return null;
         }
         
         /// <summary>
@@ -94,7 +115,7 @@ namespace AnimeExporter {
         /// easier to grab that floating text.
         /// </summary>
         /// <returns>The trimmed InnerText of the next child of the node at <see cref="xPath"/></returns>
-        public string SelectValueAfter(string xPath) {
+        protected string SelectValueAfter(string xPath) {
             HtmlNodeCollection selectedNodes = Doc.SelectNodes(xPath);
 
             if (selectedNodes == null) {
@@ -109,7 +130,7 @@ namespace AnimeExporter {
             return WebUtility.HtmlDecode(valueNode.InnerText.Trim());
         }
 
-        public HtmlNode SelectElementByItemProp(string itemProp) {
+        protected HtmlNode SelectElementByItemProp(string itemProp) {
             string xPath = $"//span[@itemprop=\"{itemProp}\"]";
             return Doc.SelectSingleNode(xPath);
         }
@@ -120,14 +141,20 @@ namespace AnimeExporter {
         /// <remarks>Assumes the text is with in a span element</remarks>
         /// <param name="itemProp">The value of the itemprop to search for</param>
         /// <returns>The InnerText of the element with an itemprop equal to <see cref="itemProp"/></returns>
-        public string SelectValueOfItemProp(string itemProp) {
+        protected string SelectValueOfItemProp(string itemProp) {
             string xPath = $"//span[@itemprop=\"{itemProp}\"]";
             return SelectValue(Doc, xPath);
         }
         
-        public HtmlNodeCollection FindElementsWithClass(string className) {
+        protected HtmlNodeCollection FindElementsWithClass(string className) {
             string xPath = $"//*[contains(@class,'{className}')]";
             return Doc.SelectNodes(xPath);
+        }
+        
+        protected HtmlNode FindElementWithClass(string className) {
+            HtmlNodeCollection elements = this.FindElementsWithClass(className);
+            Debug.Assert(elements.Count == 1);
+            return elements[0];
         }
     }
 }

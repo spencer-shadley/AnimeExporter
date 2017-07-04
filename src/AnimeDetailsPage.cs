@@ -20,6 +20,8 @@ namespace AnimeExporter {
     /// Note: This taking longer actaully helps to combat the rate throttling on MyAnimeList
     /// </remarks>
     public class AnimeDetailsPage : Page {
+
+        public readonly string Url;
         
         private static readonly string[] DateDelimter = {" to "}; // array is required for string.split() 
 
@@ -29,7 +31,11 @@ namespace AnimeExporter {
 
         private enum Airing { Future, InProgress, Finished, Unknown }
 
-        public AnimeDetailsPage(HtmlNode document) : base(document) {
+        public AnimeDetailsPage(string url, HtmlNode document) : base(document) {
+            Url = url;
+            
+            this.FindRelatedAnime();
+            
             switch (Status) {
                 case "Not yet aired":
                     _airingStatus = Airing.Future;
@@ -171,17 +177,36 @@ namespace AnimeExporter {
             }
         }
 
+        public string Adapation => this.SelectAllSiblingAnchorElements("Adaptation:");
+        public string AlternativeSetting { get; set; }
+        public string Sequel { get; set; }
+        public string Other { get; set; }
+        public string AlternativeVersion { get; set; }
+        
+        public void FindRelatedAnime() {
+            HtmlNode table = this.FindElementWithClass("anime_detail_related_anime");
+            HtmlNodeCollection rows = this.SelectElementsByType(table, "tr");
+            foreach (HtmlNode row in rows) {
+                HtmlNodeCollection values = row.ChildNodes[1].ChildNodes;
+
+                string currRelatedAnime = string.Empty;
+                foreach (HtmlNode node in values) {
+                    BuildUrls(ref currRelatedAnime, node);
+                }
+            }
+        }
+
         /// <summary>
-        /// Scrapes the anime at the given <see cref="url"/> to construct an anime object. By default this
+        /// Scrapes the anime at the given <see cref="Url"/> to construct an anime object. By default this
         /// will retry scraping the page twice due to inconsistent network connections before giving up.
         /// </summary>
         /// <param name="url">The url to scrape</param>
         /// <param name="retriesLeft">Number of times to retry</param>
-        /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
+        /// <returns>An <see cref="Anime"/> representation of the page at <see cref="Url"/></returns>
         public static Anime ScrapeAnime(string url, int retriesLeft) {
             var web = new HtmlWeb();
             HtmlDocument doc = web.Load(url);
-            var animeDetailsPage = new AnimeDetailsPage(doc.DocumentNode);
+            var animeDetailsPage = new AnimeDetailsPage(url, doc.DocumentNode);
                 
             try {
                 string[] genres = animeDetailsPage.Genres.Split(
@@ -217,7 +242,8 @@ namespace AnimeExporter {
                     Source         = { Value = animeDetailsPage.Source },
                     Synopsis       = { Value = animeDetailsPage.Synopsis },
                     Background     = { Value = animeDetailsPage.Background },
-                    Image          = { Value = animeDetailsPage.Image }
+                    Image          = { Value = animeDetailsPage.Image },
+                    Adaptation     = { Value = animeDetailsPage.Adapation }
                 };
 
                 Console.WriteLine(anime + Environment.NewLine);

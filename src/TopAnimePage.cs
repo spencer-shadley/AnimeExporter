@@ -18,7 +18,7 @@ namespace AnimeExporter {
         public TopAnimePage(HtmlNode document) : base(document) { }
         
         public static string GetTopAnimeUrl(int page) {
-            const string topAnimeUrl = "https://myanimelist.net/topanime.php?limit=";
+            const string topAnimeUrl = MyAnimeListBaseUrl + "/topanime.php?limit=";
             return topAnimeUrl + page*50;
         }
 
