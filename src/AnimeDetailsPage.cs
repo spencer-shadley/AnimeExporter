@@ -177,12 +177,17 @@ namespace AnimeExporter {
             }
         }
 
-        public string Adapation { get; set; }
+        // "Related" anime properties
+        public string Adapation          { get; set; }
         public string AlternativeSetting { get; set; }
-        public string Sequel { get; set; }
-        public string Other { get; set; }
+        public string Sequel             { get; set; }
+        public string Other              { get; set; }
         public string AlternativeVersion { get; set; }
         
+        /// <summary>
+        /// There is a table of "Related" anime. This method walks the DOM for that table parsing each
+        /// type of related anime.
+        /// </summary>
         public void FindRelatedAnime() {
             HtmlNode table = this.FindElementWithClass("anime_detail_related_anime");
             HtmlNodeCollection rows = this.SelectElementsByType(table, "tr");
@@ -194,8 +199,24 @@ namespace AnimeExporter {
                     BuildUrls(ref currRelatedAnime, node);
                 }
 
-                if (row.InnerText.Contains("Adaptation:")) {
+                string text = row.InnerText;
+                if (text.Contains("Adaptation:")) {
                     Adapation = currRelatedAnime;
+                }
+                else if (text.Contains("Alternative Setting:")) {
+                    AlternativeSetting = currRelatedAnime;
+                }
+                else if (text.Contains("Sequel:")) {
+                    Sequel = currRelatedAnime;
+                }
+                else if (text.Contains("Other:")) {
+                    Other = currRelatedAnime;
+                }
+                else if (text.Contains("Alternative version:")) {
+                    AlternativeVersion = currRelatedAnime;
+                }
+                else {
+                    Console.Error.WriteLine($"{text} wasn't scraped!");
                 }
             }
         }
@@ -208,11 +229,12 @@ namespace AnimeExporter {
         /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="Anime"/> representation of the page at <see cref="Url"/></returns>
         public static Anime ScrapeAnime(string url, int retriesLeft) {
-            var web = new HtmlWeb();
-            HtmlDocument doc = web.Load(url);
-            var animeDetailsPage = new AnimeDetailsPage(url, doc.DocumentNode);
-                
+            Console.WriteLine($"Scraping {url}");
             try {
+                var web = new HtmlWeb();
+                HtmlDocument doc = web.Load(url);
+                var animeDetailsPage = new AnimeDetailsPage(url, doc.DocumentNode);
+                
                 string[] genres = animeDetailsPage.Genres.Split(
                     new string[] { Delimiter }, StringSplitOptions.None);
                 
@@ -221,33 +243,37 @@ namespace AnimeExporter {
                 }
 
                 var anime = new Anime {
-                    Title          = { Value = animeDetailsPage.Title },
-                    EnglishTitle   = { Value = animeDetailsPage.EnglishTitle },
-                    JapaneseTitle  = { Value = animeDetailsPage.JapaneseTitle },
-                    Synonyms       = { Value = animeDetailsPage.Synonyms },
-                    Url            = { Value = url },
-                    Score          = { Value = animeDetailsPage.Score },
-                    NumRatings     = { Value = animeDetailsPage.NumberOfRatings },
-                    Rank           = { Value = animeDetailsPage.Rank },
-                    Popularity     = { Value = animeDetailsPage.Popularity },
-                    NumMembers     = { Value = animeDetailsPage.NumberOfMembers },
-                    NumFavorites   = { Value = animeDetailsPage.NumberOfFavorites },
-                    MediaType      = { Value = animeDetailsPage.MediaType },
-                    NumEpisodes    = { Value = animeDetailsPage.NumberOfEpisodes },
-                    Status         = { Value = animeDetailsPage.Status },
-                    DateStarted    = { Value = animeDetailsPage.AirStartDate },
-                    DateFinished   = { Value = animeDetailsPage.AirFinishDate },
-                    Producers      = { Value = animeDetailsPage.Producers },
-                    Licensors      = { Value = animeDetailsPage.Licensors },
-                    Studios        = { Value = animeDetailsPage.Studios },
-                    Genres         = { Value = animeDetailsPage.Genres },
-                    Duration       = { Value = animeDetailsPage.Duration },
-                    Rating         = { Value = animeDetailsPage.Rating },
-                    Source         = { Value = animeDetailsPage.Source },
-                    Synopsis       = { Value = animeDetailsPage.Synopsis },
-                    Background     = { Value = animeDetailsPage.Background },
-                    Image          = { Value = animeDetailsPage.Image },
-                    Adaptation     = { Value = animeDetailsPage.Adapation }
+                    Title                 = { Value = animeDetailsPage.Title },
+                    EnglishTitle          = { Value = animeDetailsPage.EnglishTitle },
+                    JapaneseTitle         = { Value = animeDetailsPage.JapaneseTitle },
+                    Synonyms              = { Value = animeDetailsPage.Synonyms },
+                    Url                   = { Value = url },
+                    Score                 = { Value = animeDetailsPage.Score },
+                    NumRatings            = { Value = animeDetailsPage.NumberOfRatings },
+                    Rank                  = { Value = animeDetailsPage.Rank },
+                    Popularity            = { Value = animeDetailsPage.Popularity },
+                    NumMembers            = { Value = animeDetailsPage.NumberOfMembers },
+                    NumFavorites          = { Value = animeDetailsPage.NumberOfFavorites },
+                    MediaType             = { Value = animeDetailsPage.MediaType },
+                    NumEpisodes           = { Value = animeDetailsPage.NumberOfEpisodes },
+                    Status                = { Value = animeDetailsPage.Status },
+                    DateStarted           = { Value = animeDetailsPage.AirStartDate },
+                    DateFinished          = { Value = animeDetailsPage.AirFinishDate },
+                    Producers             = { Value = animeDetailsPage.Producers },
+                    Licensors             = { Value = animeDetailsPage.Licensors },
+                    Studios               = { Value = animeDetailsPage.Studios },
+                    Genres                = { Value = animeDetailsPage.Genres },
+                    Duration              = { Value = animeDetailsPage.Duration },
+                    Rating                = { Value = animeDetailsPage.Rating },
+                    Source                = { Value = animeDetailsPage.Source },
+                    Synopsis              = { Value = animeDetailsPage.Synopsis },
+                    Background            = { Value = animeDetailsPage.Background },
+                    Image                 = { Value = animeDetailsPage.Image },
+                    Adaptation            = { Value = animeDetailsPage.Adapation },
+                    AlternativeSetting    = { Value = animeDetailsPage.AlternativeSetting },
+                    Sequel                = { Value = animeDetailsPage.Sequel },
+                    Other                 = { Value = animeDetailsPage.Other },
+                    AlternativeVersion    = { Value = animeDetailsPage.AlternativeVersion }
                 };
 
                 Console.WriteLine(anime + Environment.NewLine);
@@ -255,7 +281,7 @@ namespace AnimeExporter {
             }
             catch(Exception e) {
                 Console.Error.WriteLine($"failed to export an anime (retry count is {retriesLeft})...");
-                Console.Error.WriteLine(e.ToString());
+                Console.Error.WriteLine(e);
 
                 BackOff(retriesLeft);
 

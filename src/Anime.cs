@@ -7,33 +7,37 @@ namespace AnimeExporter {
     
     public class Anime {
 
-        public Attribute Title            = new Attribute("Title");
-        public Attribute EnglishTitle     = new Attribute("English Title");
-        public Attribute JapaneseTitle    = new Attribute("Japanese Title");
-        public Attribute Synonyms         = new Attribute("Synonyms");
-        public Attribute Url              = new Attribute("URL");
-        public Attribute Score            = new Attribute("Score");
-        public Attribute NumRatings       = new Attribute("Number of ratings");
-        public Attribute Rank             = new Attribute("Rank");
-        public Attribute Popularity       = new Attribute("Popularity");
-        public Attribute NumMembers       = new Attribute("Number of Members");
-        public Attribute NumFavorites     = new Attribute("Number of Favorites");
-        public Attribute MediaType        = new Attribute("Type of Media");
-        public Attribute NumEpisodes      = new Attribute("Number of Episodes");
-        public Attribute Status           = new Attribute("Status");
-        public Attribute DateStarted      = new Attribute("Date Started Airing");
-        public Attribute DateFinished     = new Attribute("Date Finished Airing");
-        public Attribute Producers        = new Attribute("Producers");
-        public Attribute Licensors        = new Attribute("Licensors");
-        public Attribute Studios          = new Attribute("Studios");
-        public Attribute Genres           = new Attribute("Genres");
-        public Attribute Duration         = new Attribute("Duration");
-        public Attribute Rating           = new Attribute("Rating");
-        public Attribute Source           = new Attribute("Source");
-        public Attribute Synopsis         = new Attribute("Synopsis");
-        public Attribute Background       = new Attribute("Background");
-        public Attribute Image            = new Attribute("Image");
-        public Attribute Adaptation       = new Attribute("Adaptation");
+        public Attribute Title                = new Attribute("Title");
+        public Attribute EnglishTitle         = new Attribute("English Title");
+        public Attribute JapaneseTitle        = new Attribute("Japanese Title");
+        public Attribute Synonyms             = new Attribute("Synonyms");
+        public Attribute Url                  = new Attribute("URL");
+        public Attribute Score                = new Attribute("Score");
+        public Attribute NumRatings           = new Attribute("Number of ratings");
+        public Attribute Rank                 = new Attribute("Rank");
+        public Attribute Popularity           = new Attribute("Popularity");
+        public Attribute NumMembers           = new Attribute("Number of Members");
+        public Attribute NumFavorites         = new Attribute("Number of Favorites");
+        public Attribute MediaType            = new Attribute("Type of Media");
+        public Attribute NumEpisodes          = new Attribute("Number of Episodes");
+        public Attribute Status               = new Attribute("Status");
+        public Attribute DateStarted          = new Attribute("Date Started Airing");
+        public Attribute DateFinished         = new Attribute("Date Finished Airing");
+        public Attribute Producers            = new Attribute("Producers");
+        public Attribute Licensors            = new Attribute("Licensors");
+        public Attribute Studios              = new Attribute("Studios");
+        public Attribute Genres               = new Attribute("Genres");
+        public Attribute Duration             = new Attribute("Duration");
+        public Attribute Rating               = new Attribute("Rating");
+        public Attribute Source               = new Attribute("Source");
+        public Attribute Synopsis             = new Attribute("Synopsis");
+        public Attribute Background           = new Attribute("Background");
+        public Attribute Image                = new Attribute("Image");
+        public Attribute Adaptation           = new Attribute("Adaptation");
+        public Attribute AlternativeSetting   = new Attribute("Alternative Setting");
+        public Attribute Sequel               = new Attribute("Sequel");
+        public Attribute Other                = new Attribute("Other");
+        public Attribute AlternativeVersion   = new Attribute("Alternative Version");
         
         // TODO: the below Attributes
         // adaptation
@@ -74,7 +78,7 @@ namespace AnimeExporter {
         }
 
         public override string ToString() {
-            return AllAttributes.Aggregate(string.Empty, (current, attribute) => current + attribute);
+            return AllAttributes.Aggregate(string.Empty, (attributes, attribute) => attributes + attribute);
         }
     }
 
