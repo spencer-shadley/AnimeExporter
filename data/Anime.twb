@@ -2,7 +2,7 @@
 
 <!-- build 10300.17.0615.2100                               -->
 <workbook source-build='10.3.1 (10300.17.0615.2100)' source-platform='win' version='10.3' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
-  <repository-location id='Anime' path='/workbooks' revision='3.6' />
+  <repository-location id='Anime' path='/workbooks' revision='3.7' />
   <preferences>
     <preference name='ui.encoding.shelf.height' value='24' />
     <preference name='ui.shelf.height' value='26' />
@@ -14506,7 +14506,7 @@
           <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Calculation_4901886739109130240:qk]' included-values='all' />
           <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Calculation_4901886739110236161:qk]' included-values='in-range-or-null'>
             <min>0.0</min>
-            <max>366.22247764829865</max>
+            <max>806.44752030326936</max>
           </filter>
           <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Episodes:qk]' included-values='all' />
           <filter class='quantitative' column='[federated.16528900by6s131f9qlq90dm3noc].[sum:Number of Favorites:qk]' included-values='all' />
@@ -16113,13 +16113,13 @@
     </dashboard>
   </dashboards>
   <windows source-height='48'>
-    <window class='dashboard' name='Explore' tab-color='#6e597f'>
+    <window class='dashboard' maximized='true' name='Explore' tab-color='#6e597f'>
       <viewpoints>
         <viewpoint name='All'>
           <zoom type='fit-width' />
         </viewpoint>
       </viewpoints>
-      <active id='37' />
+      <active id='40' />
       <device-preview>
         <device name='Generic Phone' type='Phone' />
       </device-preview>
@@ -16149,7 +16149,7 @@
       <active id='1' />
       <device-preview selected='Desktop' />
     </window>
-    <window class='dashboard' maximized='true' name='Trends' tab-color='#4f779a'>
+    <window class='dashboard' name='Trends' tab-color='#4f779a'>
       <viewpoints>
         <viewpoint name='Anime Popularity'>
           <zoom type='entire-view' />
