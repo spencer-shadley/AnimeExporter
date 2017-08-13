@@ -1,40 +1,43 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using AnimeExporter;
+using NUnit.Framework;
 
 namespace AnimeExporterTests.test {
     
     [TestFixture]
     public class AnimesTest {
-        private bool? _yes;
-        private bool? _no;
+        private Animes _animes;
         
         [SetUp]
         public void Init() {
-            Assert.IsNull(this._yes);
-            Assert.IsNull(this._no);
-
-            this._yes = true;
-            this._no = false;
+            this._animes = new Animes();
         }
 
         [TearDown]
         public void Cleanup() {
-            Assert.IsNotNull(this._yes);
-            Assert.IsNotNull(this._no);
-            
-            this._yes = null;
-            this._no = null;
-        }
-        
-        [Test]
-        public void PassTest() {
-            Assert.IsTrue(this._yes);
-            Assert.IsFalse(this._no);
+            this._animes = null;
         }
 
         [Test]
-        public void FailTest() {
-            Assert.IsNull(this._yes);
-            Assert.IsNull(this._no);
+        public void TestConstruction() {
+            // TODO
+        }
+
+        [Test]
+        public void TestAdd() {
+            const string title = "Kimi no na wa.";
+            
+            var animeToAdd = new Anime {Title = new Attribute(title)};
+            this._animes.Add(animeToAdd);
+
+            List<Anime> animes = this._animes.ToList();
+            
+            Assert.That(animes.ToList(), Has.Count.EqualTo(1));
+            
+            Anime addedAnime = animes[0];
+            Assert.AreEqual(addedAnime, animeToAdd);
         }
     }
 }
