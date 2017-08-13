@@ -22,7 +22,7 @@ namespace AnimeExporter {
         /// </summary>
         /// <param name="anime">The anime to add</param>
         public void Add(Anime anime) {
-            _animes[anime.Url.Value] = anime;
+            this._animes[anime.Url.Value] = anime;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace AnimeExporter {
         
         public IEnumerator<Anime> GetEnumerator()
         {
-            return _animes.Values.GetEnumerator();
+            return this._animes.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

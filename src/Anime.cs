@@ -68,11 +68,11 @@ namespace AnimeExporter {
         /// Converts to a row of data which is expected to be used in a table for publishing later
         /// </summary>
         public List<object> ToRow() {
-            return AllAttributes.Select(attribute => attribute.Value).Cast<object>().ToList();
+            return this.AllAttributes.Select(attribute => attribute.Value).Cast<object>().ToList();
         }
 
         public override string ToString() {
-            return AllAttributes.Aggregate(string.Empty, (attributes, attribute) => attributes + attribute);
+            return this.AllAttributes.Aggregate(string.Empty, (attributes, attribute) => attributes + attribute);
         }
     }
 
@@ -87,11 +87,11 @@ namespace AnimeExporter {
         /// If the value hasn't updated from it's default value it is assumed to be a failure
         /// </summary>
         /// <remarks>This will not work if <see cref="Value"/> is expected to be <see cref="Name"/></remarks>
-        public bool IsFailure => Name.Equals(Value);
+        public bool IsFailure => this.Name.Equals(this.Value);
 
         public Attribute(string name) {
-            Name = name;
-            Value = name;
+            this.Name = name;
+            this.Value = name;
         }
 
         public override string ToString() {
@@ -99,17 +99,17 @@ namespace AnimeExporter {
         }
 
         public string NameToString() {
-            return $"{Name}: ";
+            return $"{this.Name}: ";
         }
 
         public string ValueToString() {
-            if (Value == null) {
+            if (this.Value == null) {
                 return "none";
             }
             
-            string cleanedValue = Value.Trim().Replace(Environment.NewLine, string.Empty); 
+            string cleanedValue = this.Value.Trim().Replace(Environment.NewLine, string.Empty); 
             string truncatedValue = cleanedValue.Length < 100 ?
-                cleanedValue : cleanedValue.Substring(0, Math.Min(100, Value.Length)) + "...[truncated text]";
+                cleanedValue : cleanedValue.Substring(0, Math.Min(100, this.Value.Length)) + "...[truncated text]";
             return truncatedValue;
         }
     }

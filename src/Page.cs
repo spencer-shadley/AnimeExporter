@@ -17,7 +17,7 @@ namespace AnimeExporter {
         protected HtmlNode Doc;
         
         public Page(HtmlNode document) {
-            Doc = document;
+            this.Doc = document;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AnimeExporter {
 
         protected HtmlNode SelectElementByText(string text) {
             string xPath = $"//span[text() = '{text}']";
-            HtmlNode selected = Doc.SelectSingleNode(xPath);
+            HtmlNode selected = this.Doc.SelectSingleNode(xPath);
 
             if (selected != null) return selected;
             
@@ -132,7 +132,7 @@ namespace AnimeExporter {
         /// </summary>
         /// <returns>The trimmed InnerText of the next child of the node at <see cref="xPath"/></returns>
         protected string SelectValueAfter(string xPath) {
-            HtmlNodeCollection selectedNodes = Doc.SelectNodes(xPath);
+            HtmlNodeCollection selectedNodes = this.Doc.SelectNodes(xPath);
 
             if (selectedNodes == null) {
                 Console.WriteLine($"No nodes were selected for {xPath}");
@@ -148,7 +148,7 @@ namespace AnimeExporter {
 
         protected HtmlNode SelectElementByItemProp(string itemProp) {
             string xPath = $"//span[@itemprop=\"{itemProp}\"]";
-            return Doc.SelectSingleNode(xPath);
+            return this.Doc.SelectSingleNode(xPath);
         }
 
         /// <summary>
@@ -159,12 +159,12 @@ namespace AnimeExporter {
         /// <returns>The InnerText of the element with an itemprop equal to <see cref="itemProp"/></returns>
         protected string SelectValueOfItemProp(string itemProp) {
             string xPath = $"//span[@itemprop=\"{itemProp}\"]";
-            return SelectValue(Doc, xPath);
+            return SelectValue(this.Doc, xPath);
         }
         
         protected HtmlNodeCollection FindElementsWithClass(string className) {
             string xPath = $"//*[contains(@class,'{className}')]";
-            return Doc.SelectNodes(xPath);
+            return this.Doc.SelectNodes(xPath);
         }
         
         protected HtmlNode FindElementWithClass(string className) {

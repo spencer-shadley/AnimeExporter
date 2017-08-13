@@ -33,25 +33,25 @@ namespace AnimeExporter {
         private enum Airing { Future, InProgress, Finished, Unknown }
 
         public AnimeDetailsPage(string url, HtmlNode document) : base(document) {
-            Url = url;
+            this.Url = url;
             
             this.FindRelatedAnime();
             
-            switch (Status) {
+            switch (this.Status) {
                 case "Not yet aired":
-                    _airingStatus = Airing.Future;
+                    this._airingStatus = Airing.Future;
                     break;
                 case "Currently Airing":
-                    _airingStatus = Airing.InProgress;
+                    this._airingStatus = Airing.InProgress;
                     break;
                 case "Finished Airing":
-                    _airingStatus = Airing.Finished;
+                    this._airingStatus = Airing.Finished;
                     break;
                 case null:
-                    _airingStatus = Airing.Unknown;
+                    this._airingStatus = Airing.Unknown;
                     break;
                 default:
-                    throw new InvalidEnumArgumentException(InvalidAiringMessage + Status);
+                    throw new InvalidEnumArgumentException(InvalidAiringMessage + this.Status);
             }
         }
 
@@ -90,7 +90,7 @@ namespace AnimeExporter {
                 const string selector = "Type:";
                 string xPath = $"//span[text() = '{selector}']";
 
-                HtmlNodeCollection typeNodes = Doc.SelectNodes(xPath);
+                HtmlNodeCollection typeNodes = this.Doc.SelectNodes(xPath);
                 HtmlNode typeNode = typeNodes[0].NextSibling.NextSibling;
 
                 return typeNode == null ? this.SelectValueAfterText(selector) : typeNode.InnerText;
@@ -100,7 +100,7 @@ namespace AnimeExporter {
         public string Image {
             get {
                 const string xPath = "//div[@id='content']";
-                HtmlNode table = Doc.SelectSingleNode(xPath);
+                HtmlNode table = this.Doc.SelectSingleNode(xPath);
                 HtmlNodeCollection images = table.SelectNodes("//img");
                 return images[1].Attributes["src"].Value;
             }
@@ -153,36 +153,32 @@ namespace AnimeExporter {
         
         public string AirStartDate {
             get {
-                switch (_airingStatus) {
+                switch (this._airingStatus) {
                     case Airing.Future:
-                        return AirDates;
+                        return this.AirDates;
                     case Airing.InProgress:
                     case Airing.Finished:
-                        return AirDates.Contains(DateDelimter[0]) ?
-                            AirDates.Split(DateDelimter, StringSplitOptions.None)[0] :
-                            AirDates;
+                        return this.AirDates.Contains(DateDelimter[0]) ? this.AirDates.Split(DateDelimter, StringSplitOptions.None)[0] : this.AirDates;
                     case Airing.Unknown:
                         return "Unknown";
                     default:
-                        throw new InvalidEnumArgumentException(InvalidAiringMessage + _airingStatus);
+                        throw new InvalidEnumArgumentException(InvalidAiringMessage + this._airingStatus);
                 }
             }
         }
 
         public string AirFinishDate {
             get {
-                switch (_airingStatus) {
+                switch (this._airingStatus) {
                     case Airing.Future:
                     case Airing.InProgress:
                         return "Still in progress";
                     case Airing.Finished:
-                        return AirDates.Contains(DateDelimter[0]) ?
-                            AirDates.Split(DateDelimter, StringSplitOptions.None)[1] :
-                            AirDates;
+                        return this.AirDates.Contains(DateDelimter[0]) ? this.AirDates.Split(DateDelimter, StringSplitOptions.None)[1] : this.AirDates;
                     case Airing.Unknown:
                         return "Unknown";
                     default:
-                        throw new InvalidEnumArgumentException(InvalidAiringMessage + _airingStatus);
+                        throw new InvalidEnumArgumentException(InvalidAiringMessage + this._airingStatus);
                 }
             }
         }
@@ -217,19 +213,19 @@ namespace AnimeExporter {
 
                 string text = row.InnerText;
                 if (text.Contains("Adaptation:")) {
-                    Adapation = currRelatedAnime;
+                    this.Adapation = currRelatedAnime;
                 }
                 else if (text.Contains("Alternative Setting:")) {
-                    AlternativeSetting = currRelatedAnime;
+                    this.AlternativeSetting = currRelatedAnime;
                 }
                 else if (text.Contains("Sequel:")) {
-                    Sequel = currRelatedAnime;
+                    this.Sequel = currRelatedAnime;
                 }
                 else if (text.Contains("Other:")) {
-                    Other = currRelatedAnime;
+                    this.Other = currRelatedAnime;
                 }
                 else if (text.Contains("Alternative version:")) {
-                    AlternativeVersion = currRelatedAnime;
+                    this.AlternativeVersion = currRelatedAnime;
                 }
                 else {
                     Console.Error.WriteLine($"{text} wasn't scraped!");
