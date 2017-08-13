@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace AnimeExporter.test {
+namespace AnimeExporterTests.test {
     
     [TestFixture]
     public class AnimesTest {
