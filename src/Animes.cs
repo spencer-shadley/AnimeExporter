@@ -34,12 +34,12 @@ namespace AnimeExporter {
         /// <param name="animes">The animes to add</param>
         /// <remarks>In the case of an already existing anime the original ('this') wins</remarks>
         public void Add(Animes animes) {
+            Debug.Assert(animes != null);
+            
             foreach (Anime anime in animes) {
                 this.Add(anime);
             }
         }
-
-        // TODO: public static implicit operator Attribute(string value)
         
         /// <summary>
         /// A table of metadata about each bucket (genres, producers, etc.) of data

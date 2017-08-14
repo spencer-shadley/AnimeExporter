@@ -7,37 +7,37 @@ namespace AnimeExporter {
     
     public class Anime {
 
-        public Attribute Title                = new Attribute("Title");
-        public Attribute EnglishTitle         = new Attribute("English Title");
-        public Attribute JapaneseTitle        = new Attribute("Japanese Title");
-        public Attribute Synonyms             = new Attribute("Synonyms");
-        public Attribute Url                  = new Attribute("URL");
-        public Attribute Score                = new Attribute("Score");
-        public Attribute NumRatings           = new Attribute("Number of ratings");
-        public Attribute Rank                 = new Attribute("Rank");
-        public Attribute Popularity           = new Attribute("Popularity");
-        public Attribute NumMembers           = new Attribute("Number of Members");
-        public Attribute NumFavorites         = new Attribute("Number of Favorites");
-        public Attribute MediaType            = new Attribute("Type of Media");
-        public Attribute NumEpisodes          = new Attribute("Number of Episodes");
-        public Attribute Status               = new Attribute("Status");
-        public Attribute DateStarted          = new Attribute("Date Started Airing");
-        public Attribute DateFinished         = new Attribute("Date Finished Airing");
-        public Attribute Producers            = new Attribute("Producers");
-        public Attribute Licensors            = new Attribute("Licensors");
-        public Attribute Studios              = new Attribute("Studios");
-        public Attribute Genres               = new Attribute("Genres");
-        public Attribute Duration             = new Attribute("Duration");
-        public Attribute Rating               = new Attribute("Rating");
-        public Attribute Source               = new Attribute("Source");
-        public Attribute Synopsis             = new Attribute("Synopsis");
-        public Attribute Background           = new Attribute("Background");
-        public Attribute Image                = new Attribute("Image");
-        public Attribute Adaptation           = new Attribute("Adaptation");
-        public Attribute AlternativeSetting   = new Attribute("Alternative Setting");
-        public Attribute Sequel               = new Attribute("Sequel");
-        public Attribute Other                = new Attribute("Other");
-        public Attribute AlternativeVersion   = new Attribute("Alternative Version");
+        public Attribute Title                = "Title";
+        public Attribute EnglishTitle         = "English Title";
+        public Attribute JapaneseTitle        = "Japanese Title";
+        public Attribute Synonyms             = "Synonyms";
+        public Attribute Url                  = "URL";
+        public Attribute Score                = "Score";
+        public Attribute NumRatings           = "Number of ratings";
+        public Attribute Rank                 = "Rank";
+        public Attribute Popularity           = "Popularity";
+        public Attribute NumMembers           = "Number of Members";
+        public Attribute NumFavorites         = "Number of Favorites";
+        public Attribute MediaType            = "Type of Media";
+        public Attribute NumEpisodes          = "Number of Episodes";
+        public Attribute Status               = "Status";
+        public Attribute DateStarted          = "Date Started Airing";
+        public Attribute DateFinished         = "Date Finished Airing";
+        public Attribute Producers            = "Producers";
+        public Attribute Licensors            = "Licensors";
+        public Attribute Studios              = "Studios";
+        public Attribute Genres               = "Genres";
+        public Attribute Duration             = "Duration";
+        public Attribute Rating               = "Rating";
+        public Attribute Source               = "Source";
+        public Attribute Synopsis             = "Synopsis";
+        public Attribute Background           = "Background";
+        public Attribute Image                = "Image";
+        public Attribute Adaptation           = "Adaptation";
+        public Attribute AlternativeSetting   = "Alternative Setting";
+        public Attribute Sequel               = "Sequel";
+        public Attribute Other                = "Other";
+        public Attribute AlternativeVersion   = "Alternative Version";
         
         /// <summary>
         /// Gets all <see cref="Attribute"/>
@@ -79,10 +79,10 @@ namespace AnimeExporter {
     /// <summary>
     /// Represents a piece of info about an anime using a Name/Value pair
     /// </summary>
-    public struct Attribute {
+    public class Attribute {
         public string Name { get; }
         public string Value { get; set; }
-
+        
         /// <summary>
         /// If the value hasn't updated from it's default value it is assumed to be a failure
         /// </summary>
@@ -92,6 +92,10 @@ namespace AnimeExporter {
         public Attribute(string name) {
             this.Name = name;
             this.Value = name;
+        }
+
+        public static implicit operator Attribute(string value) {
+            return new Attribute(value);
         }
 
         public override string ToString() {

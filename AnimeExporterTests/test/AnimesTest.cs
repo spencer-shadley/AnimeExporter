@@ -4,8 +4,6 @@ using System.Linq;
 using AnimeExporter;
 using NUnit.Framework;
 
-using Attribute = AnimeExporter.Attribute;
-
 namespace AnimeExporterTests.test {
     
     public class AnimesTest {
@@ -35,30 +33,50 @@ namespace AnimeExporterTests.test {
             [TearDown] public void Teardown() { this._test = null; }
             
             [Test]
-            public void AddEmpty() {
-                this.VerifyAdd(new Anime());
+            public void AddEmptyAnime() {
+                this.VerifyAndAdd(new Anime());
             }
 
             [Test]
             public void AddSingleAnime() {
-                this.VerifyAdd(CreateAnime());
+                this.VerifyAndAdd(CreateAnime());
             }
 
             [Test]
             public void AddManyAnime() {
                 for (int i = 0; i < 1000; ++i) {
-                    Anime anime = CreateAnime();
-                    anime.Url = new Attribute(Url + i);
-                    this.VerifyAdd(anime, i);
+                    this.VerifyAndAdd(CreateAnime(Url + i), i);
                 }
             }
 
             [Test]
-            public void AddAnimes() {
+            public void AddEmptyAnimes() {
+                var animesToAdd = new Animes();
                 
+                this._test.Animes.Add(animesToAdd);
+                Assert.That(this.AnimesList, Is.Empty);
             }
 
-            private void VerifyAdd(Anime anime, int initialSize = 0) {
+            [Test]
+            public void AddOneAnimes() {
+                var animesToAdd = new Animes {CreateAnime()};
+                this._test.Animes.Add(animesToAdd);
+                Assert.That(this.AnimesList, Has.Count.EqualTo(1));
+            }
+
+            [Test]
+            public void AddManyAnimes() {
+                var animesToAdd = new Animes();
+
+                const int numAnimes = 1000;
+                for (int i = 0; i < numAnimes; ++i) {
+                    animesToAdd.Add(CreateAnime(Url + i));
+                }
+                this._test.Animes.Add(animesToAdd);
+                Assert.That(this.AnimesList, Has.Count.EqualTo(numAnimes));
+            }
+
+            private void VerifyAndAdd(Anime anime, int initialSize = 0) {
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize));
                 
                 this._test.Animes.Add(anime);
@@ -67,10 +85,10 @@ namespace AnimeExporterTests.test {
             }
         }
 
-        private static Anime CreateAnime() {
+        private static Anime CreateAnime(string url = null) {
             return new Anime {
-                Title = new Attribute(Title),
-                Url = new Attribute(Url)
+                Title = Title,
+                Url = url ?? Url
             };
         }
     }
