@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Google.Apis.Util;
 
 namespace AnimeExporter {
     
@@ -22,6 +25,8 @@ namespace AnimeExporter {
         /// </summary>
         /// <param name="anime">The anime to add</param>
         public void Add(Anime anime) {
+            Debug.Assert(anime?.Url.Value != null);
+            
             this._animes[anime.Url.Value] = anime;
         }
 

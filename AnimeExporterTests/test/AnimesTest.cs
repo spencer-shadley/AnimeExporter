@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using AnimeExporter;
@@ -9,7 +10,8 @@ using Attribute = AnimeExporter.Attribute;
 namespace AnimeExporterTests.test {
     
     public class AnimesTest {
-        private const string Title = "Kimi no na wa."; 
+        private const string Title = "Kimi no na wa.";
+        private const string Url = "https://myanimelist.net/anime/32281/Kimi_no_Na_wa";
         
         public Animes Animes;
 
@@ -28,37 +30,17 @@ namespace AnimeExporterTests.test {
 
             private AnimesTest _test;
 
-            [SetUp]
-            public void Setup() {
-                this._test = new AnimesTest();
-            }
-
-            [TearDown]
-            public void Teardown() {
-                this._test = null;
-            }
-
-            [Test]
-            public void AddNull() {
-                
-            }
+            [SetUp] public void Setup()       { this._test = new AnimesTest(); }
+            [TearDown] public void Teardown() { this._test = null; }
             
             [Test]
             public void AddEmpty() {
-                
+                this.VerifyAdd(new Anime());
             }
 
             [Test]
             public void AddSingleAnime() {
-                Anime animeToAdd = CreateAnime();
-                this._test.Animes.Add(animeToAdd);
-
-                List<Anime> animes = this._test.Animes.ToList();
-            
-                Assert.That(animes.ToList(), Has.Count.EqualTo(1));
-            
-                Anime addedAnime = animes[0];
-                Assert.AreEqual(addedAnime, animeToAdd);
+                this.VerifyAdd(CreateAnime());
             }
 
             [Test]
@@ -70,46 +52,22 @@ namespace AnimeExporterTests.test {
             public void AddAnimes() {
                 
             }
-            
-        }
 
-        [Test]
-        public void TestAddAnime() {
-            
-            // empty anime
-            
-            // anime with stuff
-            
-            // null
-
-            Anime animeToAdd = CreateAnime();
-            this.Animes.Add(animeToAdd);
-
-            List<Anime> animes = this.Animes.ToList();
-            
-            Assert.That(animes.ToList(), Has.Count.EqualTo(1));
-            
-            Anime addedAnime = animes[0];
-            Assert.AreEqual(addedAnime, animeToAdd);
-        }
-        
-        [Test]
-        public void TestAddAnimes() {
-            const string title = "Kimi no na wa.";
-            
-            var animeToAdd = new Anime {Title = new Attribute(title)};
-            this.Animes.Add(animeToAdd);
-
-            List<Anime> animes = this.Animes.ToList();
-            
-            Assert.That(animes.ToList(), Has.Count.EqualTo(1));
-            
-            Anime addedAnime = animes[0];
-            Assert.AreEqual(addedAnime, animeToAdd);
+            private void VerifyAdd(Anime anime) {
+                Animes animes = this._test.Animes;
+                Assert.That(animes.ToList(), Is.Empty);
+                
+                animes.Add(anime);
+                Assert.That(animes.ToList(), Has.Count.EqualTo(1));                
+                Assert.AreEqual(animes.ToList()[0], anime);
+            }
         }
 
         private static Anime CreateAnime() {
-            return new Anime {Title = new Attribute(Title)};
+            return new Anime {
+                Title = new Attribute(Title),
+                Url = new Attribute(Url)
+            };
         }
     }
 }
