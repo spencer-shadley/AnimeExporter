@@ -34,13 +34,13 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddSingleAnime() {
-                this.VerifyAndAdd(CreateAnime());
+                this.VerifyAndAdd(CreateBasicAnime());
             }
 
             [Test]
             public void AddManyAnime() {
                 for (int i = 0; i < StressAddNum; ++i) {
-                    this.VerifyAndAdd(CreateAnime(Url + i), i);
+                    this.VerifyAndAdd(CreateBasicAnime(Url + i), i);
                 }
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
@@ -55,7 +55,7 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddOneAnimes() {
-                var animesToAdd = new Animes {CreateAnime()};
+                var animesToAdd = new Animes {CreateBasicAnime()};
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(1));
             }
@@ -65,7 +65,7 @@ namespace AnimeExporterTests.test {
                 var animesToAdd = new Animes();
 
                 for (int i = 0; i < StressAddNum; ++i) {
-                    animesToAdd.Add(CreateAnime(Url + i));
+                    animesToAdd.Add(CreateBasicAnime(Url + i));
                 }
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
@@ -80,7 +80,7 @@ namespace AnimeExporterTests.test {
             }
         }
 
-        private static Anime CreateAnime(string url = null) {
+        private static Anime CreateBasicAnime(string url = null) {
             return new Anime {
                 Title = Title,
                 Url = url ?? Url
