@@ -16,15 +16,10 @@ namespace AnimeExporterTests.test {
             this.Animes = new Animes();
         }
 
-        // TODO: this should be a fixture
-        [Test]
-        public void TestConstruction() {
-            // TODO
-        }
-
         [TestFixture]
         public class AddAnime {
-
+            private const int StressAddNum = 1000;
+            
             private AnimesTest _test;
 
             private List<Anime> AnimesList => this._test.Animes.ToList();
@@ -44,9 +39,10 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddManyAnime() {
-                for (int i = 0; i < 1000; ++i) {
+                for (int i = 0; i < StressAddNum; ++i) {
                     this.VerifyAndAdd(CreateAnime(Url + i), i);
                 }
+                Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
 
             [Test]
@@ -68,12 +64,11 @@ namespace AnimeExporterTests.test {
             public void AddManyAnimes() {
                 var animesToAdd = new Animes();
 
-                const int numAnimes = 1000;
-                for (int i = 0; i < numAnimes; ++i) {
+                for (int i = 0; i < StressAddNum; ++i) {
                     animesToAdd.Add(CreateAnime(Url + i));
                 }
                 this._test.Animes.Add(animesToAdd);
-                Assert.That(this.AnimesList, Has.Count.EqualTo(numAnimes));
+                Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
 
             private void VerifyAndAdd(Anime anime, int initialSize = 0) {
