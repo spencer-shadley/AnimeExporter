@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using AnimeExporter;
@@ -30,6 +29,8 @@ namespace AnimeExporterTests.test {
 
             private AnimesTest _test;
 
+            private List<Anime> AnimesList => this._test.Animes.ToList();
+
             [SetUp] public void Setup()       { this._test = new AnimesTest(); }
             [TearDown] public void Teardown() { this._test = null; }
             
@@ -45,7 +46,11 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddManyAnime() {
-                
+                for (int i = 0; i < 1000; ++i) {
+                    Anime anime = CreateAnime();
+                    anime.Url = new Attribute(Url + i);
+                    this.VerifyAdd(anime, i);
+                }
             }
 
             [Test]
@@ -53,13 +58,12 @@ namespace AnimeExporterTests.test {
                 
             }
 
-            private void VerifyAdd(Anime anime) {
-                Animes animes = this._test.Animes;
-                Assert.That(animes.ToList(), Is.Empty);
+            private void VerifyAdd(Anime anime, int initialSize = 0) {
+                Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize));
                 
-                animes.Add(anime);
-                Assert.That(animes.ToList(), Has.Count.EqualTo(1));                
-                Assert.AreEqual(animes.ToList()[0], anime);
+                this._test.Animes.Add(anime);
+                Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize+1));                
+                Assert.AreEqual(this.AnimesList[initialSize], anime);
             }
         }
 
