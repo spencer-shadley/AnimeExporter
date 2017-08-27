@@ -1,4 +1,5 @@
-﻿using AnimeExporter;
+﻿using System;
+using AnimeExporter;
 using AnimeExporterTests.utility;
 using NUnit.Framework;
 
@@ -27,6 +28,15 @@ namespace AnimeExporterTests.test {
             [Test]
             public void ScrapeTitle() {
                 Assert.AreEqual(this.DetailsPage.Title, KimiNoNaWa.Title);
+            }
+
+            [Test]
+            public void ScrapeRank() {
+                int rank = int.Parse(this.DetailsPage.Rank); 
+                
+                // assuming Kimi no Na Wa will always be at ranked at least 1,000
+                Assert.That(rank, Is.LessThan(1000));  
+                Assert.That(rank, Is.GreaterThan(0));
             }
         }
     }
