@@ -5,8 +5,8 @@ using NUnit.Framework;
 namespace AnimeExporterTests.test {
     
     public class AnimeTest {
-        private const string Title = "Kimi no na wa.";
-        private const string Url = "https://myanimelist.net/anime/32281/Kimi_no_Na_wa";
+        private const string Title = "Title";
+        private const string Url = "URL";
         
         public Anime Anime;
 
@@ -26,9 +26,16 @@ namespace AnimeExporterTests.test {
             
             [Test]
             public void IncludesTitle() {
-                Assert.AreEqual(this.Anime.Title.Name, "Title");
-                Assert.AreEqual(this.Anime.Title.Value, "Title");
-                Assert.AreEqual(this.Anime.Title, new Attribute("Title"));
+                Assert.AreEqual(this.Anime.Title.Name, Title);
+                Assert.AreEqual(this.Anime.Title.Value, Title);
+                Assert.AreEqual(this.Anime.Title, new Attribute(Title));
+            }
+            
+            [Test]
+            public void IncludesUrl() {
+                Assert.AreEqual(this.Anime.Url.Name, Url);
+                Assert.AreEqual(this.Anime.Url.Value, Url);
+                Assert.AreEqual(this.Anime.Url, new Attribute(Url));
             }
 
             /*[Test]
