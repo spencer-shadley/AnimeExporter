@@ -1,8 +1,6 @@
 ﻿using AnimeExporter;
 
-using static AnimeExporterTests.data.TestConstants;
-
-namespace AnimeExporterTests.data {
+namespace AnimeExporterTests.utility {
     
     /// <summary>
     /// Contains basic data for tests

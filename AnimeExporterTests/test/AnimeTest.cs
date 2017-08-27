@@ -1,7 +1,7 @@
 ﻿using AnimeExporter;
 using NUnit.Framework;
 
-using static AnimeExporterTests.data.TestConstants;
+using static AnimeExporterTests.utility.TestConstants;
 
 namespace AnimeExporterTests.test {
     

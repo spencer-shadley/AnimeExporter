@@ -2,10 +2,10 @@
 using System.Linq;
 
 using AnimeExporter;
-using AnimeExporterTests.data;
+using AnimeExporterTests.utility;
 using NUnit.Framework;
 
-using static AnimeExporterTests.data.TestConstants;
+using static AnimeExporterTests.utility.TestConstants;
 
 namespace AnimeExporterTests.test {
     

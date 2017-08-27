@@ -1,4 +1,4 @@
-﻿namespace AnimeExporterTests.data {
+﻿namespace AnimeExporterTests.utility {
     public class TestConstants {
 
         public class DefaultAttributes {
