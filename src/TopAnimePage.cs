@@ -15,7 +15,7 @@ namespace AnimeExporter {
     /// In one test it took 29.3 minutes to scrape all top anime between pages 0 and 100 (2,850 animes.)
     /// </remarks> 
     public class TopAnimePage : Page {
-        public TopAnimePage(HtmlNode document) : base(document) { }
+        public TopAnimePage(string url) : base(url) { }
         
         public static string GetTopAnimeUrl(int page) {
             const string topAnimeUrl = MyAnimeListBaseUrl + "/topanime.php?limit=";
@@ -37,9 +37,7 @@ namespace AnimeExporter {
         /// <returns>AnimeDetailsPage urls to the top anime on page <para>page</para></returns>
         public static List<string> ScrapeTopAnimeUrls(int page, int retriesLeft)
         {
-            var web = new HtmlWeb();
-            HtmlDocument doc = web.Load(GetTopAnimeUrl(page));
-            var topAnimePage = new TopAnimePage(doc.DocumentNode);
+            var topAnimePage = new TopAnimePage(GetTopAnimeUrl(page));
             
             var urls = new List<string>();
 

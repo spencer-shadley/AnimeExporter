@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
@@ -13,11 +14,23 @@ namespace AnimeExporter {
         public const int MaxRetryCount = 10;
         
         public static string Delimiter => "; ";
+
+        protected readonly string Url;
         
-        protected HtmlNode Doc;
+        protected HtmlNode Node;
         
-        public Page(HtmlNode document) {
-            this.Doc = document;
+        public Page(string url) {
+            this.Url = url;
+            
+            var web = new HtmlWeb();
+            HtmlDocument doc = web.Load(url);
+
+            if (web.StatusCode != HttpStatusCode.OK) {
+                // NOTE: This is often 429 Too Many Requests
+                throw new HttpRequestException($"Received status of {web.StatusCode}");
+            }
+            
+            this.Node = doc.DocumentNode;
         }
 
         /// <summary>
@@ -75,7 +88,7 @@ namespace AnimeExporter {
 
         protected HtmlNode SelectElementByText(string text) {
             string xPath = $"//span[text() = '{text}']";
-            HtmlNode selected = this.Doc.SelectSingleNode(xPath);
+            HtmlNode selected = this.Node.SelectSingleNode(xPath);
 
             if (selected != null) return selected;
             
@@ -132,7 +145,7 @@ namespace AnimeExporter {
         /// </summary>
         /// <returns>The trimmed InnerText of the next child of the node at <see cref="xPath"/></returns>
         protected string SelectValueAfter(string xPath) {
-            HtmlNodeCollection selectedNodes = this.Doc.SelectNodes(xPath);
+            HtmlNodeCollection selectedNodes = this.Node.SelectNodes(xPath);
 
             if (selectedNodes == null) {
                 Console.WriteLine($"No nodes were selected for {xPath}");
@@ -148,7 +161,7 @@ namespace AnimeExporter {
 
         protected HtmlNode SelectElementByItemProp(string itemProp) {
             string xPath = $"//span[@itemprop=\"{itemProp}\"]";
-            return this.Doc.SelectSingleNode(xPath);
+            return this.Node.SelectSingleNode(xPath);
         }
 
         /// <summary>
@@ -159,12 +172,12 @@ namespace AnimeExporter {
         /// <returns>The InnerText of the element with an itemprop equal to <see cref="itemProp"/></returns>
         protected string SelectValueOfItemProp(string itemProp) {
             string xPath = $"//span[@itemprop=\"{itemProp}\"]";
-            return SelectValue(this.Doc, xPath);
+            return SelectValue(this.Node, xPath);
         }
         
         protected HtmlNodeCollection FindElementsWithClass(string className) {
             string xPath = $"//*[contains(@class,'{className}')]";
-            return this.Doc.SelectNodes(xPath);
+            return this.Node.SelectNodes(xPath);
         }
         
         protected HtmlNode FindElementWithClass(string className) {

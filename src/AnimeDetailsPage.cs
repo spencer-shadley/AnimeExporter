@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 using HtmlAgilityPack;
 
 namespace AnimeExporter {
@@ -22,8 +21,6 @@ namespace AnimeExporter {
     /// </remarks>
     public class AnimeDetailsPage : Page {
 
-        public readonly string Url;
-        
         private static readonly string[] DateDelimter = {" to "}; // array is required for string.split() 
 
         private const string InvalidAiringMessage = "Unknown airing value: ";
@@ -32,9 +29,7 @@ namespace AnimeExporter {
 
         private enum Airing { Future, InProgress, Finished, Unknown }
 
-        public AnimeDetailsPage(string url, HtmlNode document) : base(document) {
-            this.Url = url;
-            
+        public AnimeDetailsPage(string url) : base(url) {
             this.FindRelatedAnime();
             
             switch (this.Status) {
@@ -90,7 +85,7 @@ namespace AnimeExporter {
                 const string selector = "Type:";
                 string xPath = $"//span[text() = '{selector}']";
 
-                HtmlNodeCollection typeNodes = this.Doc.SelectNodes(xPath);
+                HtmlNodeCollection typeNodes = this.Node.SelectNodes(xPath);
                 HtmlNode typeNode = typeNodes[0].NextSibling.NextSibling;
 
                 return typeNode == null ? this.SelectValueAfterText(selector) : typeNode.InnerText;
@@ -100,7 +95,7 @@ namespace AnimeExporter {
         public string Image {
             get {
                 const string xPath = "//div[@id='content']";
-                HtmlNode table = this.Doc.SelectSingleNode(xPath);
+                HtmlNode table = this.Node.SelectSingleNode(xPath);
                 HtmlNodeCollection images = table.SelectNodes("//img");
                 return images[1].Attributes["src"].Value;
             }
@@ -243,17 +238,7 @@ namespace AnimeExporter {
         public static Anime ScrapeAnime(string url, int retriesLeft) {
             Console.WriteLine($"Scraping {url}");
             try {
-                var web = new HtmlWeb();
-                HtmlDocument doc = web.Load(url);
-
-                HttpStatusCode status = web.StatusCode;
-                if (status != HttpStatusCode.OK) {
-                    // NOTE: This is often 429 Too Many Requests
-                    throw new HttpRequestException($"Received status of {status}");
-                }
-                
-                
-                var animeDetailsPage = new AnimeDetailsPage(url, doc.DocumentNode);
+                var animeDetailsPage = new AnimeDetailsPage(url);
                 
                 string[] genres = animeDetailsPage.Genres.Split(
                     new string[] { Delimiter }, StringSplitOptions.None);
