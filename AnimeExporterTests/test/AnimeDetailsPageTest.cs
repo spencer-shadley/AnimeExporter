@@ -1,5 +1,4 @@
-﻿using System;
-using AnimeExporter;
+﻿using AnimeExporter;
 using AnimeExporterTests.utility;
 using NUnit.Framework;
 
@@ -75,6 +74,11 @@ namespace AnimeExporterTests.test {
             [Test]
             public void Genres() {
                 Assert.That(this.DetailsPage.Genres, Is.EqualTo("Supernatural; Drama; Romance"));
+            }
+
+            [Test]
+            public void AirStartDate() {
+                
             }
         }
     }

@@ -32,9 +32,9 @@ namespace AnimeExporterTests.test {
             [Test]
             public void HasATitle() {
                 Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(DefaultAttributes.Title)));
-                Assert.AreEqual(this.Anime.Title.Name, DefaultAttributes.Title);
-                Assert.AreEqual(this.Anime.Title.Value, DefaultAttributes.Title);
-                Assert.AreEqual(this.Anime.Title, new Attribute(DefaultAttributes.Title));
+                Assert.That(this.Anime.Title.Name, Is.EqualTo(DefaultAttributes.Title));
+                Assert.That(this.Anime.Title.Value, Is.EqualTo(DefaultAttributes.Title));
+                Assert.That(this.Anime.Title, Is.EqualTo(new Attribute(DefaultAttributes.Title)));
             }
 
             [Test]
@@ -42,15 +42,15 @@ namespace AnimeExporterTests.test {
                 this.Anime = new Anime {
                     Title = KimiNoNaWa.Title
                 };
-                Assert.AreEqual(this.Anime.Title.Value, KimiNoNaWa.Title);
+                Assert.That(this.Anime.Title.Value, Is.EqualTo(KimiNoNaWa.Title));
             }
             
             [Test]
             public void HasAUrl() {
                 Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(DefaultAttributes.Url)));
-                Assert.AreEqual(this.Anime.Url.Name, DefaultAttributes.Url);
-                Assert.AreEqual(this.Anime.Url.Value, DefaultAttributes.Url);
-                Assert.AreEqual(this.Anime.Url, new Attribute(DefaultAttributes.Url));
+                Assert.That(this.Anime.Url.Name, Is.EqualTo(DefaultAttributes.Url));
+                Assert.That(this.Anime.Url.Value, Is.EqualTo(DefaultAttributes.Url));
+                Assert.That(this.Anime.Url, Is.EqualTo(new Attribute(DefaultAttributes.Url)));
             }
 
             [Test]
@@ -58,7 +58,7 @@ namespace AnimeExporterTests.test {
                 this.Anime = new Anime {
                     Url = KimiNoNaWa.Url
                 };
-                Assert.AreEqual(this.Anime.Url.Value, KimiNoNaWa.Url);
+                Assert.That(this.Anime.Url.Value, Is.EqualTo(KimiNoNaWa.Url));
             }
 
             [Test]

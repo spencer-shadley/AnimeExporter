@@ -80,7 +80,7 @@ namespace AnimeExporterTests.test {
                 
                 this._test.Animes.Add(anime);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize+1));                
-                Assert.AreEqual(this.AnimesList[initialSize], anime);
+                Assert.That(this.AnimesList[initialSize], Is.EqualTo(anime));
             }
         }
     }
