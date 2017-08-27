@@ -5,6 +5,9 @@ using static AnimeExporterTests.data.TestConstants;
 
 namespace AnimeExporterTests.test {
     
+    /// <summary>
+    /// Contains NUnit tests for <see cref="Anime"/> and <see cref="Attribute"/>
+    /// </summary>
     public class AnimeTest {
         
         public Anime Anime;
