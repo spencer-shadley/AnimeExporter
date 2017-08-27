@@ -1,38 +1,37 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-
 using AnimeExporter;
 using NUnit.Framework;
 
 namespace AnimeExporterTests.test {
     
-    public class AnimesTest {
+    public class AnimeTest {
         private const string Title = "Kimi no na wa.";
         private const string Url = "https://myanimelist.net/anime/32281/Kimi_no_Na_wa";
         
-        public Animes Animes;
+        public Anime Anime;
 
-        public AnimesTest() {
-            this.Animes = new Animes();
+        public AnimeTest() {
+            this.Anime = new Anime();
         }
 
         [TestFixture]
-        public class TestAddAnime {
-            private const int StressAddNum = 1000;
+        public class TestAllAttributes {
             
-            private AnimesTest _test;
+            private AnimeTest _test;
 
-            private List<Anime> AnimesList => this._test.Animes.ToList();
+            private Anime Anime => this._test.Anime;
 
-            [SetUp] public void Setup()       { this._test = new AnimesTest(); }
+            [SetUp] public void Setup()       { this._test = new AnimeTest(); }
             [TearDown] public void Teardown() { this._test = null; }
             
             [Test]
-            public void AddEmptyAnime() {
-                this.VerifyAndAdd(new Anime());
+            public void IncludesTitle() {
+                Assert.AreEqual(this.Anime.Title.Name, "Title");
+                Assert.AreEqual(this.Anime.Title.Value, "Title");
+//                Assert.AreEqual(this.Anime.Title, new Attribute("Title"));
             }
 
-            [Test]
+            /*[Test]
             public void AddSingleAnime() {
                 this.VerifyAndAdd(CreateBasicAnime());
             }
@@ -77,7 +76,7 @@ namespace AnimeExporterTests.test {
                 this._test.Animes.Add(anime);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize+1));                
                 Assert.AreEqual(this.AnimesList[initialSize], anime);
-            }
+            }*/
         }
 
         private static Anime CreateBasicAnime(string url = null) {
