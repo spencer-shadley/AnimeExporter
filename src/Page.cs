@@ -59,13 +59,12 @@ namespace AnimeExporter {
         /// Kimi no Na wa. (https://myanimelist.net/manga/99314/Kimi_no_Na_wa); Kimi no Na Wa. (https://myanimelist.net/manga/108011/Kimi_no_Na_Wa)
         /// </example>
         protected static void BuildUrls(ref string baseString, HtmlNode anchorNode) {
-            if (!anchorNode.Name.Equals("a")) {
-                return;
-            }
+            if (!anchorNode.Name.Equals("a")) { return; }
             
             if (baseString != string.Empty) {
                 baseString += Delimiter;
             }
+            
             string text = anchorNode.InnerText;
             string url = MyAnimeListBaseUrl + anchorNode.Attributes["href"].Value;
             baseString += $"{text} ({url})";

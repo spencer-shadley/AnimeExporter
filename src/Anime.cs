@@ -11,6 +11,7 @@ namespace AnimeExporter {
         // TODO: add staff (https://myanimelist.net/anime/1794/Dirty_Pair_no_Ooshoubu__Nolandia_no_Nazo/characters)
         // TODO: add streaming availability (https://myanimelist.net/anime/6045/Kimi_ni_Todoke/video?provider_id=2&subdub_type=sub)
         // TODO: add users (https://myanimelist.net/users.php?q=&loc=&agelow=1&agehigh=100&g=)
+        // TODO: fix remaining "wasn't scraped" warning
         public Attribute Title                = "Title";
         public Attribute EnglishTitle         = "English Title";
         public Attribute JapaneseTitle        = "Japanese Title";
@@ -103,7 +104,7 @@ namespace AnimeExporter {
         public static implicit operator Attribute(string value) {
             return new Attribute(value);
         }
-
+        
         public override string ToString() {
             return this.NameToString() + this.ValueToString() + Environment.NewLine;
         }

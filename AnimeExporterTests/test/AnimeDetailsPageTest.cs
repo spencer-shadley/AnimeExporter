@@ -10,28 +10,32 @@ namespace AnimeExporterTests.test {
     /// Contains NUnit tests for <see cref="AnimeDetailsPage"/>
     /// </summary>
     public class AnimeDetailsPageTest {
-        
-        public AnimeDetailsPage DetailsPage;
-
-        public AnimeDetailsPageTest() {
-            this.DetailsPage = CreateData.KimiNoNaWaDetailsPage();
-        }
 
         [TestFixture]
         public class TestScraping {
-            private AnimeDetailsPage DetailsPage { get; set; }
+            private AnimeDetailsPage KimiDetailsPage { get; set; }
+            private AnimeDetailsPage SteinsGateDetailsPage { get; set; }
 
-            [SetUp] public void Setup()       { this.DetailsPage = CreateData.KimiNoNaWaDetailsPage(); }
-            [TearDown] public void Teardown() { this.DetailsPage = null; }
+            [SetUp]
+            public void Setup() {
+                this.KimiDetailsPage = CreateData.KimiNoNaWaDetailsPage();
+                this.SteinsGateDetailsPage = CreateData.SteinsGateDetailsPage();
+            }
+
+            [TearDown]
+            public void Teardown() {
+                this.KimiDetailsPage = null;
+                this.SteinsGateDetailsPage = null;
+            }
 
             [Test]
             public void Title() {
-                Assert.That(this.DetailsPage.Title, Is.EqualTo(KimiNoNaWa.Title));
+                Assert.That(this.KimiDetailsPage.Title, Is.EqualTo(KimiNoNaWa.Title));
             }
 
             [Test]
             public void Rank() {
-                int rank = int.Parse(this.DetailsPage.Rank); 
+                int rank = int.Parse(this.KimiDetailsPage.Rank); 
                 
                 // assuming Kimi no Na Wa will always be at ranked at least 1,000
                 Assert.That(rank, Is.LessThan(1000));  
@@ -40,45 +44,55 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void MediaType() {
-                Assert.That(this.DetailsPage.MediaType, Is.EqualTo(KimiNoNaWa.Type));
+                Assert.That(this.KimiDetailsPage.MediaType, Is.EqualTo(KimiNoNaWa.Type));
             }
 
             [Test]
             public void Image() {
-                Assert.That(this.DetailsPage.ImageUrl, Is.EqualTo(KimiNoNaWa.ImageUrl));
+                Assert.That(this.KimiDetailsPage.ImageUrl, Is.EqualTo(KimiNoNaWa.ImageUrl));
             }
 
             [Test]
             public void Score() {
-                double score = double.Parse(this.DetailsPage.Score);
+                double score = double.Parse(this.KimiDetailsPage.Score);
                 Assert.That(score, Is.LessThan(9.9));
                 Assert.That(score, Is.GreaterThan(8.5));
             }
 
             [Test]
             public void Background() {
-                this.DetailsPage = new AnimeDetailsPage(SteinsGate.Url);
-                StringAssert.Contains(SteinsGate.PartialBackground, this.DetailsPage.Background);
+                StringAssert.Contains(SteinsGate.PartialBackground, this.SteinsGateDetailsPage.Background);
             }
 
             [Test]
             public void NoBackground() {
-                Assert.IsNull(this.DetailsPage.Background);
+                Assert.IsNull(this.KimiDetailsPage.Background);
             }
 
             [Test]
             public void EnglishTitle() {
-                Assert.That(this.DetailsPage.EnglishTitle, Is.EqualTo(KimiNoNaWa.EnglishTitle));
+                Assert.That(this.KimiDetailsPage.EnglishTitle, Is.EqualTo(KimiNoNaWa.EnglishTitle));
             }
 
             [Test]
             public void Genres() {
-                Assert.That(this.DetailsPage.Genres, Is.EqualTo("Supernatural; Drama; Romance"));
+                Assert.That(this.KimiDetailsPage.Genres, Is.EqualTo(KimiNoNaWa.Genres));
             }
 
             [Test]
             public void AirStartDate() {
-                
+                Assert.That(this.SteinsGateDetailsPage.AirStartDate, Is.EqualTo(SteinsGate.AirStartDate));
+            }
+
+            [Test]
+            public void AirFinishDate() {
+                Assert.That(this.SteinsGateDetailsPage.AirFinishDate, Is.EqualTo(SteinsGate.AirFinishDate));
+            }
+
+            [Test]
+            public void RelatedAnime() {
+                Assert.That(this.SteinsGateDetailsPage.Adapation, Is.EqualTo(SteinsGate.Adapatation));
+                Assert.That(this.SteinsGateDetailsPage.AlternativeSetting, Is.EqualTo(SteinsGate.AlternativeSetting));
             }
         }
     }

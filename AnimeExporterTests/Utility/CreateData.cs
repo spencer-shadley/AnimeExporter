@@ -16,5 +16,9 @@ namespace AnimeExporterTests.utility {
         public static AnimeDetailsPage KimiNoNaWaDetailsPage() {
             return new AnimeDetailsPage(TestConstants.KimiNoNaWa.Url);
         }
+
+        public static AnimeDetailsPage SteinsGateDetailsPage() {
+            return new AnimeDetailsPage(TestConstants.SteinsGate.Url);
+        }
     }
 }

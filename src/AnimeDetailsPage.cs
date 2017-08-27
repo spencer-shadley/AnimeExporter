@@ -198,9 +198,7 @@ namespace AnimeExporter {
             HtmlNode table = this.FindElementWithClass("anime_detail_related_anime");
 
             // When an anime has no related animes the table is not generated
-            if (table == null) {
-                return;
-            }
+            if (table == null) { return; }
             
             HtmlNodeCollection rows = this.SelectElementsByType(table, "tr");
             foreach (HtmlNode row in rows) {
@@ -215,7 +213,7 @@ namespace AnimeExporter {
                 if (text.Contains("Adaptation:")) {
                     this.Adapation = currRelatedAnime;
                 }
-                else if (text.Contains("Alternative Setting:")) {
+                else if (text.Contains("Alternative setting:")) {
                     this.AlternativeSetting = currRelatedAnime;
                 }
                 else if (text.Contains("Sequel:")) {
@@ -253,11 +251,11 @@ namespace AnimeExporter {
                 }
 
                 var anime = new Anime {
+                    Url                   = { Value = url },
                     Title                 = { Value = animeDetailsPage.Title },
                     EnglishTitle          = { Value = animeDetailsPage.EnglishTitle },
                     JapaneseTitle         = { Value = animeDetailsPage.JapaneseTitle },
                     Synonyms              = { Value = animeDetailsPage.Synonyms },
-                    Url                   = { Value = url },
                     Score                 = { Value = animeDetailsPage.Score },
                     NumRatings            = { Value = animeDetailsPage.NumberOfRatings },
                     Rank                  = { Value = animeDetailsPage.Rank },
