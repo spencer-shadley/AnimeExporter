@@ -11,10 +11,10 @@ namespace AnimeExporterTests.test {
     /// </summary>
     public class AnimeDetailsPageTest {
         
-        public Anime Anime;
+        public AnimeDetailsPage DetailsPage;
 
         public AnimeDetailsPageTest() {
-            this.Anime = new Anime();
+            this.DetailsPage = CreateData.KimiNoNaWaDetailsPage();
         }
 
         [TestFixture]
