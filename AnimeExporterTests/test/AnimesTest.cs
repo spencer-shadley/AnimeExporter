@@ -2,6 +2,7 @@
 using System.Linq;
 
 using AnimeExporter;
+using AnimeExporterTests.data;
 using NUnit.Framework;
 
 using static AnimeExporterTests.data.TestConstants;
@@ -34,13 +35,13 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddSingleAnime() {
-                this.VerifyAndAdd(CreateBasicAnime());
+                this.VerifyAndAdd(Data.CreateKimiNoNaWa());
             }
 
             [Test]
             public void AddManyAnime() {
                 for (int i = 0; i < StressAddNum; ++i) {
-                    this.VerifyAndAdd(CreateBasicAnime(KimiNoNaWa.Url + i), i);
+                    this.VerifyAndAdd(Data.CreateKimiNoNaWa(KimiNoNaWa.Url + i), i);
                 }
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
@@ -55,7 +56,7 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddOneAnimes() {
-                var animesToAdd = new Animes {CreateBasicAnime()};
+                var animesToAdd = new Animes {Data.CreateKimiNoNaWa()};
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(1));
             }
@@ -65,7 +66,7 @@ namespace AnimeExporterTests.test {
                 var animesToAdd = new Animes();
 
                 for (int i = 0; i < StressAddNum; ++i) {
-                    animesToAdd.Add(CreateBasicAnime(KimiNoNaWa.Url + i));
+                    animesToAdd.Add(Data.CreateKimiNoNaWa(KimiNoNaWa.Url + i));
                 }
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
@@ -78,13 +79,6 @@ namespace AnimeExporterTests.test {
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize+1));                
                 Assert.AreEqual(this.AnimesList[initialSize], anime);
             }
-        }
-
-        private static Anime CreateBasicAnime(string url = null) {
-            return new Anime {
-                Title = KimiNoNaWa.Title,
-                Url = url ?? KimiNoNaWa.Url
-            };
         }
     }
 }
