@@ -24,6 +24,8 @@ namespace AnimeExporter {
         private static readonly string[] DateDelimter = {" to "}; // array is required for string.split() 
 
         private const string InvalidAiringMessage = "Unknown airing value: ";
+
+        private const string NoBackground = "No background information has been added to this title. Help improve our database by adding background information";
         
         private readonly Airing _airingStatus;
 
@@ -92,7 +94,7 @@ namespace AnimeExporter {
             }
         }
 
-        public string Image {
+        public string ImageUrl {
             get {
                 const string xPath = "//div[@id='content']";
                 HtmlNode table = this.Node.SelectSingleNode(xPath);
@@ -109,8 +111,11 @@ namespace AnimeExporter {
 
         public string Background {
             get {
-                HtmlNode synopsis = this.SelectElementByItemProp("description");
-                return synopsis == null ? null : WebUtility.HtmlDecode(synopsis.NextSibling.NextSibling.InnerText);
+                HtmlNode descriptionNode = this.SelectElementByItemProp("description");
+                if (descriptionNode == null) return null;
+                
+                string description = WebUtility.HtmlDecode(descriptionNode.NextSibling.NextSibling.InnerText).Trim();
+                return description.Equals(NoBackground) ? null : description;
             }
         }
 
@@ -273,7 +278,7 @@ namespace AnimeExporter {
                     Source                = { Value = animeDetailsPage.Source },
                     Synopsis              = { Value = animeDetailsPage.Synopsis },
                     Background            = { Value = animeDetailsPage.Background },
-                    Image                 = { Value = animeDetailsPage.Image },
+                    Image                 = { Value = animeDetailsPage.ImageUrl },
                     Adaptation            = { Value = animeDetailsPage.Adapation },
                     AlternativeSetting    = { Value = animeDetailsPage.AlternativeSetting },
                     Sequel                = { Value = animeDetailsPage.Sequel },

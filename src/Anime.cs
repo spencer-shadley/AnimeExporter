@@ -84,6 +84,8 @@ namespace AnimeExporter {
     /// Represents a piece of info about an anime using a Name/Value pair
     /// </summary>
     public class Attribute {
+        public const string Empty = "none";
+        
         public string Name { get; }
         public string Value { get; set; }
         
@@ -112,7 +114,7 @@ namespace AnimeExporter {
 
         public string ValueToString() {
             if (this.Value == null) {
-                return "none";
+                return Empty;
             }
             
             string cleanedValue = this.Value.Trim().Replace(Environment.NewLine, string.Empty); 

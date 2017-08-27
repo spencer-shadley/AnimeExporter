@@ -26,12 +26,12 @@ namespace AnimeExporterTests.test {
             [TearDown] public void Teardown() { this.DetailsPage = null; }
 
             [Test]
-            public void ScrapeTitle() {
-                Assert.AreEqual(this.DetailsPage.Title, KimiNoNaWa.Title);
+            public void Title() {
+                Assert.That(this.DetailsPage.Title, Is.EqualTo(KimiNoNaWa.Title));
             }
 
             [Test]
-            public void ScrapeRank() {
+            public void Rank() {
                 int rank = int.Parse(this.DetailsPage.Rank); 
                 
                 // assuming Kimi no Na Wa will always be at ranked at least 1,000
@@ -40,8 +40,41 @@ namespace AnimeExporterTests.test {
             }
 
             [Test]
-            public void ScrapeMediaType() {
-                Assert.AreEqual(this.DetailsPage.MediaType, KimiNoNaWa.Type);
+            public void MediaType() {
+                Assert.That(this.DetailsPage.MediaType, Is.EqualTo(KimiNoNaWa.Type));
+            }
+
+            [Test]
+            public void Image() {
+                Assert.That(this.DetailsPage.ImageUrl, Is.EqualTo(KimiNoNaWa.ImageUrl));
+            }
+
+            [Test]
+            public void Score() {
+                double score = double.Parse(this.DetailsPage.Score);
+                Assert.That(score, Is.LessThan(9.9));
+                Assert.That(score, Is.GreaterThan(8.5));
+            }
+
+            [Test]
+            public void Background() {
+                this.DetailsPage = new AnimeDetailsPage(SteinsGate.Url);
+                StringAssert.Contains(SteinsGate.PartialBackground, this.DetailsPage.Background);
+            }
+
+            [Test]
+            public void NoBackground() {
+                Assert.IsNull(this.DetailsPage.Background);
+            }
+
+            [Test]
+            public void EnglishTitle() {
+                Assert.That(this.DetailsPage.EnglishTitle, Is.EqualTo(KimiNoNaWa.EnglishTitle));
+            }
+
+            [Test]
+            public void Genres() {
+                Assert.That(this.DetailsPage.Genres, Is.EqualTo("Supernatural; Drama; Romance"));
             }
         }
     }
