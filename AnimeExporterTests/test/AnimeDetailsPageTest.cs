@@ -38,6 +38,11 @@ namespace AnimeExporterTests.test {
                 Assert.That(rank, Is.LessThan(1000));  
                 Assert.That(rank, Is.GreaterThan(0));
             }
+
+            [Test]
+            public void ScrapeMediaType() {
+                Assert.AreEqual(this.DetailsPage.MediaType, KimiNoNaWa.Type);
+            }
         }
     }
 }
