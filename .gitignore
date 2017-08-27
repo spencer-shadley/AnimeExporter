@@ -6,6 +6,7 @@
 *.sln
 *.DotSettings
 .vs
+AnimeExporter.sln.DotSettings.user
 
 #############
 # Generated #
