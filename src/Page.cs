@@ -26,7 +26,7 @@ namespace AnimeExporter {
             HtmlDocument doc = web.Load(url);
 
             if (web.StatusCode != HttpStatusCode.OK) {
-                // NOTE: This is often 429 Too Many Requests
+                // NOTE: This is typically a 429 - Too Many Requests
                 throw new HttpRequestException($"Received status of {web.StatusCode}");
             }
             

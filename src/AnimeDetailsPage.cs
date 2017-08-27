@@ -229,12 +229,12 @@ namespace AnimeExporter {
         }
 
         /// <summary>
-        /// Scrapes the anime at the given <see cref="Url"/> to construct an anime object. By default this
+        /// Scrapes the anime at the given <see cref="url"/> to construct an anime object. By default this
         /// will retry scraping the page twice due to inconsistent network connections before giving up.
         /// </summary>
         /// <param name="url">The url to scrape</param>
         /// <param name="retriesLeft">Number of times to retry</param>
-        /// <returns>An <see cref="Anime"/> representation of the page at <see cref="Url"/></returns>
+        /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
         public static Anime ScrapeAnime(string url, int retriesLeft) {
             Console.WriteLine($"Scraping {url}");
             try {
