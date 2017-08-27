@@ -28,7 +28,7 @@ namespace AnimeExporterTests.test {
             public void IncludesTitle() {
                 Assert.AreEqual(this.Anime.Title.Name, "Title");
                 Assert.AreEqual(this.Anime.Title.Value, "Title");
-//                Assert.AreEqual(this.Anime.Title, new Attribute("Title"));
+                Assert.AreEqual(this.Anime.Title, new Attribute("Title"));
             }
 
             /*[Test]
