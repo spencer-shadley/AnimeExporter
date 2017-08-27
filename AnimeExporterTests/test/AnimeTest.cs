@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using AnimeExporter;
+﻿using AnimeExporter;
 using NUnit.Framework;
+
+using static AnimeExporterTests.data.TestConstants;
 
 namespace AnimeExporterTests.test {
     
     public class AnimeTest {
-        private const string Title = "Title";
-        private const string Url = "URL";
         
         public Anime Anime;
 
@@ -19,23 +18,38 @@ namespace AnimeExporterTests.test {
             
             private AnimeTest _test;
 
-            private Anime Anime => this._test.Anime;
+            private Anime Anime {
+                get => this._test.Anime;
+                set => this._test.Anime = value;
+            }
 
             [SetUp] public void Setup()       { this._test = new AnimeTest(); }
             [TearDown] public void Teardown() { this._test = null; }
             
             [Test]
-            public void IncludesTitle() {
-                Assert.AreEqual(this.Anime.Title.Name, Title);
-                Assert.AreEqual(this.Anime.Title.Value, Title);
-                Assert.AreEqual(this.Anime.Title, new Attribute(Title));
+            public void HasATitle() {
+                Assert.AreEqual(this.Anime.Title.Name, DefaultAttributes.Title);
+                Assert.AreEqual(this.Anime.Title.Value, DefaultAttributes.Title);
+                Assert.AreEqual(this.Anime.Title, new Attribute(DefaultAttributes.Title));
+            }
+
+            [Test]
+            public void HasCorrectTitle() {
+                this.Anime = new Anime {
+//                    Title = 
+                };
             }
             
             [Test]
-            public void IncludesUrl() {
-                Assert.AreEqual(this.Anime.Url.Name, Url);
-                Assert.AreEqual(this.Anime.Url.Value, Url);
-                Assert.AreEqual(this.Anime.Url, new Attribute(Url));
+            public void HasAUrl() {
+                Assert.AreEqual(this.Anime.Url.Name, DefaultAttributes.Url);
+                Assert.AreEqual(this.Anime.Url.Value, DefaultAttributes.Url);
+                Assert.AreEqual(this.Anime.Url, new Attribute(DefaultAttributes.Url));
+            }
+
+            [Test]
+            public void HasEveryAttribute() {
+                Assert.That(this.Anime.AllAttributes, Has.Count.EqualTo(31));
             }
 
             /*[Test]
@@ -84,13 +98,6 @@ namespace AnimeExporterTests.test {
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize+1));                
                 Assert.AreEqual(this.AnimesList[initialSize], anime);
             }*/
-        }
-
-        private static Anime CreateBasicAnime(string url = null) {
-            return new Anime {
-                Title = Title,
-                Url = url ?? Url
-            };
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Linq;
 using AnimeExporter;
 using NUnit.Framework;
 
+using static AnimeExporterTests.data.TestConstants;
+
 namespace AnimeExporterTests.test {
     
     public class AnimesTest {
-        private const string Title = "Kimi no na wa.";
-        private const string Url = "https://myanimelist.net/anime/32281/Kimi_no_Na_wa";
         
         public Animes Animes;
 
@@ -40,7 +40,7 @@ namespace AnimeExporterTests.test {
             [Test]
             public void AddManyAnime() {
                 for (int i = 0; i < StressAddNum; ++i) {
-                    this.VerifyAndAdd(CreateBasicAnime(Url + i), i);
+                    this.VerifyAndAdd(CreateBasicAnime(KimiNoNaWa.Url + i), i);
                 }
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
@@ -65,7 +65,7 @@ namespace AnimeExporterTests.test {
                 var animesToAdd = new Animes();
 
                 for (int i = 0; i < StressAddNum; ++i) {
-                    animesToAdd.Add(CreateBasicAnime(Url + i));
+                    animesToAdd.Add(CreateBasicAnime(KimiNoNaWa.Url + i));
                 }
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
@@ -82,8 +82,8 @@ namespace AnimeExporterTests.test {
 
         private static Anime CreateBasicAnime(string url = null) {
             return new Anime {
-                Title = Title,
-                Url = url ?? Url
+                Title = KimiNoNaWa.Title,
+                Url = url ?? KimiNoNaWa.Url
             };
         }
     }
