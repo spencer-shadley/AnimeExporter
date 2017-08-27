@@ -21,7 +21,7 @@ namespace AnimeExporterTests.test {
         public class TestScraping {
             private AnimeDetailsPage DetailsPage { get; set; }
 
-            [SetUp] public void Setup()       { this.DetailsPage = Data.CreateKimiNoNaWaDetailsPage(); }
+            [SetUp] public void Setup()       { this.DetailsPage = CreateData.KimiNoNaWaDetailsPage(); }
             [TearDown] public void Teardown() { this.DetailsPage = null; }
 
             [Test]

@@ -38,13 +38,13 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddSingleAnime() {
-                this.VerifyAndAdd(Data.CreateKimiNoNaWa());
+                this.VerifyAndAdd(CreateData.KimiNoNaWa());
             }
 
             [Test]
             public void AddManyAnime() {
                 for (int i = 0; i < StressAddNum; ++i) {
-                    this.VerifyAndAdd(Data.CreateKimiNoNaWa(KimiNoNaWa.Url + i), i);
+                    this.VerifyAndAdd(CreateData.KimiNoNaWa(KimiNoNaWa.Url + i), i);
                 }
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
@@ -59,7 +59,7 @@ namespace AnimeExporterTests.test {
 
             [Test]
             public void AddOneAnimes() {
-                var animesToAdd = new Animes {Data.CreateKimiNoNaWa()};
+                var animesToAdd = new Animes {CreateData.KimiNoNaWa()};
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(1));
             }
@@ -69,7 +69,7 @@ namespace AnimeExporterTests.test {
                 var animesToAdd = new Animes();
 
                 for (int i = 0; i < StressAddNum; ++i) {
-                    animesToAdd.Add(Data.CreateKimiNoNaWa(KimiNoNaWa.Url + i));
+                    animesToAdd.Add(CreateData.KimiNoNaWa(KimiNoNaWa.Url + i));
                 }
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
