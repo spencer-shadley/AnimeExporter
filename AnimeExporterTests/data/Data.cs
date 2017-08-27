@@ -14,5 +14,9 @@ namespace AnimeExporterTests.data {
                 Url = url ?? KimiNoNaWa.Url
             };
         }
+
+        public static AnimeDetailsPage CreateKimiNoNaWaDetailsPage() {
+            return new AnimeDetailsPage(KimiNoNaWa.Url);
+        }
     }
 }
