@@ -262,7 +262,7 @@ namespace AnimeExporter {
         /// <param name="url">The url to scrape</param>
         /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
-        public static Anime ScrapeAnime(string url, int retriesLeft) {
+        public static Anime TryScrapeAnime(string url, int retriesLeft) {
             Console.WriteLine($"Scraping {url}");
             try {
                 var animeDetailsPage = new AnimeDetailsPage(url);
@@ -324,7 +324,7 @@ namespace AnimeExporter {
                 BackOff(retriesLeft);
 
                 // typically network connectivity issues, see if we should try again
-                return retriesLeft == 0 ? null : ScrapeAnime(url, retriesLeft - 1);
+                return retriesLeft == 0 ? null : TryScrapeAnime(url, retriesLeft - 1);
             }
         }
     }

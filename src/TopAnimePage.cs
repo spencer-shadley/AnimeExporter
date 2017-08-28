@@ -58,8 +58,9 @@ namespace AnimeExporter {
         /// </summary>
         /// <param name="startPage">The page to begin scraping from</param>
         /// <param name="lastPage">The page to end scraping (if unspecified only the <see cref="startPage"/> will be scraped</param>
+        /// <param name="retriesLeft">How many times to retry if there are network issues</param>
         /// <returns></returns>
-        public static Animes ScrapeTopAnimes(int startPage, int lastPage = -1) {
+        public static Animes TryScrapeTopAnimes(int startPage, int lastPage = -1, int retriesLeft = 10) {
 
             Debug.Assert(startPage >= 0, "Start page must be at least 0");
             Debug.Assert(lastPage >= -1, "Last page must be at least -1");
@@ -72,7 +73,18 @@ namespace AnimeExporter {
             
             do {
                 PrintPage(startPage);
-                animes.Add(ScrapeTopAnimesPage(startPage));
+                try {
+                    animes.Add(ScrapeTopAnimesPage(startPage));
+                }
+                catch (Exception e) {
+                    Console.Error.WriteLine($"failed to export page {startPage} (retry count is {retriesLeft})...");
+                    Console.Error.WriteLine(e);
+
+                    BackOff(retriesLeft);
+
+                    // typically network connectivity issues, see if we should try again
+                    return retriesLeft == 0 ? animes : TryScrapeTopAnimes(startPage, lastPage, retriesLeft - 1);
+                }
             }
             while (startPage++ < lastPage);
             
@@ -88,7 +100,7 @@ namespace AnimeExporter {
             var animes = new Animes();
             List<string> topAnimeUrls = ScrapeTopAnimeUrls(page, MaxRetryCount);
             foreach (string url in topAnimeUrls) {
-                Anime scrapedAnime = AnimeDetailsPage.ScrapeAnime(url, MaxRetryCount);
+                Anime scrapedAnime = AnimeDetailsPage.TryScrapeAnime(url, MaxRetryCount);
                 
                 if (scrapedAnime == null) {
                     continue;
