@@ -19,6 +19,9 @@ namespace AnimeExporter {
         
         protected HtmlNode Node;
         
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
         public Page(string url) {
             this.Url = url;
             
@@ -26,8 +29,11 @@ namespace AnimeExporter {
             HtmlDocument doc = web.Load(url);
 
             if (web.StatusCode != HttpStatusCode.OK) {
+                string errorMessage = $"Received status of {web.StatusCode}, {url} could not be loaded"; 
+                Log.Error(errorMessage);
+                
                 // NOTE: This is typically a 429 - Too Many Requests
-                throw new HttpRequestException($"Received status of {web.StatusCode}");
+                throw new HttpRequestException(errorMessage);
             }
             
             this.Node = doc.DocumentNode;
@@ -43,11 +49,11 @@ namespace AnimeExporter {
             
             double waitTime = Math.Pow(2, (MaxRetryCount - retriesLeft)) * backOffRate;
             
-            Console.Error.WriteLine($"Waiting {waitTime/1000} seconds to retry..." + Environment.NewLine);
+            Log.Info($"Waiting {waitTime/1000} seconds to retry..." + Environment.NewLine);
             
             Task.Delay((int) waitTime).Wait();
             
-            Console.Error.WriteLine("Retrying...");
+            Log.Info("Retrying...");
         }
         
         /// <summary>
@@ -74,12 +80,12 @@ namespace AnimeExporter {
             HtmlNodeCollection nodes = node.SelectNodes(xPath);
 
             if (nodes == null) {
-                Console.WriteLine($"No nodes were selected for {xPath}");
+                Log.Warn($"No nodes were selected for {xPath}");
                 return null;
             }
 
             if (nodes.Count != 1) {
-                Console.Error.WriteLine($"There were {nodes.Count} nodes selected");
+                Log.Warn($"There were {nodes.Count} nodes selected");
             }
             
             return WebUtility.HtmlDecode(nodes[0].InnerText);
@@ -91,7 +97,7 @@ namespace AnimeExporter {
 
             if (selected != null) return selected;
             
-            Console.WriteLine($"No nodes were selected for {text}");
+            Log.Warn($"No nodes were selected for {text}");
             return null;
         }
 
@@ -101,7 +107,7 @@ namespace AnimeExporter {
 
             if (selected != null && selected.Count > 0) return selected;
             
-            Console.WriteLine($"No nodes were selected for {type}");
+            Log.Warn($"No nodes were selected for {type}");
             return null;
         }
 
@@ -147,11 +153,11 @@ namespace AnimeExporter {
             HtmlNodeCollection selectedNodes = this.Node.SelectNodes(xPath);
 
             if (selectedNodes == null) {
-                Console.WriteLine($"No nodes were selected for {xPath}");
+                Log.Warn($"No nodes were selected for {xPath}");
                 return null;
             }
             if (selectedNodes.Count != 1) {
-                Console.Error.WriteLine($"There were {selectedNodes.Count} nodes selected");
+                Log.Warn($"There were {selectedNodes.Count} nodes selected");
             }
 
             HtmlNode valueNode = selectedNodes[0].NextSibling;
@@ -182,11 +188,11 @@ namespace AnimeExporter {
         protected HtmlNode FindElementWithClass(string className) {
             HtmlNodeCollection elements = this.FindElementsWithClass(className);
             if (elements == null) {
-                Console.WriteLine($"No nodes were selected for {className}");
+                Log.Warn($"No nodes were selected for {className}");
                 return null;
             }
             if (elements.Count != 1) {
-                Console.Error.WriteLine($"There were {elements.Count} nodes selected");
+                Log.Warn($"There were {elements.Count} nodes selected");
             }
             
             return elements[0];

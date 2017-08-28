@@ -15,6 +15,10 @@ namespace AnimeExporter {
     /// In one test it took 29.3 minutes to scrape all top anime between pages 0 and 100 (2,850 animes.)
     /// </remarks> 
     public class TopAnimePage : Page {
+    
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
         public TopAnimePage(string url) : base(url) { }
         
         public static string GetTopAnimeUrl(int page) {
@@ -44,7 +48,7 @@ namespace AnimeExporter {
             HtmlNodeCollection anchorNodes = topAnimePage.GetAnchorNodes();
 
             if (anchorNodes == null) {
-                Console.Error.WriteLine($"Page {page} is unable to parse the URLs. Retry count is {retriesLeft}");
+                Log.Error($"Page {page} is unable to parse the URLs. Retry count is {retriesLeft}");
                 BackOff(retriesLeft);
                 return retriesLeft == 0 ? new List<string>() : ScrapeTopAnimeUrls(page, retriesLeft - 1);
             }
@@ -77,9 +81,9 @@ namespace AnimeExporter {
                     animes.Add(ScrapeTopAnimesPage(startPage));
                 }
                 catch (Exception e) {
-                    Console.Error.WriteLine($"failed to export page {startPage} (retry count is {retriesLeft})...");
-                    Console.Error.WriteLine(e);
-
+                    string errorMessage = $"failed to scrape page {startPage} (retry count is {retriesLeft})...";
+                    Log.Error(errorMessage, e);
+                    
                     BackOff(retriesLeft);
 
                     // typically network connectivity issues, see if we should try again
@@ -112,12 +116,13 @@ namespace AnimeExporter {
         }
 
         public static void PrintPage(int page) {
-            Console.WriteLine("===============================");
-            Console.WriteLine("===============================");
-            Console.WriteLine($"==========   PAGE {page}  ==========");
-            Console.WriteLine("===============================");
-            Console.WriteLine("===============================");
-            Console.WriteLine();
+            Log.Info(@"
+===============================
+===============================
+==========   PAGE {page}  ==========
+===============================
+===============================
+            ");
         }
     }
 }

@@ -13,6 +13,9 @@ namespace AnimeExporter {
     
     public class GoogleSheet {
         
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        
         private static SheetsService _service;
         private static readonly string[] Scopes = {SheetsService.Scope.Spreadsheets};
         private const string ApplicationName = "Google Sheets API";
@@ -67,7 +70,7 @@ namespace AnimeExporter {
             ClearValuesRequest request = new ClearValuesRequest();
             SpreadsheetsResource.ValuesResource.ClearRequest clearRequest = Service.Spreadsheets.Values.Clear(request, SheetId, GetEntireRangeOfSheet(sheetName));
             ClearValuesResponse response = clearRequest.Execute();
-            Console.WriteLine($"Cleared {response.ClearedRange}");
+            Log.Info($"Cleared {response.ClearedRange}");
         }
 
         /// <summary>
@@ -90,7 +93,7 @@ namespace AnimeExporter {
             SpreadsheetsResource.ValuesResource.BatchUpdateRequest updateRequest = Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
             BatchUpdateValuesResponse response = updateRequest.Execute();
 
-            Console.WriteLine($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}" + Environment.NewLine);
+            Log.Info($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}" + Environment.NewLine);
         }
 
         /// <summary>The Google Sheet which is published to requires credentials to access.</summary>

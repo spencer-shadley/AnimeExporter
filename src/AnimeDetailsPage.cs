@@ -20,6 +20,9 @@ namespace AnimeExporter {
     /// Note: This taking longer actaully helps to combat the rate throttling on MyAnimeList
     /// </remarks>
     public class AnimeDetailsPage : Page {
+        
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static readonly string[] DateDelimter = {" to "}; // array is required for string.split() 
 
@@ -250,7 +253,7 @@ namespace AnimeExporter {
                     this.AlternativeVersion = currRelatedAnime;
                 }
                 else {
-                    Console.Error.WriteLine($"{text} wasn't scraped!");
+                    Log.Error($"{text} wasn't scraped!");
                 }
             }
         }
@@ -263,7 +266,7 @@ namespace AnimeExporter {
         /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
         public static Anime TryScrapeAnime(string url, int retriesLeft) {
-            Console.WriteLine($"Scraping {url}");
+            Log.Info($"Scraping {url}");
             try {
                 var animeDetailsPage = new AnimeDetailsPage(url);
                 
@@ -314,12 +317,11 @@ namespace AnimeExporter {
                     AlternativeVersion    = { Value = animeDetailsPage.AlternativeVersion }
                 };
 
-                Console.WriteLine(anime + Environment.NewLine);
+                Log.Debug(anime + Environment.NewLine);
                 return anime;
             }
             catch(Exception e) {
-                Console.Error.WriteLine($"failed to export an anime (retry count is {retriesLeft})...");
-                Console.Error.WriteLine(e);
+                Log.Error($"failed to export an anime (retry count is {retriesLeft})...", e);
 
                 BackOff(retriesLeft);
 
