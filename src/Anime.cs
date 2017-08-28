@@ -40,7 +40,13 @@ namespace AnimeExporter {
         public Attribute Image                = "Image";
         public Attribute Adaptation           = "Adaptation";
         public Attribute AlternativeSetting   = "Alternative Setting";
+        public Attribute Prequel              = "Prequel";
         public Attribute Sequel               = "Sequel";
+        public Attribute Summary              = "Summary";
+        public Attribute ParentStory          = "Parent story";
+        public Attribute SideStory            = "Side story";
+        public Attribute SpinOff              = "Spin-off";
+        public Attribute Character            = "Character";
         public Attribute Other                = "Other";
         public Attribute AlternativeVersion   = "Alternative Version";
         

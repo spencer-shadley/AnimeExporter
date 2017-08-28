@@ -186,7 +186,13 @@ namespace AnimeExporter {
         // "Related" anime properties
         public string Adapation          { get; set; }
         public string AlternativeSetting { get; set; }
+        public string Prequel            { get; set; }
         public string Sequel             { get; set; }
+        public string Summary            { get; set; }
+        public string ParentStory        { get; set; }
+        public string SideStory          { get; set; }
+        public string SpinOff            { get; set; }
+        public string Character          { get; set; }
         public string Other              { get; set; }
         public string AlternativeVersion { get; set; }
         
@@ -216,8 +222,26 @@ namespace AnimeExporter {
                 else if (text.Contains("Alternative setting:")) {
                     this.AlternativeSetting = currRelatedAnime;
                 }
+                else if (text.Contains("Prequel:")) {
+                    this.Prequel = currRelatedAnime;
+                }
                 else if (text.Contains("Sequel:")) {
                     this.Sequel = currRelatedAnime;
+                }
+                else if (text.Contains("Side story:")) {
+                    this.SideStory = currRelatedAnime;
+                }
+                else if (text.Contains("Parent story:")) {
+                    this.ParentStory = currRelatedAnime;
+                }
+                else if (text.Contains("Summary:")) {
+                    this.Summary = currRelatedAnime;
+                }
+                else if (text.Contains("Spin-off:")) {
+                    this.SpinOff = currRelatedAnime;
+                }
+                else if (text.Contains("Character:")) {
+                    this.Character = currRelatedAnime;
                 }
                 else if (text.Contains("Other:")) {
                     this.Other = currRelatedAnime;
@@ -279,7 +303,13 @@ namespace AnimeExporter {
                     Image                 = { Value = animeDetailsPage.ImageUrl },
                     Adaptation            = { Value = animeDetailsPage.Adapation },
                     AlternativeSetting    = { Value = animeDetailsPage.AlternativeSetting },
+                    Prequel               = { Value = animeDetailsPage.Prequel },
                     Sequel                = { Value = animeDetailsPage.Sequel },
+                    SideStory             = { Value = animeDetailsPage.SideStory },
+                    ParentStory           = { Value = animeDetailsPage.ParentStory },
+                    Summary               = { Value = animeDetailsPage.Summary },
+                    SpinOff               = { Value = animeDetailsPage.SpinOff },
+                    Character             = { Value = animeDetailsPage.Character },
                     Other                 = { Value = animeDetailsPage.Other },
                     AlternativeVersion    = { Value = animeDetailsPage.AlternativeVersion }
                 };

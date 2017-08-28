@@ -20,5 +20,9 @@ namespace AnimeExporterTests.utility {
         public static AnimeDetailsPage SteinsGateDetailsPage() {
             return new AnimeDetailsPage(TestConstants.SteinsGate.Url);
         }
+
+        public static AnimeDetailsPage OwarimongatariSecondSeasonDetailsPage() {
+            return new AnimeDetailsPage(TestConstants.OwarimongatariSecondSeason.Url);
+        }
     }
 }

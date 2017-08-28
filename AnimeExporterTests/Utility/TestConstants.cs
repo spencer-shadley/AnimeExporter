@@ -23,5 +23,11 @@
             public const string PartialBackground = "Steins;Gate";
             public const string Url = "https://myanimelist.net/anime/9253/Steins_Gate";
         }
+
+        public class OwarimongatariSecondSeason {
+            public const string Prequel = "Owarimonogatari (https://myanimelist.net/anime/31181/Owarimonogatari); Koyomimonogatari (https://myanimelist.net/anime/32268/Koyomimonogatari)";
+            public const string Sequel = "Hanamonogatari (https://myanimelist.net/anime/21855/Hanamonogatari)";
+            public const string Url = "https://myanimelist.net/anime/35247/Owarimonogatari_2nd_Season";
+        }
     }
 }
