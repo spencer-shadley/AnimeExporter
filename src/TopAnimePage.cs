@@ -62,9 +62,8 @@ namespace AnimeExporter {
         /// </summary>
         /// <param name="startPage">The page to begin scraping from</param>
         /// <param name="lastPage">The page to end scraping (if unspecified only the <see cref="startPage"/> will be scraped</param>
-        /// <param name="retriesLeft">How many times to retry if there are network issues</param>
         /// <returns></returns>
-        public static Animes TryScrapeTopAnimes(int startPage, int lastPage = -1, int retriesLeft = 10) {
+        public static Animes ScrapeTopAnimes(int startPage, int lastPage = -1) {
 
             Debug.Assert(startPage >= 0, "Start page must be at least 0");
             Debug.Assert(lastPage >= -1, "Last page must be at least -1");
@@ -77,18 +76,7 @@ namespace AnimeExporter {
             
             do {
                 PrintPage(startPage);
-                try {
-                    animes.Add(ScrapeTopAnimesPage(startPage));
-                }
-                catch (Exception e) {
-                    string errorMessage = $"failed to scrape page {startPage} (retry count is {retriesLeft})...";
-                    Log.Error(errorMessage, e);
-                    
-                    BackOff(retriesLeft);
-
-                    // typically network connectivity issues, see if we should try again
-                    return retriesLeft == 0 ? animes : TryScrapeTopAnimes(startPage, lastPage, retriesLeft - 1);
-                }
+                animes.Add(ScrapeTopAnimesPage(startPage));
             }
             while (startPage++ < lastPage);
             
@@ -116,7 +104,7 @@ namespace AnimeExporter {
         }
 
         public static void PrintPage(int page) {
-            Log.Info(@"
+            Log.Info($@"
 ===============================
 ===============================
 ==========   PAGE {page}  ==========

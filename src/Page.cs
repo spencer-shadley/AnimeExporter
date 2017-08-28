@@ -24,19 +24,33 @@ namespace AnimeExporter {
         
         public Page(string url) {
             this.Url = url;
-            
-            var web = new HtmlWeb();
-            HtmlDocument doc = web.Load(url);
+            this.TryLoadPage();
+        }
 
-            if (web.StatusCode != HttpStatusCode.OK) {
-                string errorMessage = $"Received status of {web.StatusCode}, {url} could not be loaded"; 
-                Log.Error(errorMessage);
-                
-                // NOTE: This is typically a 429 - Too Many Requests
-                throw new HttpRequestException(errorMessage);
+        /// <summary>
+        /// Try to load the page at <see cref="Url"/>
+        /// </summary>
+        /// <param name="retriesLeft">Number of retries remaining</param>
+        /// <remarks>MyAnimeList has a rate limiting system which frequently causes a 429 - Too Many Requests</remarks>
+        /// <exception cref="HttpRequestException">Thrown whenever a non-200 response comes back</exception>
+        private void TryLoadPage(int retriesLeft = 10) {
+            try {
+                var web = new HtmlWeb();
+                HtmlDocument doc = web.Load(this.Url);
+
+                if (web.StatusCode != HttpStatusCode.OK) {
+                    string errorMessage = $"Received status of {web.StatusCode}, {this.Url} could not be loaded";
+                    Log.Error(errorMessage);
+                    throw new HttpRequestException(errorMessage);
+                }
+
+                this.Node = doc.DocumentNode;
             }
-            
-            this.Node = doc.DocumentNode;
+            catch (Exception e) {
+                Log.Error($"Failed to load page at {this.Url}", e);
+                BackOff(retriesLeft);
+                this.TryLoadPage(retriesLeft - 1);
+            }
         }
 
         /// <summary>
@@ -45,6 +59,8 @@ namespace AnimeExporter {
         /// <remarks>Combats rate throttling</remarks>
         /// <remarks>Rate: 2^x * 100ms</remarks>
         public static void BackOff(int retriesLeft) {
+            Log.Debug($"{retriesLeft} retries are left");
+            
             const int backOffRate = 100;
             
             double waitTime = Math.Pow(2, (MaxRetryCount - retriesLeft)) * backOffRate;
