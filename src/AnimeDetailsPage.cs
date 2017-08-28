@@ -193,6 +193,7 @@ namespace AnimeExporter {
         public string Sequel             { get; set; }
         public string Summary            { get; set; }
         public string ParentStory        { get; set; }
+        public string FullStory          { get; set; }
         public string SideStory          { get; set; }
         public string SpinOff            { get; set; }
         public string Character          { get; set; }
@@ -236,6 +237,9 @@ namespace AnimeExporter {
                 }
                 else if (text.Contains("Parent story:")) {
                     this.ParentStory = currRelatedAnime;
+                }
+                else if (text.Contains("Full story:")) {
+                    this.FullStory = currRelatedAnime;
                 }
                 else if (text.Contains("Summary:")) {
                     this.Summary = currRelatedAnime;
@@ -310,6 +314,7 @@ namespace AnimeExporter {
                     Sequel                = { Value = animeDetailsPage.Sequel },
                     SideStory             = { Value = animeDetailsPage.SideStory },
                     ParentStory           = { Value = animeDetailsPage.ParentStory },
+                    FullStory             = { Value = animeDetailsPage.FullStory },
                     Summary               = { Value = animeDetailsPage.Summary },
                     SpinOff               = { Value = animeDetailsPage.SpinOff },
                     Character             = { Value = animeDetailsPage.Character },

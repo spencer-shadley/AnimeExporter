@@ -44,6 +44,7 @@ namespace AnimeExporter {
         public Attribute Sequel               = "Sequel";
         public Attribute Summary              = "Summary";
         public Attribute ParentStory          = "Parent story";
+        public Attribute FullStory            = "Full story";
         public Attribute SideStory            = "Side story";
         public Attribute SpinOff              = "Spin-off";
         public Attribute Character            = "Character";
