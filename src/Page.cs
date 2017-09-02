@@ -138,6 +138,7 @@ namespace AnimeExporter {
             if (node.NextSibling.InnerText.Contains("None found")) {
                 return defaultText;
             }
+            
             while (node.NextSibling != null) {
                 if (node.Name == "a") {
                     anchorTexts.Add(WebUtility.HtmlDecode(node.InnerText));
