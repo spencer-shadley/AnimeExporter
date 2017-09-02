@@ -269,6 +269,7 @@ namespace AnimeExporter {
         /// <returns>An <see cref="Anime"/> representation of the details page</returns>
         public Anime TryScrapeAnime(int retriesLeft) {
             Log.Info($"Scraping {this.Url}");
+            
             try {
                 string[] genres = this.Genres.Split(
                     new string[] { Delimiter }, StringSplitOptions.None);
