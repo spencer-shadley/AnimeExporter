@@ -8,15 +8,34 @@ namespace AnimeExporter {
     public class Anime {
 
         // TODO: add summary stats (https://myanimelist.net/anime/1794/Dirty_Pair_no_Ooshoubu__Nolandia_no_Nazo/stats)
-        // TODO: add staff (https://myanimelist.net/anime/1794/Dirty_Pair_no_Ooshoubu__Nolandia_no_Nazo/characters)
+            // Watching
+            // Completed
+            // On-Hold
+            // Dropped
+            // Plan to Watch
+            // Total
+            // number of votes for each score
+            // percent of votes for each score
+        
+        // TODO: Add  Characters & Staff (https://myanimelist.net/anime/1794/Dirty_Pair_no_Ooshoubu__Nolandia_no_Nazo/characters)
+            // Characters
+            // Voice actors
+            // Staff
+            // Dub Info (check if the voice actors have "English")
+        
         // TODO: add streaming availability (https://myanimelist.net/anime/6045/Kimi_ni_Todoke/video?provider_id=2&subdub_type=sub)
+            // Provided by (Hulu, Crunchyroll, etc.)
+            // link to PV
+        
         // TODO: add users (https://myanimelist.net/users.php?q=&loc=&agelow=1&agehigh=100&g=)
-        // TODO: fix remaining "wasn't scraped" warning
+        
+        // TODO: External Links
+        
         public Attribute Title                = "Title";
+        public Attribute Url                  = "URL";
         public Attribute EnglishTitle         = "English Title";
         public Attribute JapaneseTitle        = "Japanese Title";
         public Attribute Synonyms             = "Synonyms";
-        public Attribute Url                  = "URL";
         public Attribute Score                = "Score";
         public Attribute NumRatings           = "Number of ratings";
         public Attribute Rank                 = "Rank";

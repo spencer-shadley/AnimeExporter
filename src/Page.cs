@@ -204,10 +204,12 @@ namespace AnimeExporter {
         
         protected HtmlNode FindElementWithClass(string className) {
             HtmlNodeCollection elements = this.FindElementsWithClass(className);
+            
             if (elements == null) {
                 Log.Warn($"No nodes were selected for {className}");
                 return null;
             }
+            
             if (elements.Count != 1) {
                 Log.Warn($"There were {elements.Count} nodes selected");
             }
