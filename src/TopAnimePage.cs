@@ -92,7 +92,8 @@ namespace AnimeExporter {
             var animes = new Animes();
             List<string> topAnimeUrls = ScrapeTopAnimeUrls(page, MaxRetryCount);
             foreach (string url in topAnimeUrls) {
-                Anime scrapedAnime = AnimeDetailsPage.TryScrapeAnime(url, MaxRetryCount);
+                var details = new AnimeDetailsPage(url);
+                Anime scrapedAnime = details.TryScrapeAnime(MaxRetryCount);
                 
                 if (scrapedAnime == null) {
                     continue;

@@ -263,18 +263,14 @@ namespace AnimeExporter {
         }
 
         /// <summary>
-        /// Scrapes the anime at the given <see cref="url"/> to construct an anime object. By default this
-        /// will retry scraping the page twice due to inconsistent network connections before giving up.
+        /// Scrapes the details page to construct an anime object.
         /// </summary>
-        /// <param name="url">The url to scrape</param>
         /// <param name="retriesLeft">Number of times to retry</param>
-        /// <returns>An <see cref="Anime"/> representation of the page at <see cref="url"/></returns>
-        public static Anime TryScrapeAnime(string url, int retriesLeft) {
-            Log.Info($"Scraping {url}");
+        /// <returns>An <see cref="Anime"/> representation of the details page</returns>
+        public Anime TryScrapeAnime(int retriesLeft) {
+            Log.Info($"Scraping {this.Url}");
             try {
-                var animeDetailsPage = new AnimeDetailsPage(url);
-                
-                string[] genres = animeDetailsPage.Genres.Split(
+                string[] genres = this.Genres.Split(
                     new string[] { Delimiter }, StringSplitOptions.None);
                 
                 foreach (string genre in genres) {
@@ -282,44 +278,44 @@ namespace AnimeExporter {
                 }
 
                 var anime = new Anime {
-                    Url                   = { Value = url },
-                    Title                 = { Value = animeDetailsPage.Title },
-                    EnglishTitle          = { Value = animeDetailsPage.EnglishTitle },
-                    JapaneseTitle         = { Value = animeDetailsPage.JapaneseTitle },
-                    Synonyms              = { Value = animeDetailsPage.Synonyms },
-                    Score                 = { Value = animeDetailsPage.Score },
-                    NumRatings            = { Value = animeDetailsPage.NumberOfRatings },
-                    Rank                  = { Value = animeDetailsPage.Rank },
-                    Popularity            = { Value = animeDetailsPage.Popularity },
-                    NumMembers            = { Value = animeDetailsPage.NumberOfMembers },
-                    NumFavorites          = { Value = animeDetailsPage.NumberOfFavorites },
-                    MediaType             = { Value = animeDetailsPage.MediaType },
-                    NumEpisodes           = { Value = animeDetailsPage.NumberOfEpisodes },
-                    Status                = { Value = animeDetailsPage.Status },
-                    DateStarted           = { Value = animeDetailsPage.AirStartDate },
-                    DateFinished          = { Value = animeDetailsPage.AirFinishDate },
-                    Producers             = { Value = animeDetailsPage.Producers },
-                    Licensors             = { Value = animeDetailsPage.Licensors },
-                    Studios               = { Value = animeDetailsPage.Studios },
-                    Genres                = { Value = animeDetailsPage.Genres },
-                    Duration              = { Value = animeDetailsPage.Duration },
-                    Rating                = { Value = animeDetailsPage.Rating },
-                    Source                = { Value = animeDetailsPage.Source },
-                    Synopsis              = { Value = animeDetailsPage.Synopsis },
-                    Background            = { Value = animeDetailsPage.Background },
-                    Image                 = { Value = animeDetailsPage.ImageUrl },
-                    Adaptation            = { Value = animeDetailsPage.Adapation },
-                    AlternativeSetting    = { Value = animeDetailsPage.AlternativeSetting },
-                    Prequel               = { Value = animeDetailsPage.Prequel },
-                    Sequel                = { Value = animeDetailsPage.Sequel },
-                    SideStory             = { Value = animeDetailsPage.SideStory },
-                    ParentStory           = { Value = animeDetailsPage.ParentStory },
-                    FullStory             = { Value = animeDetailsPage.FullStory },
-                    Summary               = { Value = animeDetailsPage.Summary },
-                    SpinOff               = { Value = animeDetailsPage.SpinOff },
-                    Character             = { Value = animeDetailsPage.Character },
-                    Other                 = { Value = animeDetailsPage.Other },
-                    AlternativeVersion    = { Value = animeDetailsPage.AlternativeVersion }
+                    Url                   = { Value = this.Url },
+                    Title                 = { Value = this.Title },
+                    EnglishTitle          = { Value = this.EnglishTitle },
+                    JapaneseTitle         = { Value = this.JapaneseTitle },
+                    Synonyms              = { Value = this.Synonyms },
+                    Score                 = { Value = this.Score },
+                    NumRatings            = { Value = this.NumberOfRatings },
+                    Rank                  = { Value = this.Rank },
+                    Popularity            = { Value = this.Popularity },
+                    NumMembers            = { Value = this.NumberOfMembers },
+                    NumFavorites          = { Value = this.NumberOfFavorites },
+                    MediaType             = { Value = this.MediaType },
+                    NumEpisodes           = { Value = this.NumberOfEpisodes },
+                    Status                = { Value = this.Status },
+                    DateStarted           = { Value = this.AirStartDate },
+                    DateFinished          = { Value = this.AirFinishDate },
+                    Producers             = { Value = this.Producers },
+                    Licensors             = { Value = this.Licensors },
+                    Studios               = { Value = this.Studios },
+                    Genres                = { Value = this.Genres },
+                    Duration              = { Value = this.Duration },
+                    Rating                = { Value = this.Rating },
+                    Source                = { Value = this.Source },
+                    Synopsis              = { Value = this.Synopsis },
+                    Background            = { Value = this.Background },
+                    Image                 = { Value = this.ImageUrl },
+                    Adaptation            = { Value = this.Adapation },
+                    AlternativeSetting    = { Value = this.AlternativeSetting },
+                    Prequel               = { Value = this.Prequel },
+                    Sequel                = { Value = this.Sequel },
+                    SideStory             = { Value = this.SideStory },
+                    ParentStory           = { Value = this.ParentStory },
+                    FullStory             = { Value = this.FullStory },
+                    Summary               = { Value = this.Summary },
+                    SpinOff               = { Value = this.SpinOff },
+                    Character             = { Value = this.Character },
+                    Other                 = { Value = this.Other },
+                    AlternativeVersion    = { Value = this.AlternativeVersion }
                 };
 
                 Log.Debug(anime + Environment.NewLine);
@@ -331,7 +327,7 @@ namespace AnimeExporter {
                 BackOff(retriesLeft);
 
                 // typically network connectivity issues, see if we should try again
-                return retriesLeft == 0 ? null : TryScrapeAnime(url, retriesLeft - 1);
+                return retriesLeft == 0 ? null : this.TryScrapeAnime(retriesLeft - 1);
             }
         }
     }
