@@ -82,32 +82,33 @@ namespace AnimeExporter.Views {
         }
 
         /// <summary>
-        /// Publishes the <see cref="values"/> to a the Google Sheet at <see cref="SheetId"/>
+        /// Publishes the <see cref="table"/> to a the Google Sheet at <see cref="SheetId"/> with <param name="sheetName"></param>
         /// </summary>
-        /// <param name="values">The data to publish</param>
+        /// <param name="table">The data to publish</param>
         /// <param name="sheetName">The sheet to update</param>
-        private static void PublishGoogleSheet(Table values, string sheetName) {
+        private static void PublishGoogleSheet(Table table, string sheetName) {
             BatchUpdateValuesResponse response;
+            ClearGoogleSheet(sheetName);
+
+            var updateValues = new ValueRange {
+                Values = table,
+                Range = CalculateEntireRange(sheetName)
+            };
+
+            var request = new BatchUpdateValuesRequest {
+                Data = new[] { updateValues },
+                ValueInputOption = "USER_ENTERED"
+            };
+            
             try {
-                ClearGoogleSheet(sheetName);
-
-                var updateValues = new ValueRange {
-                    Values = values,
-                    Range = CalculateEntireRange(sheetName)
-                };
-
-                var request = new BatchUpdateValuesRequest {
-                    Data = new[] {updateValues},
-                    ValueInputOption = "USER_ENTERED"
-                };
                 BatchUpdateRequest updateRequest = Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
                 response = updateRequest.Execute();
             }
             catch (GoogleApiException e) {
                 if (e.HttpStatusCode == HttpStatusCode.RequestEntityTooLarge) {
-                    Log.Warn($"Google Sheets quota was exceeded with {values.Count} rows. Trying again with fewer rows...", e);
+                    Log.Warn($"Google Sheets quota was exceeded with {table.Count} rows. Trying again with fewer rows...", e);
                     
-                    PublishGoogleSheet(TruncateTable(values, 10), sheetName);
+                    PublishGoogleSheet(TruncateTable(table, 10), sheetName);
                     return;
                 }
                 
@@ -116,8 +117,7 @@ namespace AnimeExporter.Views {
             }
 
             Debug.Assert(response != null, "response != null");
-            Log.Info($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}" +
-                         Environment.NewLine);
+            Log.Info($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}" + Environment.NewLine);
         }
 
         /// <summary>The Google Sheet which is published to requires credentials to access.</summary>
@@ -152,16 +152,16 @@ namespace AnimeExporter.Views {
         }
 
         /// <summary>
-        /// Remove the last <param name="numValuesToTruncate"></param> from <param name="values"></param>
+        /// Remove the last <param name="numRowsToTruncate"></param> from <param name="values"></param>
         /// </summary>
-        private static Table TruncateTable(Table values, int numValuesToTruncate) {
-            if (numValuesToTruncate > values.Count) {
+        private static Table TruncateTable(Table values, int numRowsToTruncate) {
+            if (numRowsToTruncate > values.Count) {
                 string errorMessage = $"Values of size {values.Count} is too small to keep truncating"; 
                 Log.Error(errorMessage);
                 throw new ArgumentOutOfRangeException(errorMessage);
             }
             
-            for (int i = 0; i < numValuesToTruncate; ++i) {
+            for (int i = 0; i < numRowsToTruncate; ++i) {
                 values.RemoveAt(values.Count);
             }
             return values;
