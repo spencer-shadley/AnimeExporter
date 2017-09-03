@@ -23,14 +23,14 @@ namespace AnimeExporterTests.test.Models {
             
             private AnimesModelTest _modelTest;
 
-            private List<DetailsModel> AnimesList => this._modelTest.AnimesModel.ToList();
+            private List<AnimeModel> AnimesList => this._modelTest.AnimesModel.ToList();
 
             [SetUp] public void Setup()       { this._modelTest = new AnimesModelTest(); }
             [TearDown] public void Teardown() { this._modelTest = null; }
             
             [Test]
             public void AddEmptyAnime() {
-                this.VerifyAndAdd(new DetailsModel());
+                this.VerifyAndAdd(new AnimeModel(string.Empty));
             }
 
             [Test]
@@ -72,7 +72,7 @@ namespace AnimeExporterTests.test.Models {
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
 
-            private void VerifyAndAdd(DetailsModel detailsModel, int initialSize = 0) {
+            private void VerifyAndAdd(AnimeModel detailsModel, int initialSize = 0) {
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize));
                 
                 this._modelTest.AnimesModel.Add(detailsModel);

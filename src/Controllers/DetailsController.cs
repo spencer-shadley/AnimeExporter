@@ -269,7 +269,7 @@ namespace AnimeExporter.Controllers {
         /// </summary>
         /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="DetailsModel"/> representation of the details page</returns>
-        public DetailsModel TryScrapeAnime(int retriesLeft) {
+        public DetailsModel TryScrape(int retriesLeft = MaxRetryCount) {
             Log.Info($"Scraping {this.Url}");
             
             try {
@@ -330,7 +330,7 @@ namespace AnimeExporter.Controllers {
                 BackOff(retriesLeft);
 
                 // typically network connectivity issues, see if we should try again
-                return retriesLeft == 0 ? null : this.TryScrapeAnime(retriesLeft - 1);
+                return retriesLeft == 0 ? null : this.TryScrape(retriesLeft - 1);
             }
         }
     }

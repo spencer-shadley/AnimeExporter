@@ -7,11 +7,8 @@ namespace AnimeExporterTests.TestUtility {
     /// Contains basic data for tests
     /// </summary>
     public class CreateData {
-        public static DetailsModel KimiNoNaWa(string url = null) {
-            return new DetailsModel {
-                Title = TestConstants.KimiNoNaWa.Title,
-                Url = url ?? TestConstants.KimiNoNaWa.Url
-            };
+        public static AnimeModel KimiNoNaWa(string url = null) {
+            return new AnimeModel(url ?? TestConstants.KimiNoNaWa.Url, new DetailsModel());
         }
 
         public static DetailsController KimiNoNaWaDetailsPage() {

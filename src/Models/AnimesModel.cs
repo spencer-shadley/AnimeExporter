@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace AnimeExporter.Models {
     
-    public class AnimesModel : IEnumerable<DetailsModel> {
+    public class AnimesModel : IEnumerable<AnimeModel> {
 
-        private readonly Dictionary<string, DetailsModel> _animes = new Dictionary<string, DetailsModel>();
+        private readonly Dictionary<string, AnimeModel> _animes = new Dictionary<string, AnimeModel>();
         
         public static HashSet<string> Genres = new HashSet<string>();
         
@@ -21,11 +21,11 @@ namespace AnimeExporter.Models {
         /// <summary>
         /// Adds an anime to the existing collection assuming it does not already exist
         /// </summary>
-        /// <param name="detailsModel">The anime to add</param>
-        public void Add(DetailsModel detailsModel) {
-            Debug.Assert(detailsModel?.Url.Value != null);
+        /// <param name="anime">The anime to add</param>
+        public void Add(AnimeModel anime) {
+            Debug.Assert(anime?.Url.Value != null);
             
-            this._animes[detailsModel.Url.Value] = detailsModel;
+            this._animes[anime.Url.Value] = anime;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace AnimeExporter.Models {
         public void Add(AnimesModel animesModel) {
             Debug.Assert(animesModel != null);
             
-            foreach (DetailsModel anime in animesModel) {
+            foreach (AnimeModel anime in animesModel) {
                 this.Add(anime);
             }
         }
@@ -57,7 +57,7 @@ namespace AnimeExporter.Models {
             return this.Select(anime => anime.ToRow()).Cast<IList<object>>().ToList();
         }
         
-        public IEnumerator<DetailsModel> GetEnumerator()
+        public IEnumerator<AnimeModel> GetEnumerator()
         {
             return this._animes.Values.GetEnumerator();
         }

@@ -74,7 +74,7 @@ namespace AnimeExporter.Controllers {
                 "Either only the startPage should be specified or the startPage should be less than the lastPage");
 
             var animes = new AnimesModel {
-                DataModel.Schema(), // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
+                AnimeModel.Schema(), // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
             };
             
             do {
@@ -95,14 +95,7 @@ namespace AnimeExporter.Controllers {
             var animes = new AnimesModel();
             List<string> topAnimeUrls = ScrapeTopAnimeUrls(page, MaxRetryCount);
             foreach (string url in topAnimeUrls) {
-                var details = new DetailsController(url);
-                DetailsModel scrapedDetailsModel = details.TryScrapeAnime(MaxRetryCount);
-                
-                if (scrapedDetailsModel == null) {
-                    continue;
-                }
-                
-                animes.Add(scrapedDetailsModel);
+                animes.Add(AnimeController.ScrapeData(url));
             }
             return animes;
         }
