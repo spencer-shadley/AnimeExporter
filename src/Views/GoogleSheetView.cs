@@ -106,6 +106,7 @@ namespace AnimeExporter.Views {
             }
             catch (GoogleApiException e) {
                 if (e.HttpStatusCode == HttpStatusCode.RequestEntityTooLarge) {
+                    // TODO: instead of truncating load, split into multiple partial update requests
                     Log.Warn($"Google Sheets quota was exceeded with {table.Count} rows. Trying again with fewer rows...", e);
                     
                     PublishGoogleSheet(TruncateTable(table, 10), sheetName);
