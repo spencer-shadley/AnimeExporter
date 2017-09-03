@@ -191,10 +191,12 @@ namespace AnimeExporter.Utility {
         /// </summary>
         /// <remarks>Assumes that the text is within a span element</remarks>
         /// <param name="text">The text to select</param>
+        /// <param name="removeComma">Optionally remove any commas</param>
         /// <returns>The trimmed InnerText of the element after the element selected by <see cref="text"/></returns>
-        protected string SelectValueAfterText(string text) {
+        protected string SelectValueAfterText(string text, bool removeComma = false) {
             string xPath = $"//span[text() = '{text}']";
-            return this.SelectValueAfter(xPath);
+            string selected = this.SelectValueAfter(xPath); 
+            return removeComma ? selected.Replace(",", string.Empty) : selected;
         }
         
         /// <summary>
@@ -227,10 +229,12 @@ namespace AnimeExporter.Utility {
         /// </summary>
         /// <remarks>Assumes the text is with in a span element</remarks>
         /// <param name="itemProp">The value of the itemprop to search for</param>
+        /// <param name="removeComma">Optionally remove any commas</param>
         /// <returns>The InnerText of the element with an itemprop equal to <see cref="itemProp"/></returns>
-        protected string SelectValueOfItemProp(string itemProp) {
+        protected string SelectValueOfItemProp(string itemProp, bool removeComma = false) {
             string xPath = $"//span[@itemprop=\"{itemProp}\"]";
-            return SelectValue(this.Node, xPath);
+            string selected = SelectValue(this.Node, xPath);
+            return removeComma ? selected.Replace(",", string.Empty) : selected;
         }
         
         protected HtmlNodeCollection FindElementsWithClass(string className) {

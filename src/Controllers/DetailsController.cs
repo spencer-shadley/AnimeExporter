@@ -76,7 +76,7 @@ namespace AnimeExporter.Controllers {
 
                 HtmlNode rank = rankRow.ChildNodes[2];
 
-                return rank.InnerText.Trim().Substring(1);
+                return rank.InnerText.Trim().Substring(1).Replace(",", string.Empty);
             }
         }
 
@@ -110,7 +110,7 @@ namespace AnimeExporter.Controllers {
         
         public string Score => this.SelectValueOfItemProp("ratingValue");
 
-        public string NumberOfRatings => this.SelectValueOfItemProp("ratingCount");
+        public string NumberOfRatings => this.SelectValueOfItemProp("ratingCount", true);
 
         public string Synopsis => this.SelectValueOfItemProp("description");
 
@@ -130,13 +130,13 @@ namespace AnimeExporter.Controllers {
 
         public string Synonyms => this.SelectValueAfterText("Synonyms:");
 
-        public string Popularity => this.SelectValueAfterText("Popularity:").Substring(1); // substring to remove "#"
+        public string Popularity => this.SelectValueAfterText("Popularity:", true).Replace("#", string.Empty);
 
-        public string NumberOfMembers => this.SelectValueAfterText("Members:");
+        public string NumberOfMembers => this.SelectValueAfterText("Members:", true);
 
-        public string NumberOfFavorites => this.SelectValueAfterText("Favorites:");
+        public string NumberOfFavorites => this.SelectValueAfterText("Favorites:", true);
 
-        public string NumberOfEpisodes => this.SelectValueAfterText("Episodes:");
+        public string NumberOfEpisodes => this.SelectValueAfterText("Episodes:", true);
 
         public string Status => this.SelectValueAfterText("Status:");
 

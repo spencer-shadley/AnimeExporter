@@ -28,8 +28,9 @@ namespace AnimeExporter.Controllers {
                 return "N/A";
             }
             string text = voteNodes[10 - score].InnerText; 
-            string votes = text.Substring(1, text.IndexOf(" ", StringComparison.CurrentCulture));
-
+            string votes = text.Substring(1, text.IndexOf(" ", StringComparison.CurrentCulture))
+                .Replace(",", string.Empty);
+            
             int numVotes; int.TryParse(votes, out numVotes);
             this._totalVotes += numVotes;
 
@@ -55,12 +56,12 @@ namespace AnimeExporter.Controllers {
             int numVotesOne;   int.TryParse(this.FindNumVotes(voteNodes, 1),  out numVotesOne);
             
             return new StatsModel {
-                Watching         = { Value = this.SelectValueAfterText("Watching:")},
-                Completed        = { Value = this.SelectValueAfterText("Completed:")},
-                OnHold           = { Value = this.SelectValueAfterText("On-Hold:")},
-                Dropped          = { Value = this.SelectValueAfterText("Dropped:")},
-                PlanToWatch      = { Value = this.SelectValueAfterText("Plan to Watch:")},
-                Total            = { Value = this.SelectValueAfterText("Total:")},
+                Watching         = { Value = this.SelectValueAfterText("Watching:", true)},
+                Completed        = { Value = this.SelectValueAfterText("Completed:", true)},
+                OnHold           = { Value = this.SelectValueAfterText("On-Hold:", true)},
+                Dropped          = { Value = this.SelectValueAfterText("Dropped:", true)},
+                PlanToWatch      = { Value = this.SelectValueAfterText("Plan to Watch:", true)},
+                Total            = { Value = this.SelectValueAfterText("Total:", true)},
                 
                 NumberScoreTen   = { Value = numVotesTen.ToString()},
                 NumberScoreNine  = { Value = numVotesNine.ToString()},
