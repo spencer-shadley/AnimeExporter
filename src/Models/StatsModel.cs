@@ -1,7 +1,10 @@
 ﻿namespace AnimeExporter.Models {
+    
+    /// <summary>
+    /// Represents the data of the stats page on MyAnimeList.net
+    /// </summary>
+    /// <example>https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/stats</example>
     public class StatsModel : DataModel {
-
-        // TODO: implement the below stats (https://myanimelist.net/anime/1794/Dirty_Pair_no_Ooshoubu__Nolandia_no_Nazo/stats)
 
         public AttributeModel Watching = "Number of people currently watching";
         public AttributeModel Completed = "Number of people completed watching";
