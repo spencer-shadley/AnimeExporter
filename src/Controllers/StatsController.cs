@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using AnimeExporter.Models;
 using AnimeExporter.Utility;
 using HtmlAgilityPack;
@@ -36,7 +37,7 @@ namespace AnimeExporter.Controllers {
         }
 
         private string CalculatePercentOfTotal(int numVotes) {
-            return (numVotes * 1.0 / this._totalVotes * 100).ToString();
+            return (numVotes * 1.0 / this._totalVotes * 100).ToString(CultureInfo.CurrentCulture);
         }
         
         protected override DataModel Scrape() {
