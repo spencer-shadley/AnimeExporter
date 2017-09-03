@@ -6,10 +6,10 @@ namespace AnimeExporter {
     internal class Program {
 
         public static void Main(string[] args) {
-            AnimesModel topAnimesModel = AnimesController.ScrapeTopAnimes(0, 150);
+            AnimesModel animes = AnimesController.ScrapeTopAnimes(0, 150);
             GoogleSheetView.BackupData();
-            GoogleSheetView.PublishDataToGoogleSheet(topAnimesModel);
-            GoogleSheetView.PublishGenresToGoogleSheet(topAnimesModel);
+            GoogleSheetView.PublishDataToGoogleSheet(animes);
+            GoogleSheetView.PublishGenresToGoogleSheet(animes);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace AnimeExporterTests.test.Models {
             
             [Test]
             public void HasATitle() {
-                Assert.That(this.DetailsModel.AllAttributes, Contains.Item(new AttributeModel(TestConstants.DefaultAttributes.Title)));
+                Assert.That(this.DetailsModel.Attributes, Contains.Item(new AttributeModel(TestConstants.DefaultAttributes.Title)));
                 Assert.That(this.DetailsModel.Title.Name, Is.EqualTo(TestConstants.DefaultAttributes.Title));
                 Assert.That(this.DetailsModel.Title.Value, Is.EqualTo(TestConstants.DefaultAttributes.Title));
                 Assert.That(this.DetailsModel.Title, Is.EqualTo(new AttributeModel(TestConstants.DefaultAttributes.Title)));
@@ -46,7 +46,7 @@ namespace AnimeExporterTests.test.Models {
             
             [Test]
             public void HasAUrl() {
-                Assert.That(this.DetailsModel.AllAttributes, Contains.Item(new AttributeModel(TestConstants.DefaultAttributes.Url)));
+                Assert.That(this.DetailsModel.Attributes, Contains.Item(new AttributeModel(TestConstants.DefaultAttributes.Url)));
                 Assert.That(this.DetailsModel.Url.Name, Is.EqualTo(TestConstants.DefaultAttributes.Url));
                 Assert.That(this.DetailsModel.Url.Value, Is.EqualTo(TestConstants.DefaultAttributes.Url));
                 Assert.That(this.DetailsModel.Url, Is.EqualTo(new AttributeModel(TestConstants.DefaultAttributes.Url)));
@@ -62,7 +62,7 @@ namespace AnimeExporterTests.test.Models {
 
             [Test]
             public void HasEveryAttribute() {
-                Assert.That(this.DetailsModel.AllAttributes, Has.Count.EqualTo(31));
+                Assert.That(this.DetailsModel.Attributes, Has.Count.EqualTo(31));
             }
         }
     }

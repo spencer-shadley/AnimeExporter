@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace AnimeExporter.Models {
     
-    public class DetailsModel {
+    public class DetailsModel : DataModel {
 
         // TODO: add summary stats (https://myanimelist.net/anime/1794/Dirty_Pair_no_Ooshoubu__Nolandia_no_Nazo/stats)
             // Watching
@@ -69,41 +69,5 @@ namespace AnimeExporter.Models {
         public AttributeModel Character            = "Character";
         public AttributeModel Other                = "Other";
         public AttributeModel AlternativeVersion   = "Alternative Version";
-        
-        /// <summary>
-        /// Gets all <see cref="AttributeModel"/>
-        /// </summary>
-        /// <remarks>Uses reflection to gather every field of type <see cref="AttributeModel"/></remarks>
-        public List<AttributeModel> AllAttributes {
-            get {
-                Type type = this.GetType();
-                FieldInfo[] fields = type.GetFields();
-                IEnumerable<object> values = fields.Select(field => field.GetValue(this));
-                List<object> list = values.ToList();
-                return list.Cast<AttributeModel>().ToList();
-            }
-        }
-        
-        /// <summary>
-        /// Gets the schema based on each attribute in the anime
-        /// </summary>
-        /// <remarks>
-        /// Currently <see cref="AttributeModel"/> defaults value to the schema value
-        /// so only a default anime needs to be constructed.
-        /// </remarks>
-        public static DetailsModel Schema() {
-            return new DetailsModel();
-        }
-
-        /// <summary>
-        /// Converts to a row of data which is expected to be used in a table for publishing later
-        /// </summary>
-        public List<object> ToRow() {
-            return this.AllAttributes.Select(attribute => attribute.Value).Cast<object>().ToList();
-        }
-
-        public override string ToString() {
-            return this.AllAttributes.Aggregate(string.Empty, (attributes, attribute) => attributes + attribute);
-        }
     }
 }
