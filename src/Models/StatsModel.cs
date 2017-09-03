@@ -3,9 +3,9 @@
 
         // TODO: implement the below stats (https://myanimelist.net/anime/1794/Dirty_Pair_no_Ooshoubu__Nolandia_no_Nazo/stats)
 
-        public AttributeModel Watching = "Currently Watching";
+        public AttributeModel Watching = "Number of people currently watching";
         public AttributeModel Completed = "Number of people completed watching";
-        public AttributeModel OnHold = "Number of people set on hold";
+        public AttributeModel OnHold = "Number of people on hold";
         public AttributeModel Dropped = "Number of people dropped";
         public AttributeModel PlanToWatch = "Number of people planning to watch";
         public AttributeModel Total = "Number of people interested (watching, on-hold, dropped, etc.)";

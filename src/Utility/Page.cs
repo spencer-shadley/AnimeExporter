@@ -58,7 +58,7 @@ namespace AnimeExporter.Utility {
         protected abstract DataModel Scrape();
 
         public DataModel TryScrape(int retriesLeft = MaxRetryCount) {
-            Log.Info($"Trying to scrape {this.Url}");
+            Log.Info($"Scraping {this.Url}");
 
             try {
                 return this.Scrape();

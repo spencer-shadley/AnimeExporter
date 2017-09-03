@@ -11,9 +11,13 @@ namespace AnimeExporter.Controllers {
         
         protected override DataModel Scrape() {
             return new StatsModel {
-                Completed = { Value = "345" },
-                Dropped = { Value = "634" },
-                NumberScoreEight = {Value = "54" }
+                Watching         = { Value = this.SelectValueAfterText("Watching:")},
+                Completed        = { Value = this.SelectValueAfterText("Completed:")},
+                OnHold           = { Value = this.SelectValueAfterText("On-Hold:")},
+                Dropped          = { Value = this.SelectValueAfterText("Dropped:")},
+                PlanToWatch      = { Value = this.SelectValueAfterText("Plan to Watch:")},
+                Total            = { Value = this.SelectValueAfterText("Total:")},
+                NumberScoreEight = { Value = "54" }
             };
         }
     }
