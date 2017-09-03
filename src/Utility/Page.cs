@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
-namespace AnimeExporter {
+namespace AnimeExporter.Utility {
     
     public class Page {
         

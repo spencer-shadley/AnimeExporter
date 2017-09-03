@@ -1,4 +1,6 @@
 ﻿using AnimeExporter;
+using AnimeExporter.Controllers;
+using AnimeExporter.Models;
 
 namespace AnimeExporterTests.utility {
     

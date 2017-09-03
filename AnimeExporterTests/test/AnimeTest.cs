@@ -1,4 +1,5 @@
 ﻿using AnimeExporter;
+using AnimeExporter.Models;
 using NUnit.Framework;
 
 using static AnimeExporterTests.utility.TestConstants;

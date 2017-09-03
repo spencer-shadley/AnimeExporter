@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace AnimeExporter {
+namespace AnimeExporter.Models {
     
     public class Animes : IEnumerable<Anime> {
 

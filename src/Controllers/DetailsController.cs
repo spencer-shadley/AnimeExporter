@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using AnimeExporter.Models;
+using AnimeExporter.Utility;
 using HtmlAgilityPack;
 
-namespace AnimeExporter {
+namespace AnimeExporter.Controllers {
     
     /// <summary>
     /// Represents the details page of an anime on MyAnimeList.net

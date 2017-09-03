@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using AnimeExporter.Models;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
@@ -10,6 +11,8 @@ using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 
 namespace AnimeExporter {
+    
+    // TODO: Split into Model and Controller
     
     public class GoogleSheet {
         
@@ -67,7 +70,7 @@ namespace AnimeExporter {
         }
 
         private static void ClearGoogleSheet(string sheetName) {
-            ClearValuesRequest request = new ClearValuesRequest();
+            var request = new ClearValuesRequest();
             SpreadsheetsResource.ValuesResource.ClearRequest clearRequest = Service.Spreadsheets.Values.Clear(request, SheetId, GetEntireRangeOfSheet(sheetName));
             ClearValuesResponse response = clearRequest.Execute();
             Log.Info($"Cleared {response.ClearedRange}");
@@ -81,12 +84,12 @@ namespace AnimeExporter {
         private static void PublishGoogleSheet(IList<IList<object>> values, string sheetName) {
             ClearGoogleSheet(sheetName);
 
-            ValueRange updateValues = new ValueRange {
+            var updateValues = new ValueRange {
                 Values = values,
                 Range = GetEntireRangeOfSheet(sheetName)
             };
             
-            BatchUpdateValuesRequest request = new BatchUpdateValuesRequest {
+            var request = new BatchUpdateValuesRequest {
                 Data = new[] {updateValues},
                 ValueInputOption = "USER_ENTERED"
             };

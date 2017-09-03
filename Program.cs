@@ -1,4 +1,7 @@
-﻿namespace AnimeExporter {
+﻿using AnimeExporter.Controllers;
+using AnimeExporter.Models;
+
+namespace AnimeExporter {
     internal class Program {
 
         public static void Main(string[] args) {

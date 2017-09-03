@@ -2,6 +2,7 @@
 using System.Linq;
 
 using AnimeExporter;
+using AnimeExporter.Models;
 using AnimeExporterTests.utility;
 using NUnit.Framework;
 

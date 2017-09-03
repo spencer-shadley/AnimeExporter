@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using AnimeExporter.Models;
+using AnimeExporter.Utility;
 using HtmlAgilityPack;
 
-namespace AnimeExporter {
+namespace AnimeExporter.Controllers {
     
     /// <summary>
     /// Represents the top anime page(s) on MyAnimeList.net

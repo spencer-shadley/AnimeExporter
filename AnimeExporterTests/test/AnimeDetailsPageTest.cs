@@ -1,4 +1,5 @@
 ﻿using AnimeExporter;
+using AnimeExporter.Controllers;
 using AnimeExporterTests.utility;
 using NUnit.Framework;
 
