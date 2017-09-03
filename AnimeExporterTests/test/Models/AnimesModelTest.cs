@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
-using AnimeExporter;
 using AnimeExporter.Models;
-using AnimeExporterTests.utility;
+using AnimeExporterTests.TestUtility;
 using NUnit.Framework;
 
-using static AnimeExporterTests.utility.TestConstants;
-
-namespace AnimeExporterTests.test {
+namespace AnimeExporterTests.test.Models {
     
     /// <summary>
     /// Contains NUnit tests for <see cref="Animes"/>
@@ -45,7 +41,7 @@ namespace AnimeExporterTests.test {
             [Test]
             public void AddManyAnime() {
                 for (int i = 0; i < StressAddNum; ++i) {
-                    this.VerifyAndAdd(CreateData.KimiNoNaWa(KimiNoNaWa.Url + i), i);
+                    this.VerifyAndAdd(CreateData.KimiNoNaWa(TestConstants.KimiNoNaWa.Url + i), i);
                 }
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
@@ -70,7 +66,7 @@ namespace AnimeExporterTests.test {
                 var animesToAdd = new Animes();
 
                 for (int i = 0; i < StressAddNum; ++i) {
-                    animesToAdd.Add(CreateData.KimiNoNaWa(KimiNoNaWa.Url + i));
+                    animesToAdd.Add(CreateData.KimiNoNaWa(TestConstants.KimiNoNaWa.Url + i));
                 }
                 this._test.Animes.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));

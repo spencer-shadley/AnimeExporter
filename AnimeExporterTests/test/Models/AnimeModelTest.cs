@@ -1,10 +1,8 @@
-﻿using AnimeExporter;
-using AnimeExporter.Models;
+﻿using AnimeExporter.Models;
+using AnimeExporterTests.TestUtility;
 using NUnit.Framework;
 
-using static AnimeExporterTests.utility.TestConstants;
-
-namespace AnimeExporterTests.test {
+namespace AnimeExporterTests.test.Models {
     
     /// <summary>
     /// Contains NUnit tests for <see cref="Anime"/> and <see cref="Attribute"/>
@@ -32,34 +30,34 @@ namespace AnimeExporterTests.test {
             
             [Test]
             public void HasATitle() {
-                Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(DefaultAttributes.Title)));
-                Assert.That(this.Anime.Title.Name, Is.EqualTo(DefaultAttributes.Title));
-                Assert.That(this.Anime.Title.Value, Is.EqualTo(DefaultAttributes.Title));
-                Assert.That(this.Anime.Title, Is.EqualTo(new Attribute(DefaultAttributes.Title)));
+                Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(TestConstants.DefaultAttributes.Title)));
+                Assert.That(this.Anime.Title.Name, Is.EqualTo(TestConstants.DefaultAttributes.Title));
+                Assert.That(this.Anime.Title.Value, Is.EqualTo(TestConstants.DefaultAttributes.Title));
+                Assert.That(this.Anime.Title, Is.EqualTo(new Attribute(TestConstants.DefaultAttributes.Title)));
             }
 
             [Test]
             public void HasCorrectTitle() {
                 this.Anime = new Anime {
-                    Title = KimiNoNaWa.Title
+                    Title = TestConstants.KimiNoNaWa.Title
                 };
-                Assert.That(this.Anime.Title.Value, Is.EqualTo(KimiNoNaWa.Title));
+                Assert.That(this.Anime.Title.Value, Is.EqualTo(TestConstants.KimiNoNaWa.Title));
             }
             
             [Test]
             public void HasAUrl() {
-                Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(DefaultAttributes.Url)));
-                Assert.That(this.Anime.Url.Name, Is.EqualTo(DefaultAttributes.Url));
-                Assert.That(this.Anime.Url.Value, Is.EqualTo(DefaultAttributes.Url));
-                Assert.That(this.Anime.Url, Is.EqualTo(new Attribute(DefaultAttributes.Url)));
+                Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(TestConstants.DefaultAttributes.Url)));
+                Assert.That(this.Anime.Url.Name, Is.EqualTo(TestConstants.DefaultAttributes.Url));
+                Assert.That(this.Anime.Url.Value, Is.EqualTo(TestConstants.DefaultAttributes.Url));
+                Assert.That(this.Anime.Url, Is.EqualTo(new Attribute(TestConstants.DefaultAttributes.Url)));
             }
 
             [Test]
             public void HasCorrectUrl() {
                 this.Anime = new Anime {
-                    Url = KimiNoNaWa.Url
+                    Url = TestConstants.KimiNoNaWa.Url
                 };
-                Assert.That(this.Anime.Url.Value, Is.EqualTo(KimiNoNaWa.Url));
+                Assert.That(this.Anime.Url.Value, Is.EqualTo(TestConstants.KimiNoNaWa.Url));
             }
 
             [Test]

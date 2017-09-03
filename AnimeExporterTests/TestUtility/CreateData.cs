@@ -1,8 +1,7 @@
-﻿using AnimeExporter;
-using AnimeExporter.Controllers;
+﻿using AnimeExporter.Controllers;
 using AnimeExporter.Models;
 
-namespace AnimeExporterTests.utility {
+namespace AnimeExporterTests.TestUtility {
     
     /// <summary>
     /// Contains basic data for tests
