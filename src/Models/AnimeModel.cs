@@ -38,7 +38,7 @@ namespace AnimeExporter.Models {
         /// so only a default anime needs to be constructed.
         /// </remarks>
         public static AnimeModel Schema() {
-            return new AnimeModel("Url", new DetailsModel());
+            return new AnimeModel("Url", new DetailsModel(), new StatsModel());
         }
 
         public override string ToString() {
