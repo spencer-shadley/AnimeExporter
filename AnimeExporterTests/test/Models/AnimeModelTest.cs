@@ -62,7 +62,7 @@ namespace AnimeExporterTests.test.Models {
 
             [Test]
             public void HasEveryAttribute() {
-                Assert.That(this.DetailsModel.Attributes, Has.Count.EqualTo(31));
+                Assert.That(this.DetailsModel.Attributes, Has.Count.EqualTo(38));
             }
         }
     }
