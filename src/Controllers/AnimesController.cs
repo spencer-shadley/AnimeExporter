@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using AnimeExporter.Models;
 using AnimeExporter.Utility;
 using HtmlAgilityPack;
 
@@ -56,6 +58,10 @@ namespace AnimeExporter.Controllers {
             
             urls.AddRange(anchorNodes.Select(anchorNode => anchorNode.Attributes["href"].Value));
             return urls;
+        }
+
+        protected override DataModel Scrape() {
+            throw new NotImplementedException("Use ScrapeTopAnimeUrls instead");
         }
     }
 }

@@ -267,68 +267,56 @@ namespace AnimeExporter.Controllers {
         /// <summary>
         /// Scrapes the details page to construct an anime object.
         /// </summary>
-        /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="DetailsModel"/> representation of the details page</returns>
-        public DetailsModel TryScrape(int retriesLeft = MaxRetryCount) {
-            Log.Info("Scraping details");
-            
-            try {
-                string[] genres = this.Genres.Split(
-                    new string[] { Delimiter }, StringSplitOptions.None);
-                
-                foreach (string genre in genres) {
-                    AnimesModel.Genres.Add(genre);
-                }
+        protected override DataModel Scrape() {
 
-                return new DetailsModel {
-                    Url                   = { Value = this.Url },
-                    Title                 = { Value = this.Title },
-                    EnglishTitle          = { Value = this.EnglishTitle },
-                    JapaneseTitle         = { Value = this.JapaneseTitle },
-                    Synonyms              = { Value = this.Synonyms },
-                    Score                 = { Value = this.Score },
-                    NumRatings            = { Value = this.NumberOfRatings },
-                    Rank                  = { Value = this.Rank },
-                    Popularity            = { Value = this.Popularity },
-                    NumMembers            = { Value = this.NumberOfMembers },
-                    NumFavorites          = { Value = this.NumberOfFavorites },
-                    MediaType             = { Value = this.MediaType },
-                    NumEpisodes           = { Value = this.NumberOfEpisodes },
-                    Status                = { Value = this.Status },
-                    DateStarted           = { Value = this.AirStartDate },
-                    DateFinished          = { Value = this.AirFinishDate },
-                    Producers             = { Value = this.Producers },
-                    Licensors             = { Value = this.Licensors },
-                    Studios               = { Value = this.Studios },
-                    Genres                = { Value = this.Genres },
-                    Duration              = { Value = this.Duration },
-                    Rating                = { Value = this.Rating },
-                    Source                = { Value = this.Source },
-                    Synopsis              = { Value = this.Synopsis },
-                    Background            = { Value = this.Background },
-                    Image                 = { Value = this.ImageUrl },
-                    Adaptation            = { Value = this.Adapation },
-                    AlternativeSetting    = { Value = this.AlternativeSetting },
-                    Prequel               = { Value = this.Prequel },
-                    Sequel                = { Value = this.Sequel },
-                    SideStory             = { Value = this.SideStory },
-                    ParentStory           = { Value = this.ParentStory },
-                    FullStory             = { Value = this.FullStory },
-                    Summary               = { Value = this.Summary },
-                    SpinOff               = { Value = this.SpinOff },
-                    Character             = { Value = this.Character },
-                    Other                 = { Value = this.Other },
-                    AlternativeVersion    = { Value = this.AlternativeVersion }
-                };
+            string[] genres = this.Genres.Split(
+                new string[] { Delimiter }, StringSplitOptions.None);
+        
+            foreach (string genre in genres) {
+                AnimesModel.Genres.Add(genre);
             }
-            catch(Exception e) {
-                Log.Error($"failed to export an anime (retry count is {retriesLeft})...", e);
 
-                BackOff(retriesLeft);
-
-                // typically network connectivity issues, see if we should try again
-                return retriesLeft == 0 ? null : this.TryScrape(retriesLeft - 1);
-            }
+            return new DetailsModel {
+                Url                   = { Value = this.Url },
+                Title                 = { Value = this.Title },
+                EnglishTitle          = { Value = this.EnglishTitle },
+                JapaneseTitle         = { Value = this.JapaneseTitle },
+                Synonyms              = { Value = this.Synonyms },
+                Score                 = { Value = this.Score },
+                NumRatings            = { Value = this.NumberOfRatings },
+                Rank                  = { Value = this.Rank },
+                Popularity            = { Value = this.Popularity },
+                NumMembers            = { Value = this.NumberOfMembers },
+                NumFavorites          = { Value = this.NumberOfFavorites },
+                MediaType             = { Value = this.MediaType },
+                NumEpisodes           = { Value = this.NumberOfEpisodes },
+                Status                = { Value = this.Status },
+                DateStarted           = { Value = this.AirStartDate },
+                DateFinished          = { Value = this.AirFinishDate },
+                Producers             = { Value = this.Producers },
+                Licensors             = { Value = this.Licensors },
+                Studios               = { Value = this.Studios },
+                Genres                = { Value = this.Genres },
+                Duration              = { Value = this.Duration },
+                Rating                = { Value = this.Rating },
+                Source                = { Value = this.Source },
+                Synopsis              = { Value = this.Synopsis },
+                Background            = { Value = this.Background },
+                Image                 = { Value = this.ImageUrl },
+                Adaptation            = { Value = this.Adapation },
+                AlternativeSetting    = { Value = this.AlternativeSetting },
+                Prequel               = { Value = this.Prequel },
+                Sequel                = { Value = this.Sequel },
+                SideStory             = { Value = this.SideStory },
+                ParentStory           = { Value = this.ParentStory },
+                FullStory             = { Value = this.FullStory },
+                Summary               = { Value = this.Summary },
+                SpinOff               = { Value = this.SpinOff },
+                Character             = { Value = this.Character },
+                Other                 = { Value = this.Other },
+                AlternativeVersion    = { Value = this.AlternativeVersion }
+            };
         }
     }
 }

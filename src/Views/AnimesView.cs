@@ -42,12 +42,12 @@ namespace AnimeExporter.Views {
         /// <param name="page">Represents the page number to scrape</param>
         /// <returns>An <see cref="AnimesModel"/> representation of the top anime at <see cref="page"/></returns>
         public static AnimesModel ScrapeTopAnimesPage(int page) {
-            var animes = new AnimesModel();
+            var animesModel = new AnimesModel();
             List<string> topAnimeUrls = AnimesController.ScrapeTopAnimeUrls(page, Page.MaxRetryCount);
             foreach (string url in topAnimeUrls) {
-                animes.Add(AnimeController.ScrapeData(url));
+                animesModel.Add(AnimeController.ScrapeData(url));
             }
-            return animes;
+            return animesModel;
         }
 
         public static void PrintPage(int page) {

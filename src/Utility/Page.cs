@@ -5,9 +5,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
+using DataModel = AnimeExporter.Models.DataModel;
+
 namespace AnimeExporter.Utility {
     
-    public class Page {
+    public abstract class Page {
         
         public const string MyAnimeListBaseUrl = "https://myanimelist.net";
         
@@ -21,8 +23,8 @@ namespace AnimeExporter.Utility {
         
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
             (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
-        public Page(string url) {
+
+        protected Page(string url) {
             this.Url = url;
             this.TryLoadPage();
         }
@@ -50,6 +52,24 @@ namespace AnimeExporter.Utility {
                 Log.Error($"Failed to load page at {this.Url}", e);
                 BackOff(retriesLeft);
                 this.TryLoadPage(retriesLeft - 1);
+            }
+        }
+
+        protected abstract DataModel Scrape();
+
+        public DataModel TryScrape(int retriesLeft = MaxRetryCount) {
+            Log.Info($"Trying to scrape {this.Url}");
+
+            try {
+                return this.Scrape();
+            }
+            catch (Exception e) {
+                Log.Error($"failed to scrape {this.Url}", e);
+                
+                BackOff(retriesLeft);
+                
+                // typically network connectivity issues, see if we should try again
+                return retriesLeft == 0 ? null : this.TryScrape(retriesLeft - 1);
             }
         }
 

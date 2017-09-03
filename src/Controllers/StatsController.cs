@@ -9,10 +9,7 @@ namespace AnimeExporter.Controllers {
 
         public StatsController(string url) : base(url + "/stats") { }
         
-        // TODO: generalize the scrape
-        public StatsModel TryScrape(int retriesLeft = Page.MaxRetryCount) {
-            Log.Info("scraping STATS!!!!!!!!!!!!!");
-            
+        protected override DataModel Scrape() {
             return new StatsModel {
                 Completed = { Value = "345" },
                 Dropped = { Value = "634" },
