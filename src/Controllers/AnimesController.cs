@@ -27,9 +27,11 @@ namespace AnimeExporter.Controllers {
             return topAnimeUrl + page*50;
         }
 
-        public HtmlNodeCollection GetAnchorNodes() {
-            const string urlClass = "hoverinfo_trigger fl-l ml12 mr8";
-            return this.FindElementsWithClass(urlClass);
+        public HtmlNodeCollection AnchorNodes {
+            get {
+                const string urlClass = "hoverinfo_trigger fl-l ml12 mr8";
+                return this.FindElementsWithClass(urlClass);
+            }
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace AnimeExporter.Controllers {
             
             var urls = new List<string>();
 
-            HtmlNodeCollection anchorNodes = topAnimePage.GetAnchorNodes();
+            HtmlNodeCollection anchorNodes = topAnimePage.AnchorNodes;
 
             if (anchorNodes == null) {
                 Log.Error($"Page {page} is unable to parse the URLs. Retry count is {retriesLeft}");
@@ -72,7 +74,7 @@ namespace AnimeExporter.Controllers {
                 "Either only the startPage should be specified or the startPage should be less than the lastPage");
 
             var animes = new AnimesModel {
-                DetailsModel.Schema(), // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
+                DataModel.Schema(), // Add the schema as its own "anime" so that we get nice titling in our Google Sheet
             };
             
             do {
