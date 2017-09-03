@@ -42,8 +42,8 @@ namespace AnimeExporter.Controllers {
         }
         
         protected override DataModel Scrape() {
+            
             HtmlNodeCollection voteNodes = this.FindNumVotesNodes();
-
             int numVotesTen;   int.TryParse(this.FindNumVotes(voteNodes, 10), out numVotesTen);
             int numVotesNine;  int.TryParse(this.FindNumVotes(voteNodes, 9),  out numVotesNine);
             int numVotesEight; int.TryParse(this.FindNumVotes(voteNodes, 8),  out numVotesEight);

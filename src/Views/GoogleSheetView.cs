@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Threading;
 using AnimeExporter.Models;
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
+
+using Table = System.Collections.Generic.IList<System.Collections.Generic.IList<object>>;
 
 namespace AnimeExporter.Views {
     
@@ -81,22 +84,39 @@ namespace AnimeExporter.Views {
         /// </summary>
         /// <param name="values">The data to publish</param>
         /// <param name="sheetName">The sheet to update</param>
-        private static void PublishGoogleSheet(IList<IList<object>> values, string sheetName) {
-            ClearGoogleSheet(sheetName);
+        private static void PublishGoogleSheet(Table values, string sheetName) {
+            BatchUpdateValuesResponse response;
+            try {
+                ClearGoogleSheet(sheetName);
 
-            var updateValues = new ValueRange {
-                Values = values,
-                Range = GetEntireRangeOfSheet(sheetName)
-            };
-            
-            var request = new BatchUpdateValuesRequest {
-                Data = new[] {updateValues},
-                ValueInputOption = "USER_ENTERED"
-            };
-            SpreadsheetsResource.ValuesResource.BatchUpdateRequest updateRequest = Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
-            BatchUpdateValuesResponse response = updateRequest.Execute();
+                var updateValues = new ValueRange {
+                    Values = values,
+                    Range = GetEntireRangeOfSheet(sheetName)
+                };
 
-            Log.Info($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}" + Environment.NewLine);
+                var request = new BatchUpdateValuesRequest {
+                    Data = new[] {updateValues},
+                    ValueInputOption = "USER_ENTERED"
+                };
+                SpreadsheetsResource.ValuesResource.BatchUpdateRequest updateRequest =
+                    Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
+                response = updateRequest.Execute();
+            }
+            catch (GoogleApiException e) {
+                if (e.HttpStatusCode == HttpStatusCode.RequestEntityTooLarge) {
+                    Log.Warn($"Google Sheets quota was exceeded with {values.Count} rows. Trying again with fewer rows...", e);
+                    
+                    PublishGoogleSheet(TruncateTable(values, 10), sheetName);
+                    return;
+                }
+                
+                Log.Error("Unhandled Google API exception", e);
+                throw;
+            }
+
+            Debug.Assert(response != null, "response != null");
+            Log.Info($"Updated {sheetName}, check out Google Sheet {BaseSheetUri}{response.SpreadsheetId}" +
+                         Environment.NewLine);
         }
 
         /// <summary>The Google Sheet which is published to requires credentials to access.</summary>
@@ -128,6 +148,22 @@ namespace AnimeExporter.Views {
         /// <remarks>Will fail if the sheet exceeds 26^3 columns or 1,000,000 rows</remarks>
         private static string GetEntireRangeOfSheet(string sheetName) {
             return $"'{sheetName}'!A1:ZZZ1000000";
+        }
+
+        /// <summary>
+        /// Remove the last <param name="numValuesToTruncate"></param> from <param name="values"></param>
+        /// </summary>
+        private static Table TruncateTable(Table values, int numValuesToTruncate) {
+            if (numValuesToTruncate > values.Count) {
+                string errorMessage = $"Values of size {values.Count} is too small to keep truncating"; 
+                Log.Error(errorMessage);
+                throw new ArgumentOutOfRangeException(errorMessage);
+            }
+            
+            for (int i = 0; i < numValuesToTruncate; ++i) {
+                values.RemoveAt(values.Count);
+            }
+            return values;
         }
     }
 }
