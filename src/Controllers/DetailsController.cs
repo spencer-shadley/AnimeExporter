@@ -270,7 +270,7 @@ namespace AnimeExporter.Controllers {
         /// <param name="retriesLeft">Number of times to retry</param>
         /// <returns>An <see cref="DetailsModel"/> representation of the details page</returns>
         public DetailsModel TryScrape(int retriesLeft = MaxRetryCount) {
-            Log.Info($"Scraping {this.Url}");
+            Log.Info("Scraping details");
             
             try {
                 string[] genres = this.Genres.Split(
@@ -280,7 +280,7 @@ namespace AnimeExporter.Controllers {
                     AnimesModel.Genres.Add(genre);
                 }
 
-                var anime = new DetailsModel {
+                return new DetailsModel {
                     Url                   = { Value = this.Url },
                     Title                 = { Value = this.Title },
                     EnglishTitle          = { Value = this.EnglishTitle },
@@ -320,9 +320,6 @@ namespace AnimeExporter.Controllers {
                     Other                 = { Value = this.Other },
                     AlternativeVersion    = { Value = this.AlternativeVersion }
                 };
-
-                Log.Debug(anime + Environment.NewLine);
-                return anime;
             }
             catch(Exception e) {
                 Log.Error($"failed to export an anime (retry count is {retriesLeft})...", e);
