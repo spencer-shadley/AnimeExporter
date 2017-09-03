@@ -11,6 +11,8 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 
+using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource;
+
 using Table = System.Collections.Generic.IList<System.Collections.Generic.IList<object>>;
 
 namespace AnimeExporter.Views {
@@ -66,7 +68,7 @@ namespace AnimeExporter.Views {
         }
 
         private static void BackupSheet(string sheetName) {
-            SpreadsheetsResource.ValuesResource.GetRequest getRequest = Service.Spreadsheets.Values.Get(SheetId, GetEntireRangeOfSheet(sheetName));
+            GetRequest getRequest = Service.Spreadsheets.Values.Get(SheetId, CalculateEntireRange(sheetName));
             ValueRange response = getRequest.Execute();
             
             PublishGoogleSheet(response.Values, sheetName + " (Backup)");
@@ -74,7 +76,7 @@ namespace AnimeExporter.Views {
 
         private static void ClearGoogleSheet(string sheetName) {
             var request = new ClearValuesRequest();
-            SpreadsheetsResource.ValuesResource.ClearRequest clearRequest = Service.Spreadsheets.Values.Clear(request, SheetId, GetEntireRangeOfSheet(sheetName));
+            ClearRequest clearRequest = Service.Spreadsheets.Values.Clear(request, SheetId, CalculateEntireRange(sheetName));
             ClearValuesResponse response = clearRequest.Execute();
             Log.Info($"Cleared {response.ClearedRange}");
         }
@@ -91,15 +93,14 @@ namespace AnimeExporter.Views {
 
                 var updateValues = new ValueRange {
                     Values = values,
-                    Range = GetEntireRangeOfSheet(sheetName)
+                    Range = CalculateEntireRange(sheetName)
                 };
 
                 var request = new BatchUpdateValuesRequest {
                     Data = new[] {updateValues},
                     ValueInputOption = "USER_ENTERED"
                 };
-                SpreadsheetsResource.ValuesResource.BatchUpdateRequest updateRequest =
-                    Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
+                BatchUpdateRequest updateRequest = Service.Spreadsheets.Values.BatchUpdate(request, SheetId);
                 response = updateRequest.Execute();
             }
             catch (GoogleApiException e) {
@@ -146,7 +147,7 @@ namespace AnimeExporter.Views {
         /// </summary>
         /// <param name="sheetName">The title of the sheet to select notation for</param>
         /// <remarks>Will fail if the sheet exceeds 26^3 columns or 1,000,000 rows</remarks>
-        private static string GetEntireRangeOfSheet(string sheetName) {
+        private static string CalculateEntireRange(string sheetName) {
             return $"'{sheetName}'!A1:ZZZ1000000";
         }
 
