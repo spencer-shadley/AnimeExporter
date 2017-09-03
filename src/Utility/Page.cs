@@ -137,6 +137,22 @@ namespace AnimeExporter.Utility {
             return null;
         }
 
+        protected HtmlNodeCollection SelectElementsByTypeContainsText(string type, string text) {
+            string xPath = $"//{type}[contains(text(),'{text}')]";
+
+            HtmlNodeCollection selected = this.Node.SelectNodes(xPath);
+
+            if (selected == null) {
+                Log.Warn($"[Page.SelectElementsByContainsText] Could not find {type} with {text}");
+                return null;
+            }
+
+            if (selected.Count != 0) return selected;
+            
+            Log.Warn($"[Page.SelectElementsByContainsText] Empty selection for {type} with {text}");
+            return null;
+        }
+
         protected HtmlNodeCollection SelectElementsByType(HtmlNode node, string type) {
             string xPath = $"{type}";
             HtmlNodeCollection selected = node.SelectNodes(xPath);
@@ -146,7 +162,7 @@ namespace AnimeExporter.Utility {
             Log.Warn($"No nodes were selected for {type}");
             return null;
         }
-
+        
         protected string SelectAllSiblingAnchorElements(string text, string defaultText = "None found") {
             return this.SelectAllSiblingAnchorElements(this.SelectElementByText(text), defaultText);
         }

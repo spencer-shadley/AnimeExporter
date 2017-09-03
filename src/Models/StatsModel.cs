@@ -10,17 +10,7 @@
         public AttributeModel PlanToWatch = "Number of people planning to watch";
         public AttributeModel Total = "Number of people interested (watching, on-hold, dropped, etc.)";
 
-        public AttributeModel PercentScoreTen   = "Percent of users scored 10";
-        public AttributeModel PercentScoreNine  = "Percent of users scored 9";
-        public AttributeModel PercentScoreEight = "Percent of users scored 8";
-        public AttributeModel PercentScoreSeven = "Percent of users scored 7";
-        public AttributeModel PercentScoreSix   = "Percent of users scored 6";
-        public AttributeModel PercentScoreFive  = "Percent of users scored 5";
-        public AttributeModel PercentScoreFour  = "Percent of users scored 4";
-        public AttributeModel PercentScoreThree = "Percent of users scored 3";
-        public AttributeModel PercentScoreTwo   = "Percent of users scored 2";
-        public AttributeModel PercentScoreOne   = "Percent of users scored 1";
-
+        public AttributeModel NumberTotalVotes  = "Number of votes";
         public AttributeModel NumberScoreTen    = "Number of users scored 10";
         public AttributeModel NumberScoreNine   = "Number of users scored 9";
         public AttributeModel NumberScoreEight  = "Number of users scored 8";
@@ -31,5 +21,16 @@
         public AttributeModel NumberScoreThree  = "Number of users scored 3";
         public AttributeModel NumberScoreTwo    = "Number of users scored 2";
         public AttributeModel NumberScoreOne    = "Number of users scored 1";
+
+        public AttributeModel PercentScoreTen   = "Percent of users scored 10";
+        public AttributeModel PercentScoreNine  = "Percent of users scored 9";
+        public AttributeModel PercentScoreEight = "Percent of users scored 8";
+        public AttributeModel PercentScoreSeven = "Percent of users scored 7";
+        public AttributeModel PercentScoreSix   = "Percent of users scored 6";
+        public AttributeModel PercentScoreFive  = "Percent of users scored 5";
+        public AttributeModel PercentScoreFour  = "Percent of users scored 4";
+        public AttributeModel PercentScoreThree = "Percent of users scored 3";
+        public AttributeModel PercentScoreTwo   = "Percent of users scored 2";
+        public AttributeModel PercentScoreOne   = "Percent of users scored 1";
     }
 }
