@@ -21,7 +21,7 @@ namespace AnimeExporter.Controllers {
     /// There are more perf details in the tracing output at data/performance snapshot.dtp
     /// Note: This taking longer actaully helps to combat the rate throttling on MyAnimeList
     /// </remarks>
-    public class AnimeDetailsPage : Page {
+    public class DetailsController : Page {
         
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
             (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -36,7 +36,7 @@ namespace AnimeExporter.Controllers {
 
         private enum Airing { Future, InProgress, Finished, Unknown }
 
-        public AnimeDetailsPage(string url) : base(url) {
+        public DetailsController(string url) : base(url) {
             this.FindRelatedAnime();
             
             switch (this.Status) {
@@ -268,8 +268,8 @@ namespace AnimeExporter.Controllers {
         /// Scrapes the details page to construct an anime object.
         /// </summary>
         /// <param name="retriesLeft">Number of times to retry</param>
-        /// <returns>An <see cref="Anime"/> representation of the details page</returns>
-        public Anime TryScrapeAnime(int retriesLeft) {
+        /// <returns>An <see cref="DetailsModel"/> representation of the details page</returns>
+        public DetailsModel TryScrapeAnime(int retriesLeft) {
             Log.Info($"Scraping {this.Url}");
             
             try {
@@ -277,10 +277,10 @@ namespace AnimeExporter.Controllers {
                     new string[] { Delimiter }, StringSplitOptions.None);
                 
                 foreach (string genre in genres) {
-                    Animes.Genres.Add(genre);
+                    AnimesModel.Genres.Add(genre);
                 }
 
-                var anime = new Anime {
+                var anime = new DetailsModel {
                     Url                   = { Value = this.Url },
                     Title                 = { Value = this.Title },
                     EnglishTitle          = { Value = this.EnglishTitle },

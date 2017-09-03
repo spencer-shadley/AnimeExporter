@@ -10,11 +10,11 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 
-namespace AnimeExporter {
+namespace AnimeExporter.Views {
     
-    // TODO: Split into Model and Controller
+    // TODO: Split into View and Controller
     
-    public class GoogleSheet {
+    public class GoogleSheetView {
         
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger
             (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -45,12 +45,12 @@ namespace AnimeExporter {
             }
         }
 
-        public static void PublishDataToGoogleSheet(Animes animes) {
-            PublishGoogleSheet(animes.ToDataTable(), TopAnimeSheetName);
+        public static void PublishDataToGoogleSheet(AnimesModel animesModel) {
+            PublishGoogleSheet(animesModel.ToDataTable(), TopAnimeSheetName);
         }
 
-        public static void PublishGenresToGoogleSheet(Animes animes) {
-            PublishGoogleSheet(animes.ToCollectionsTable(), GenresSheetName);
+        public static void PublishGenresToGoogleSheet(AnimesModel animesModel) {
+            PublishGoogleSheet(animesModel.ToCollectionsTable(), GenresSheetName);
         }
 
         /// <summary>

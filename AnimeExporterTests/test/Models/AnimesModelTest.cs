@@ -7,30 +7,30 @@ using NUnit.Framework;
 namespace AnimeExporterTests.test.Models {
     
     /// <summary>
-    /// Contains NUnit tests for <see cref="Animes"/>
+    /// Contains NUnit tests for <see cref="AnimesModel"/>
     /// </summary>
-    public class AnimesTest {
+    public class AnimesModelTest {
         
-        public Animes Animes;
+        public AnimesModel AnimesModel;
 
-        public AnimesTest() {
-            this.Animes = new Animes();
+        public AnimesModelTest() {
+            this.AnimesModel = new AnimesModel();
         }
 
         [TestFixture]
         public class TestAddAnime {
             private const int StressAddNum = 1000;
             
-            private AnimesTest _test;
+            private AnimesModelTest _modelTest;
 
-            private List<Anime> AnimesList => this._test.Animes.ToList();
+            private List<DetailsModel> AnimesList => this._modelTest.AnimesModel.ToList();
 
-            [SetUp] public void Setup()       { this._test = new AnimesTest(); }
-            [TearDown] public void Teardown() { this._test = null; }
+            [SetUp] public void Setup()       { this._modelTest = new AnimesModelTest(); }
+            [TearDown] public void Teardown() { this._modelTest = null; }
             
             [Test]
             public void AddEmptyAnime() {
-                this.VerifyAndAdd(new Anime());
+                this.VerifyAndAdd(new DetailsModel());
             }
 
             [Test]
@@ -48,36 +48,36 @@ namespace AnimeExporterTests.test.Models {
 
             [Test]
             public void AddEmptyAnimes() {
-                var animesToAdd = new Animes();
+                var animesToAdd = new AnimesModel();
                 
-                this._test.Animes.Add(animesToAdd);
+                this._modelTest.AnimesModel.Add(animesToAdd);
                 Assert.That(this.AnimesList, Is.Empty);
             }
 
             [Test]
             public void AddOneAnimes() {
-                var animesToAdd = new Animes {CreateData.KimiNoNaWa()};
-                this._test.Animes.Add(animesToAdd);
+                var animesToAdd = new AnimesModel {CreateData.KimiNoNaWa()};
+                this._modelTest.AnimesModel.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(1));
             }
 
             [Test]
             public void AddManyAnimes() {
-                var animesToAdd = new Animes();
+                var animesToAdd = new AnimesModel();
 
                 for (int i = 0; i < StressAddNum; ++i) {
                     animesToAdd.Add(CreateData.KimiNoNaWa(TestConstants.KimiNoNaWa.Url + i));
                 }
-                this._test.Animes.Add(animesToAdd);
+                this._modelTest.AnimesModel.Add(animesToAdd);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(StressAddNum));
             }
 
-            private void VerifyAndAdd(Anime anime, int initialSize = 0) {
+            private void VerifyAndAdd(DetailsModel detailsModel, int initialSize = 0) {
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize));
                 
-                this._test.Animes.Add(anime);
+                this._modelTest.AnimesModel.Add(detailsModel);
                 Assert.That(this.AnimesList, Has.Count.EqualTo(initialSize+1));                
-                Assert.That(this.AnimesList[initialSize], Is.EqualTo(anime));
+                Assert.That(this.AnimesList[initialSize], Is.EqualTo(detailsModel));
             }
         }
     }

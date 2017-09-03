@@ -4,7 +4,7 @@ namespace AnimeExporter.Models {
     /// <summary>
     /// Represents a piece of info about an anime using a Name/Value pair
     /// </summary>
-    public class Attribute {
+    public class AttributeModel {
         public const string Empty = "none";
         
         public string Name { get; }
@@ -16,13 +16,13 @@ namespace AnimeExporter.Models {
         /// <remarks>This will not work if <see cref="Value"/> is expected to be <see cref="Name"/></remarks>
         public bool IsFailure => this.Name.Equals(this.Value);
 
-        public Attribute(string name) {
+        public AttributeModel(string name) {
             this.Name = name;
             this.Value = name;
         }
 
-        public static implicit operator Attribute(string value) {
-            return new Attribute(value);
+        public static implicit operator AttributeModel(string value) {
+            return new AttributeModel(value);
         }
         
         public override string ToString() {
@@ -45,10 +45,10 @@ namespace AnimeExporter.Models {
         }
 
         public override bool Equals(object obj) {
-            if (obj == null || obj.GetType() != typeof(Attribute)) {
+            if (obj == null || obj.GetType() != typeof(AttributeModel)) {
                 return false;
             }
-            var that = (Attribute) obj;
+            var that = (AttributeModel) obj;
             return this.Name.Equals(that.Name) && this.Value.Equals(that.Value);
         }
 

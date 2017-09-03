@@ -7,23 +7,23 @@ namespace AnimeExporterTests.TestUtility {
     /// Contains basic data for tests
     /// </summary>
     public class CreateData {
-        public static Anime KimiNoNaWa(string url = null) {
-            return new Anime {
+        public static DetailsModel KimiNoNaWa(string url = null) {
+            return new DetailsModel {
                 Title = TestConstants.KimiNoNaWa.Title,
                 Url = url ?? TestConstants.KimiNoNaWa.Url
             };
         }
 
-        public static AnimeDetailsPage KimiNoNaWaDetailsPage() {
-            return new AnimeDetailsPage(TestConstants.KimiNoNaWa.Url);
+        public static DetailsController KimiNoNaWaDetailsPage() {
+            return new DetailsController(TestConstants.KimiNoNaWa.Url);
         }
 
-        public static AnimeDetailsPage SteinsGateDetailsPage() {
-            return new AnimeDetailsPage(TestConstants.SteinsGate.Url);
+        public static DetailsController SteinsGateDetailsPage() {
+            return new DetailsController(TestConstants.SteinsGate.Url);
         }
 
-        public static AnimeDetailsPage OwarimongatariSecondSeasonDetailsPage() {
-            return new AnimeDetailsPage(TestConstants.OwarimongatariSecondSeason.Url);
+        public static DetailsController OwariMongatariSecondSeasonDetailsPage() {
+            return new DetailsController(TestConstants.OwarimongatariSecondSeason.Url);
         }
     }
 }

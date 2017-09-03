@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace AnimeExporter.Models {
     
-    public class Animes : IEnumerable<Anime> {
+    public class AnimesModel : IEnumerable<DetailsModel> {
 
-        private readonly Dictionary<string, Anime> _animes = new Dictionary<string, Anime>();
+        private readonly Dictionary<string, DetailsModel> _animes = new Dictionary<string, DetailsModel>();
         
         public static HashSet<string> Genres = new HashSet<string>();
         
@@ -21,22 +21,21 @@ namespace AnimeExporter.Models {
         /// <summary>
         /// Adds an anime to the existing collection assuming it does not already exist
         /// </summary>
-        /// <param name="anime">The anime to add</param>
-        public void Add(Anime anime) {
-            Debug.Assert(anime?.Url.Value != null);
+        /// <param name="detailsModel">The anime to add</param>
+        public void Add(DetailsModel detailsModel) {
+            Debug.Assert(detailsModel?.Url.Value != null);
             
-            this._animes[anime.Url.Value] = anime;
+            this._animes[detailsModel.Url.Value] = detailsModel;
         }
 
         /// <summary>
-        /// Combines <see cref="animes"/> to the existing <see cref="Animes"/>
+        /// Combines <param name="animesModel"></param> to the existing <see cref="AnimesModel"/>
         /// </summary>
-        /// <param name="animes">The animes to add</param>
         /// <remarks>In the case of an already existing anime the original ('this') wins</remarks>
-        public void Add(Animes animes) {
-            Debug.Assert(animes != null);
+        public void Add(AnimesModel animesModel) {
+            Debug.Assert(animesModel != null);
             
-            foreach (Anime anime in animes) {
+            foreach (DetailsModel anime in animesModel) {
                 this.Add(anime);
             }
         }
@@ -58,7 +57,7 @@ namespace AnimeExporter.Models {
             return this.Select(anime => anime.ToRow()).Cast<IList<object>>().ToList();
         }
         
-        public IEnumerator<Anime> GetEnumerator()
+        public IEnumerator<DetailsModel> GetEnumerator()
         {
             return this._animes.Values.GetEnumerator();
         }

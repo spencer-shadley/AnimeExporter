@@ -5,64 +5,64 @@ using NUnit.Framework;
 namespace AnimeExporterTests.test.Models {
     
     /// <summary>
-    /// Contains NUnit tests for <see cref="Anime"/> and <see cref="Attribute"/>
+    /// Contains NUnit tests for <see cref="DetailsModel"/> and <see cref="AttributeModel"/>
     /// </summary>
-    public class AnimeTest {
+    public class AnimeModelTest {
         
-        public Anime Anime;
+        public DetailsModel DetailsModel;
 
-        public AnimeTest() {
-            this.Anime = new Anime();
+        public AnimeModelTest() {
+            this.DetailsModel = new DetailsModel();
         }
 
         [TestFixture]
         public class TestAttributes {
             
-            private AnimeTest _test;
+            private AnimeModelTest _modelTest;
 
-            private Anime Anime {
-                get => this._test.Anime;
-                set => this._test.Anime = value;
+            private DetailsModel DetailsModel {
+                get => this._modelTest.DetailsModel;
+                set => this._modelTest.DetailsModel = value;
             }
 
-            [SetUp] public void Setup()       { this._test = new AnimeTest(); }
-            [TearDown] public void Teardown() { this._test = null; }
+            [SetUp] public void Setup()       { this._modelTest = new AnimeModelTest(); }
+            [TearDown] public void Teardown() { this._modelTest = null; }
             
             [Test]
             public void HasATitle() {
-                Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(TestConstants.DefaultAttributes.Title)));
-                Assert.That(this.Anime.Title.Name, Is.EqualTo(TestConstants.DefaultAttributes.Title));
-                Assert.That(this.Anime.Title.Value, Is.EqualTo(TestConstants.DefaultAttributes.Title));
-                Assert.That(this.Anime.Title, Is.EqualTo(new Attribute(TestConstants.DefaultAttributes.Title)));
+                Assert.That(this.DetailsModel.AllAttributes, Contains.Item(new AttributeModel(TestConstants.DefaultAttributes.Title)));
+                Assert.That(this.DetailsModel.Title.Name, Is.EqualTo(TestConstants.DefaultAttributes.Title));
+                Assert.That(this.DetailsModel.Title.Value, Is.EqualTo(TestConstants.DefaultAttributes.Title));
+                Assert.That(this.DetailsModel.Title, Is.EqualTo(new AttributeModel(TestConstants.DefaultAttributes.Title)));
             }
 
             [Test]
             public void HasCorrectTitle() {
-                this.Anime = new Anime {
+                this.DetailsModel = new DetailsModel {
                     Title = TestConstants.KimiNoNaWa.Title
                 };
-                Assert.That(this.Anime.Title.Value, Is.EqualTo(TestConstants.KimiNoNaWa.Title));
+                Assert.That(this.DetailsModel.Title.Value, Is.EqualTo(TestConstants.KimiNoNaWa.Title));
             }
             
             [Test]
             public void HasAUrl() {
-                Assert.That(this.Anime.AllAttributes, Contains.Item(new Attribute(TestConstants.DefaultAttributes.Url)));
-                Assert.That(this.Anime.Url.Name, Is.EqualTo(TestConstants.DefaultAttributes.Url));
-                Assert.That(this.Anime.Url.Value, Is.EqualTo(TestConstants.DefaultAttributes.Url));
-                Assert.That(this.Anime.Url, Is.EqualTo(new Attribute(TestConstants.DefaultAttributes.Url)));
+                Assert.That(this.DetailsModel.AllAttributes, Contains.Item(new AttributeModel(TestConstants.DefaultAttributes.Url)));
+                Assert.That(this.DetailsModel.Url.Name, Is.EqualTo(TestConstants.DefaultAttributes.Url));
+                Assert.That(this.DetailsModel.Url.Value, Is.EqualTo(TestConstants.DefaultAttributes.Url));
+                Assert.That(this.DetailsModel.Url, Is.EqualTo(new AttributeModel(TestConstants.DefaultAttributes.Url)));
             }
 
             [Test]
             public void HasCorrectUrl() {
-                this.Anime = new Anime {
+                this.DetailsModel = new DetailsModel {
                     Url = TestConstants.KimiNoNaWa.Url
                 };
-                Assert.That(this.Anime.Url.Value, Is.EqualTo(TestConstants.KimiNoNaWa.Url));
+                Assert.That(this.DetailsModel.Url.Value, Is.EqualTo(TestConstants.KimiNoNaWa.Url));
             }
 
             [Test]
             public void HasEveryAttribute() {
-                Assert.That(this.Anime.AllAttributes, Has.Count.EqualTo(31));
+                Assert.That(this.DetailsModel.AllAttributes, Has.Count.EqualTo(31));
             }
         }
     }
