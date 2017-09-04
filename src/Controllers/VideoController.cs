@@ -5,7 +5,7 @@ using HtmlAgilityPack;
 namespace AnimeExporter.Controllers {
     public class VideoController : Page {
 
-        private const string VideoProviderClasses = "select-provider js-select-provider";
+        private const string VideoProviderClasses = "video-providers";
         private const string PromoVideoClasses    = "iframe js-fancybox-video video-list di-ib po-r";
         
         private const string BaseImagePath    = "https://myanimelist.cdn-dena.com/images/episodes/videos/";
@@ -28,6 +28,8 @@ namespace AnimeExporter.Controllers {
         
         private HtmlNode FindVideoProvider() {
             HtmlNode videoProvider = this.SelectElementWithClass(VideoProviderClasses);
+
+            if (videoProvider == null) return null;
             
             if (videoProvider.ChildNodes.Count > 2) Log.Warn($"There are more video providers than expected for {this.Url}");
             
@@ -41,7 +43,7 @@ namespace AnimeExporter.Controllers {
         /// <param name="videoProvider">The root node to search from</param>
         /// <returns></returns>
         private bool IsServiceAvailable(string imageUrl, HtmlNode videoProvider) {
-            return this.SelectByImage(imageUrl, videoProvider) != null;
+            return videoProvider != null && this.SelectByImage(imageUrl, videoProvider) != null;
         }
 
         protected override DataModel Scrape() {
