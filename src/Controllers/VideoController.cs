@@ -4,6 +4,11 @@ using HtmlAgilityPack;
 
 namespace AnimeExporter.Controllers {
     public class VideoController : Page {
+        
+        // TODO: add tests
+        // example of no streaming: https://myanimelist.net/anime/1974/Glass_no_Kamen_2005/video
+        // example of hulu only: https://myanimelist.net/anime/2927/Kimikiss_Pure_Rouge/video
+        // example of hulu and crunchyroll: https://myanimelist.net/anime/30187/Sakurako-san_no_Ashimoto_ni_wa_Shitai_ga_Umatteiru/video
 
         private const string VideoProviderClasses = "video-providers";
         private const string PromoVideoClasses    = "iframe js-fancybox-video video-list di-ib po-r";
