@@ -1,7 +1,9 @@
 ﻿namespace AnimeExporter.Models {
     public class VideoModel : DataModel {
-        // TODO: add streaming availability (https://myanimelist.net/anime/6045/Kimi_ni_Todoke/video?provider_id=2&subdub_type=sub)
-        // Provided by (Hulu, Crunchyroll, etc.)
-        // link to PV
+        public AttributeModel IsOnHulu        = "Available on Hulu";
+        public AttributeModel IsOnCrunchyRoll = "Available on Crunchyroll";
+        public AttributeModel HasStreaming    = "Available for streaming";
+
+        public AttributeModel PromoVideo = "Promotional Video";
     }
 }

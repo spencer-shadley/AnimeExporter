@@ -127,7 +127,7 @@ namespace AnimeExporter.Utility {
             return WebUtility.HtmlDecode(nodes[0].InnerText);
         }
 
-        protected HtmlNode SelectElementByText(string text) {
+        protected HtmlNode SelectSpanByText(string text) {
             string xPath = $"//span[text() = '{text}']";
             HtmlNode selected = this.Node.SelectSingleNode(xPath);
 
@@ -137,7 +137,7 @@ namespace AnimeExporter.Utility {
             return null;
         }
 
-        protected HtmlNodeCollection SelectElementsByTypeContainsText(string type, string text) {
+        protected HtmlNodeCollection SelectByTypeContainsText(string type, string text) {
             string xPath = $"//{type}[contains(text(),'{text}')]";
 
             HtmlNodeCollection selected = this.Node.SelectNodes(xPath);
@@ -153,7 +153,7 @@ namespace AnimeExporter.Utility {
             return null;
         }
 
-        protected HtmlNodeCollection SelectElementsByType(HtmlNode node, string type) {
+        protected HtmlNodeCollection SelectByType(HtmlNode node, string type) {
             string xPath = $"{type}";
             HtmlNodeCollection selected = node.SelectNodes(xPath);
 
@@ -163,11 +163,11 @@ namespace AnimeExporter.Utility {
             return null;
         }
         
-        protected string SelectAllSiblingAnchorElements(string text, string defaultText = "None found") {
-            return this.SelectAllSiblingAnchorElements(this.SelectElementByText(text), defaultText);
+        protected string SelectAllSiblingAnchors(string text, string defaultText = "None found") {
+            return this.SelectAllSiblingAnchors(this.SelectSpanByText(text), defaultText);
         }
 
-        protected string SelectAllSiblingAnchorElements(HtmlNode node, string defaultText = "None found") {
+        protected string SelectAllSiblingAnchors(HtmlNode node, string defaultText = "None found") {
             var anchorTexts = new List<string>();
 
             // When there are no known anchors, MyAnimeList inserts "None found"
@@ -236,14 +236,34 @@ namespace AnimeExporter.Utility {
             string selected = SelectValue(this.Node, xPath);
             return removeComma ? selected.Replace(",", string.Empty) : selected;
         }
+
+        protected HtmlNode SelectByImage(string src, HtmlNode fromNode = null) {
+            string xPath = $"//img[@src='{src}']";
+            return fromNode == null ?
+                this.Node.SelectSingleNode(xPath) :
+                fromNode.SelectSingleNode(xPath);
+        }
+
+        /// <summary>
+        /// Selects the first a tag which contains <param name="href"></param>
+        /// </summary>
+        /// <param name="href">The URI to search for</param>
+        /// <param name="fromNode">Optionally the base node to search from defaulting to the page root</param>
+        /// <returns></returns>
+        protected HtmlNode SelectByHref(string href, HtmlNode fromNode = null) {
+            string xPath = $"//a[contains(@href,'{href}')]";
+            return fromNode == null ?
+                this.Node.SelectSingleNode(xPath) :
+                fromNode.SelectSingleNode(xPath);
+        }
         
-        protected HtmlNodeCollection FindElementsWithClass(string className) {
+        protected HtmlNodeCollection SelectElementsWithClass(string className) {
             string xPath = $"//*[contains(@class,'{className}')]";
             return this.Node.SelectNodes(xPath);
         }
         
-        protected HtmlNode FindElementWithClass(string className) {
-            HtmlNodeCollection elements = this.FindElementsWithClass(className);
+        protected HtmlNode SelectElementWithClass(string className) {
+            HtmlNodeCollection elements = this.SelectElementsWithClass(className);
             
             if (elements == null) {
                 Log.Warn($"No nodes were selected for {className}");

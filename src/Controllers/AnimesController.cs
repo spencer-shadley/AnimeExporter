@@ -30,7 +30,7 @@ namespace AnimeExporter.Controllers {
         public HtmlNodeCollection AnchorNodes {
             get {
                 const string urlClass = "hoverinfo_trigger fl-l ml12 mr8";
-                return this.FindElementsWithClass(urlClass);
+                return this.SelectElementsWithClass(urlClass);
             }
         }
 

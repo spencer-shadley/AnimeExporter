@@ -6,12 +6,12 @@
     /// <example>https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/stats</example>
     public class StatsModel : DataModel {
 
-        public AttributeModel Watching = "Number of people currently watching";
-        public AttributeModel Completed = "Number of people completed watching";
-        public AttributeModel OnHold = "Number of people on hold";
-        public AttributeModel Dropped = "Number of people dropped";
+        public AttributeModel Watching    = "Number of people currently watching";
+        public AttributeModel Completed   = "Number of people completed watching";
+        public AttributeModel OnHold      = "Number of people on hold";
+        public AttributeModel Dropped     = "Number of people dropped";
         public AttributeModel PlanToWatch = "Number of people planning to watch";
-        public AttributeModel Total = "Number of people interested (watching, on-hold, dropped, etc.)";
+        public AttributeModel Total       = "Number of people interested (watching, on-hold, dropped, etc.)";
 
         public AttributeModel NumberTotalVotes  = "Number of votes";
         public AttributeModel NumberScoreTen    = "Number of users scored 10";

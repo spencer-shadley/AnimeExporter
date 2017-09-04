@@ -60,7 +60,7 @@ namespace AnimeExporter.Controllers {
         public string Title {
             get {
                 const string animeTitleClass = "h1";
-                HtmlNode titleContainer = this.FindElementsWithClass(animeTitleClass)[0];
+                HtmlNode titleContainer = this.SelectElementsWithClass(animeTitleClass)[0];
                 HtmlNode title = titleContainer.ChildNodes[0];
                 return title.InnerText;
             }
@@ -68,7 +68,7 @@ namespace AnimeExporter.Controllers {
         
         public string Rank {
             get {
-                HtmlNodeCollection rankRows = this.FindElementsWithClass("js-statistics-info");
+                HtmlNodeCollection rankRows = this.SelectElementsWithClass("js-statistics-info");
                 Debug.Assert(rankRows.Count == 2);
 
                 HtmlNode rankRow = rankRows[1];
@@ -148,13 +148,13 @@ namespace AnimeExporter.Controllers {
 
         public string Source => this.SelectValueAfterText("Source:");
 
-        public string Producers => this.SelectAllSiblingAnchorElements("Producers:");
+        public string Producers => this.SelectAllSiblingAnchors("Producers:");
 
-        public string Licensors => this.SelectAllSiblingAnchorElements("Licensors:");
+        public string Licensors => this.SelectAllSiblingAnchors("Licensors:");
 
-        public string Studios => this.SelectAllSiblingAnchorElements("Studios:");
+        public string Studios => this.SelectAllSiblingAnchors("Studios:");
 
-        public string Genres => this.SelectAllSiblingAnchorElements("Genres:");
+        public string Genres => this.SelectAllSiblingAnchors("Genres:");
         
         public string AirStartDate {
             get {
@@ -207,12 +207,12 @@ namespace AnimeExporter.Controllers {
         /// type of related anime.
         /// </summary>
         public void FindRelatedAnime() {
-            HtmlNode table = this.FindElementWithClass("anime_detail_related_anime");
+            HtmlNode table = this.SelectElementWithClass("anime_detail_related_anime");
 
             // When an anime has no related animes the table is not generated
             if (table == null) { return; }
             
-            HtmlNodeCollection rows = this.SelectElementsByType(table, "tr");
+            HtmlNodeCollection rows = this.SelectByType(table, "tr");
             foreach (HtmlNode row in rows) {
                 HtmlNodeCollection values = row.ChildNodes[1].ChildNodes;
 
