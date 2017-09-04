@@ -15,7 +15,7 @@ namespace AnimeExporter.Controllers {
         public StatsController(string url) : base(url + "/stats") { }
 
         private HtmlNodeCollection FindNumVotesNodes() {
-            HtmlNodeCollection voteNodes = this.SelectElementsByTypeContainsText("small", " votes)");
+            HtmlNodeCollection voteNodes = this.SelectByTypeContainsText("small", " votes)");
             
             if (voteNodes.Count == 10) return voteNodes;
             

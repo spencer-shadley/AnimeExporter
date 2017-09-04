@@ -17,7 +17,7 @@ namespace AnimeExporter.Models {
         public bool IsFailure => this.Name.Equals(this.Value);
 
         public AttributeModel(string name) {
-            this.Name = name;
+            this.Name  = name;
             this.Value = name;
         }
 

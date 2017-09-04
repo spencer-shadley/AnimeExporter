@@ -11,8 +11,9 @@ namespace AnimeExporter.Controllers {
             Log.Info($"Scraping {url}");
             
             var details = new DetailsController(url);
-            var stats = new StatsController(url);
-            var anime = new AnimeModel(url, details.TryScrape(), stats.TryScrape());
+            var stats   = new StatsController(url);
+            var videos  = new VideoController(url);
+            var anime   = new AnimeModel(url, details.TryScrape(), stats.TryScrape(), videos.TryScrape());
             
             Log.Debug($"Scraped {Environment.NewLine} {anime}");
             
