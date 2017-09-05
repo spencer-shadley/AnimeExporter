@@ -1,8 +1,11 @@
 ﻿namespace AnimeExporter.Models {
+    
+    /// <summary>
+    /// Represents the characters and staff data on MyAnimeList.net
+    /// </summary>
+    /// <example>https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/characters</example>
     public class CharactersModel : DataModel {
 
-        // TODO: Add  Characters & Staff (https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/characters)
-       
         public AttributeModel IsInJapanese  = "Dubbed in Japanese";
         public AttributeModel IsInEnglish   = "Dubbed in English";
         public AttributeModel IsInSpanish   = "Dubbed in Spanish";
