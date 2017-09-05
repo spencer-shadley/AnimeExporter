@@ -137,10 +137,10 @@ namespace AnimeExporter.Utility {
             return null;
         }
 
-        protected HtmlNodeCollection SelectByTypeContainsText(string type, string text) {
+        protected HtmlNodeCollection SelectByTypeContainsText(string type, string text, HtmlNode fromNode = null) {
             string xPath = $"//{type}[contains(text(),'{text}')]";
-
-            HtmlNodeCollection selected = this.Node.SelectNodes(xPath);
+            
+            HtmlNodeCollection selected = (fromNode ?? this.Node).SelectNodes(xPath);
 
             if (selected == null) {
                 Log.Warn($"[Page.SelectElementsByContainsText] Could not find {type} with {text}");
@@ -239,9 +239,7 @@ namespace AnimeExporter.Utility {
 
         protected HtmlNode SelectByImage(string src, HtmlNode fromNode = null) {
             string xPath = $"//img[@src='{src}']";
-            return fromNode == null ?
-                this.Node.SelectSingleNode(xPath) :
-                fromNode.SelectSingleNode(xPath);
+            return (fromNode ?? this.Node).SelectSingleNode(xPath);
         }
 
         /// <summary>
@@ -252,9 +250,7 @@ namespace AnimeExporter.Utility {
         /// <returns></returns>
         protected HtmlNode SelectByHref(string href, HtmlNode fromNode = null) {
             string xPath = $"//a[contains(@href,'{href}')]";
-            return fromNode == null ?
-                this.Node.SelectSingleNode(xPath) :
-                fromNode.SelectSingleNode(xPath);
+            return (fromNode ?? this.Node).SelectSingleNode(xPath);
         }
         
         protected HtmlNodeCollection SelectElementsWithClass(string className) {
