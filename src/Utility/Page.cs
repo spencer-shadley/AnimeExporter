@@ -137,8 +137,10 @@ namespace AnimeExporter.Utility {
             return null;
         }
 
-        protected HtmlNodeCollection SelectByTypeContainsText(string type, string text, HtmlNode fromNode = null) {
-            string xPath = $"//{type}[contains(text(),'{text}')]";
+        protected HtmlNodeCollection SelectByTypeContainsText(string type, string text, HtmlNode fromNode = null, bool exactMatch = false) {
+            string xPath = exactMatch ?
+                $"//{type}[text() = '{text}']" :
+                $"//{type}[contains(text(),'{text}')]";
             
             HtmlNodeCollection selected = (fromNode ?? this.Node).SelectNodes(xPath);
 

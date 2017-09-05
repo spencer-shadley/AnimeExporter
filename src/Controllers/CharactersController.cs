@@ -1,4 +1,5 @@
-﻿using AnimeExporter.Models;
+﻿using System;
+using AnimeExporter.Models;
 using AnimeExporter.Utility;
 using HtmlAgilityPack;
 
@@ -32,6 +33,22 @@ namespace AnimeExporter.Controllers {
         private string IsInLanguage(string language) {
             return (this.SelectByTypeContainsText("small", language, this.FirstCharacterTable) != null).ToString();
         }
+
+        /// <summary>
+        /// Finds the staff person's name for the <param name="position"></param>
+        /// </summary>
+        /// <param name="position">The position to search for</param>
+        /// <returns>The person's name</returns>
+        private string FindStaffName(string position) {
+            HtmlNodeCollection staffTexts = this.SelectByTypeContainsText("small", position);
+
+            if (staffTexts == null) return string.Empty;
+
+            string anchorText = staffTexts[0].ParentNode.ParentNode.InnerText;
+            
+            // anchorText looks something like this: '\n    LastName, FirstName\n      \n     Position\n   \n   '
+            return anchorText.TrimStart().Split('\n')[0];
+        }
         
         protected override DataModel Scrape() {
             return new CharactersModel {
@@ -43,7 +60,19 @@ namespace AnimeExporter.Controllers {
                 IsInItalian   = { Value = this.IsInLanguage("Italian")},
                 IsInBrazilian = { Value = this.IsInLanguage("Brazilian")},
                 IsInGerman    = { Value = this.IsInLanguage("German")},
-                IsInHungarian = { Value = this.IsInLanguage("Hungarian")}
+                IsInHungarian = { Value = this.IsInLanguage("Hungarian")},
+                
+                Producer               = { Value = this.FindStaffName("Producer")},
+                Director               = { Value = this.FindStaffName("Director")},
+                SoundDirector          = { Value = this.FindStaffName("Sound Director")},
+                EpisodeDirector        = { Value = this.FindStaffName("Episode Director")},
+                CharacterDesign        = { Value = this.FindStaffName("Character Design")},
+                Storyboarder           = { Value = this.FindStaffName("Storyboard")},
+                ExecutiveProducer      = { Value = this.FindStaffName("Executive Producer")},
+                ChiefAnimationDirector = { Value = this.FindStaffName("Chief Animation Director")},
+                DirectorOfPhotography  = { Value = this.FindStaffName("Director of Photography")},
+                AnimationDirector      = { Value = this.FindStaffName("Animation Director")},
+                CharacterDesigner      = { Value = this.FindStaffName("Character Design")}
             };
         }
     }
