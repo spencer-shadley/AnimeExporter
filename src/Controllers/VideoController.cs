@@ -34,9 +34,8 @@ namespace AnimeExporter.Controllers {
         private HtmlNode FindVideoProvider() {
             HtmlNode videoProvider = this.SelectElementWithClass(VideoProviderClasses);
 
-            if (videoProvider == null) return null;
-            
-            if (videoProvider.ChildNodes.Count > 2) Log.Warn($"There are more video providers than expected for {this.Url}");
+            // check to see if there are any video providers available we don't know about
+            if (videoProvider != null && videoProvider.ChildNodes.Count > 2) Log.Warn($"There are more video providers than expected for {this.Url}");
             
             return videoProvider;
         }
