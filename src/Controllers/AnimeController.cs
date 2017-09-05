@@ -10,10 +10,11 @@ namespace AnimeExporter.Controllers {
         public static AnimeModel ScrapeData(string url) {
             Log.Info($"Scraping {url}");
             
-            var details = new DetailsController(url);
-            var stats   = new StatsController(url);
-            var videos  = new VideoController(url);
-            var anime   = new AnimeModel(url, details.TryScrape(), stats.TryScrape(), videos.TryScrape());
+            var details    = new DetailsController(url);
+            var stats      = new StatsController(url);
+            var videos     = new VideoController(url);
+            var characters = new CharactersController(url);
+            var anime      = new AnimeModel(url, details.TryScrape(), stats.TryScrape(), videos.TryScrape(), characters.TryScrape());
             
             Log.Debug($"Scraped {Environment.NewLine} {anime}");
             

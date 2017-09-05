@@ -8,7 +8,7 @@ namespace AnimeExporterTests.TestUtility {
     /// </summary>
     public class CreateData {
         public static AnimeModel KimiNoNaWa(string url = null) {
-            return new AnimeModel(url ?? TestConstants.KimiNoNaWa.Url, new DetailsModel(), new StatsModel(), new VideoModel());
+            return new AnimeModel(url ?? TestConstants.KimiNoNaWa.Url, new DetailsModel(), new StatsModel(), new VideoModel(), new CharactersModel());
         }
 
         public static DetailsController KimiNoNaWaDetailsPage() {

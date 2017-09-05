@@ -34,33 +34,33 @@ namespace AnimeExporter.Controllers {
         private HtmlNode FindVideoProvider() {
             HtmlNode videoProvider = this.SelectElementWithClass(VideoProviderClasses);
 
-            if (videoProvider == null) return null;
-            
-            if (videoProvider.ChildNodes.Count > 2) Log.Warn($"There are more video providers than expected for {this.Url}");
+            // check to see if there are any video providers available we don't know about
+            if (videoProvider != null && videoProvider.ChildNodes.Count > 2) Log.Warn($"There are more video providers than expected for {this.Url}");
             
             return videoProvider;
         }
 
-        /// <summary>
-        /// Checks if streaming service is available by checking if the icon exists
-        /// </summary>
-        /// <param name="imageUrl">The url of the steaming service's icon</param>
-        /// <param name="videoProvider">The root node to search from</param>
-        /// <returns></returns>
-        private bool IsServiceAvailable(string imageUrl, HtmlNode videoProvider) {
-            return videoProvider != null && this.SelectByImage(imageUrl, videoProvider) != null;
+        private (bool isOnCrunchyRoll, bool isOnHulu) AvailableStreams() {
+            HtmlNode videoProvider = this.FindVideoProvider();
+
+            // Checks if streaming service is available by checking if the icon exists
+            bool IsServiceAvailable(string imageUrl) {
+                return videoProvider != null && this.SelectByImage(imageUrl, videoProvider) != null;
+            }
+            
+            return (
+                crunchy: IsServiceAvailable(CrunchyRollImage),
+                hulu:    IsServiceAvailable(HuluImage));
         }
 
         protected override DataModel Scrape() {
-            HtmlNode videoProvider = this.FindVideoProvider();
-            bool isOnCrunchyRoll   = this.IsServiceAvailable(CrunchyRollImage, videoProvider);
-            bool isOnHulu          = this.IsServiceAvailable(HuluImage, videoProvider);
+            (bool isOnCrunchyRoll, bool isOnHulu) streams = this.AvailableStreams();
             
             return new VideoModel {
                 PromoVideo      = { Value = this.PromoVideo },
-                IsOnCrunchyRoll = { Value = isOnCrunchyRoll.ToString()},
-                IsOnHulu        = { Value = isOnHulu.ToString()},
-                HasStreaming    = { Value = (isOnCrunchyRoll || isOnHulu).ToString()}
+                IsOnCrunchyRoll = { Value = streams.isOnCrunchyRoll.ToString()},
+                IsOnHulu        = { Value = streams.isOnHulu.ToString()},
+                HasStreaming    = { Value = (streams.isOnCrunchyRoll || streams.isOnHulu).ToString()}
             };
         }
     }
