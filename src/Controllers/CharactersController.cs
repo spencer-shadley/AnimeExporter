@@ -1,5 +1,4 @@
-﻿using System;
-using AnimeExporter.Models;
+﻿using AnimeExporter.Models;
 using AnimeExporter.Utility;
 using HtmlAgilityPack;
 

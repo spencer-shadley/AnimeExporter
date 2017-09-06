@@ -50,6 +50,12 @@ namespace AnimeExporter.Views {
             }
         }
 
+        private static bool IsPayloadExceeded(GoogleApiException e) {
+            return e.HttpStatusCode == HttpStatusCode.BadRequest &&
+                   (e.Message.Contains("Request payload size exceeds the limit") ||
+                   e.Message.Contains("This action would increase the number of cells in the workbook above the limit"));
+        }
+
         public static void PublishDataToGoogleSheet(AnimesModel animesModel) {
             PublishGoogleSheet(animesModel.ToDataTable(), TopAnimeSheetName);
         }
@@ -74,6 +80,7 @@ namespace AnimeExporter.Views {
             PublishGoogleSheet(response.Values, sheetName + " (Backup)");
         }
 
+        // TODO: to avoid exceeding cell limits this should delete cells instead of clearning them
         private static void ClearGoogleSheet(string sheetName) {
             var request = new ClearValuesRequest();
             ClearRequest clearRequest = Service.Spreadsheets.Values.Clear(request, SheetId, CalculateEntireRange(sheetName));
@@ -105,7 +112,7 @@ namespace AnimeExporter.Views {
                 response = updateRequest.Execute();
             }
             catch (GoogleApiException e) {
-                if (e.HttpStatusCode == HttpStatusCode.RequestEntityTooLarge) {
+                if (IsPayloadExceeded(e)) {
                     // TODO: instead of truncating load, split into multiple partial update requests
                     Log.Warn($"Google Sheets quota was exceeded with {table.Count} rows. Trying again with fewer rows...", e);
                     
