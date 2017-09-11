@@ -13927,7 +13927,7 @@
           <relation name='Extract' table='[Extract].[Extract]' type='table' />
           <calculations>
             <calculation column='[Calculation_463589335357640704]' formula='[Date Started Airing]' />
-            <calculation column='[Calculation_463589335373553666]' formula='[Calculation_4901886739110236161] / [Popularity] / [Number of Members] / [Number of people completed watching] / [Number of people dropped]' />
+            <calculation column='[Calculation_463589335373553666]' formula='[Calculation_4901886739110236161] * [Score] / [Popularity] / [Number of Members] / [Number of people completed watching] / [Number of people dropped]' />
             <calculation column='[Calculation_4901886739109130240]' formula='[Number of Favorites] / [Number of Members] * 100' />
             <calculation column='[Calculation_4901886739110236161]' formula='[Calculation_4901886739109130240]*([Score]^2)' />
             <calculation column='[Calculation_4901886739117621250]' formula='[Calculation_4901886739110236161]^2' />
@@ -16771,16 +16771,16 @@
               <approx-count>4839</approx-count>
               <contains-null>true</contains-null>
               <statistics>
-                <statistic aggregation='Sum' datatype='real'>3.1589788732803005e-07</statistic>
-                <statistic aggregation='Avg' datatype='real'>6.2802760900204785e-11</statistic>
+                <statistic aggregation='Sum' datatype='real'>2.2038360274798187e-06</statistic>
+                <statistic aggregation='Avg' datatype='real'>4.3813837524449675e-10</statistic>
                 <statistic aggregation='Min' datatype='real'>0.0</statistic>
-                <statistic aggregation='Max' datatype='real'>1.576175926040612e-08</statistic>
-                <statistic aggregation='Stdev' datatype='real'>4.7794170026046618e-10</statistic>
-                <statistic aggregation='StdevP' datatype='real'>4.7789418878360934e-10</statistic>
-                <statistic aggregation='Var' datatype='real'>2.2842826884786529e-19</statistic>
-                <statistic aggregation='VarP' datatype='real'>2.2838285567314404e-19</statistic>
+                <statistic aggregation='Max' datatype='real'>1.1837081204564997e-07</statistic>
+                <statistic aggregation='Stdev' datatype='real'>3.3774654906806562e-09</statistic>
+                <statistic aggregation='StdevP' datatype='real'>3.3771297418363773e-09</statistic>
+                <statistic aggregation='Var' datatype='real'>1.1407273140738725e-17</statistic>
+                <statistic aggregation='VarP' datatype='real'>1.1405005293195835e-17</statistic>
                 <statistic aggregation='Count' datatype='integer'>5030</statistic>
-                <statistic aggregation='SumXSqr' datatype='real'>1.1686050235226566e-15</statistic>
+                <statistic aggregation='SumXSqr' datatype='real'>5.8332761761160342e-14</statistic>
               </statistics>
               <attributes>
                 <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
