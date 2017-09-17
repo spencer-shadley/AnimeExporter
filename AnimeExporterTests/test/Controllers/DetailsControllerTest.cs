@@ -11,8 +11,10 @@ namespace AnimeExporterTests.test.Controllers {
 
         public static DetailsController KimiDetailsController =
             CreateData.KimiNoNaWaDetails();
+        
         public static DetailsController SteinsGateDetailsController =
             CreateData.SteinsGateDetails();
+        
         public static DetailsController OwarimonogatariSecondSeasonDetailsController =
             CreateData.OwariMongatariSecondSeasonDetails();
 

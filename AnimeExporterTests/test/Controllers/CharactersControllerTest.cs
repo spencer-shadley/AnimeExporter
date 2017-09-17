@@ -13,12 +13,14 @@ namespace AnimeExporterTests.test.Controllers {
         // Create the controllers
         public static CharactersController FMABrotherhoodCharactersController =
             CreateData.FMABrotherhoodCharacters();
+        
         public static CharactersController KimiNiTodokeController =
             CreateData.KimiNiTodokeCharacters();
 
         // Create the models
         public static CharactersModel FMABrotherhoodModel =
             (CharactersModel) FMABrotherhoodCharactersController.TryScrape();
+        
         public static CharactersModel KimiNiTodokeModel =
             (CharactersModel) KimiNiTodokeController.TryScrape();
 
