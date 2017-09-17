@@ -10,11 +10,11 @@ namespace AnimeExporterTests.test.Controllers {
     public class DetailsControllerTest {
 
         public static DetailsController KimiDetailsController =
-            CreateData.KimiNoNaWaDetailsPage();
+            CreateData.KimiNoNaWaDetails();
         public static DetailsController SteinsGateDetailsController =
-            CreateData.SteinsGateDetailsPage();
+            CreateData.SteinsGateDetails();
         public static DetailsController OwarimonogatariSecondSeasonDetailsController =
-            CreateData.OwariMongatariSecondSeasonDetailsPage();
+            CreateData.OwariMongatariSecondSeasonDetails();
 
         [TestFixture]
         public class TestScraping {

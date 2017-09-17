@@ -80,7 +80,7 @@ namespace AnimeExporter.Views {
             PublishGoogleSheet(response.Values, sheetName + " (Backup)");
         }
 
-        // TODO: to avoid exceeding cell limits this should delete cells instead of clearning them
+        // TODO: to avoid exceeding cell limits this should delete cells instead of clearing them
         private static void ClearGoogleSheet(string sheetName) {
             var request = new ClearValuesRequest();
             ClearRequest clearRequest = Service.Spreadsheets.Values.Clear(request, SheetId, CalculateEntireRange(sheetName));

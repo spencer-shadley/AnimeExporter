@@ -10,17 +10,25 @@ namespace AnimeExporterTests.TestUtility {
         public static AnimeModel KimiNoNaWa(string url = null) {
             return new AnimeModel(url ?? TestConstants.KimiNoNaWa.Url, new DetailsModel(), new StatsModel(), new VideoModel(), new CharactersModel());
         }
-
-        public static DetailsController KimiNoNaWaDetailsPage() {
+        
+        public static DetailsController KimiNoNaWaDetails() {
             return new DetailsController(TestConstants.KimiNoNaWa.Url);
         }
 
-        public static DetailsController SteinsGateDetailsPage() {
+        public static DetailsController SteinsGateDetails() {
             return new DetailsController(TestConstants.SteinsGate.Url);
         }
 
-        public static DetailsController OwariMongatariSecondSeasonDetailsPage() {
+        public static DetailsController OwariMongatariSecondSeasonDetails() {
             return new DetailsController(TestConstants.OwarimongatariSecondSeason.Url);
+        }
+
+        public static CharactersController FMABrotherhoodCharacters() {
+            return new CharactersController(TestConstants.FMABrotherhood.Url);
+        }
+
+        public static CharactersController KimiNiTodokeCharacters() {
+            return new CharactersController(TestConstants.KimiNiTodoke.Url);
         }
     }
 }
