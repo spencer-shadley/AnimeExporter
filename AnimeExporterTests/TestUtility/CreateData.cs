@@ -7,6 +7,14 @@ namespace AnimeExporterTests.TestUtility {
     /// Contains basic data for tests
     /// </summary>
     public class CreateData {
+        public static CharactersController FMABrotherhoodCharacters() {
+            return new CharactersController(TestConstants.FMABrotherhood.Url);
+        }
+
+        public static CharactersController KimiNiTodokeCharacters() {
+            return new CharactersController(TestConstants.KimiNiTodoke.Url);
+        }
+        
         public static AnimeModel KimiNoNaWa(string url = null) {
             return new AnimeModel(url ?? TestConstants.KimiNoNaWa.Url, new DetailsModel(), new StatsModel(), new VideoModel(), new CharactersModel());
         }
@@ -23,12 +31,8 @@ namespace AnimeExporterTests.TestUtility {
             return new DetailsController(TestConstants.OwarimongatariSecondSeason.Url);
         }
 
-        public static CharactersController FMABrotherhoodCharacters() {
-            return new CharactersController(TestConstants.FMABrotherhood.Url);
-        }
-
-        public static CharactersController KimiNiTodokeCharacters() {
-            return new CharactersController(TestConstants.KimiNiTodoke.Url);
+        public static StatsController FMABrotherhoodStats() {
+            return new StatsController(TestConstants.FMABrotherhood.Url);
         }
     }
 }
